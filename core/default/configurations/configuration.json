@@ -1,0 +1,5 @@
+{
+    "QuickCommand.v1.commands.default.calculator.v1.enabled": true,
+    "QuickCommand.v1.commands.default.calculator.v1.command.shortcutReplacers": ["c"],
+    "QuickCommand.v1.commands.default.calculator.v1.command.overrider": "^(\\(?([\\s]+)?([\\d.]+|(\\+|-|\\*|\\/|\\*\\*|%))?\\)?)+$"
+}

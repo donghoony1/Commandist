@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
+
+body {
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, span, form, input {
+    font-family: 'Proxima Nova', 'Noto Sans CJK KR', sans-serif;
+}
+
+.QuickCommand_hide {
+    display: none;
+}
+
+::selection {
+    background-color: hsla(0, 0%, 0%, 0.2);
+}
+
+::-webkit-scrollbar {     
+    background-color: #FFFFFF;
+    width: 5px;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:window-inactive,
+::-webkit-scrollbar-thumb {
+    background-color: hsla(0, 0%, 0%, 0.2);
+    border-radius: 4px;
+}
+
+.QuickCommand_main {
+    width: 640px;
+    min-width: 640px;
+    max-width: 640px;
+    height: auto;
+    min-height: 60px;
+
+    margin: 8px auto 8px auto;
+
+    background-color: #FFFFFF;
+    
+    border-radius: 4px;
+
+    box-shadow: 0px 1px 8px hsla(0, 0%, 0%, 0.16);
+}
+.QuickCommand_main .QuickCommand_SearchBar {
+    width: 640px;
+    height: 60px;
+    
+    border-radius: 4px;
+
+    overflow: hidden;
+}
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Logo {
+    top: calc(60px + 8px - 22px);
+    right: 18px;
+
+    position: absolute;
+
+    font-size: 12px;
+    font-family: 'Interstate', sans-serif;
+
+    color: hsla(0, 0%, 0%, 0.4);
+}
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_SearchBar_Input {
+    width: 640px;
+    height: 60px;
+    
+    border: 0;
+
+    padding: 16px;
+
+    box-sizing: border-box;
+
+    font-size: 24px;
+    font-weight: 500;
+}
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_SearchBar_Input:focus {
+    outline: none;
+}
+.QuickCommand_main .QuickCommand_Results {
+    max-height: var(--commandist-max-height);
+    overflow-y: auto;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+    
+    border-top: 0.8px solid hsla(0, 0%, 0%, 0.08);
+}
+.QuickCommand_main .QuickCommand_Results * {
+    margin: 0;
+    padding: 0;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result {
+    height: 80px;
+
+    padding: 0 16px 0 16px;
+
+    display: flex;
+    flex-flow: row;
+
+    transition: all 0.1s ease-in-out;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result[data-actions] {
+    cursor: pointer;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result.QuickCommand_Result_Webview {
+    height: 337.5px;
+    max-height: inherit;
+
+    padding: 0;
+
+    overflow: hidden;
+    
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+
+    display: block;
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result.pressed {
+    background-color: hsla(0, 0%, 0%, 0.04);
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Grid {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon,
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Contents {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Webview {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Webview_Overview {
+    width: 640px;
+    height: 80px;
+
+    padding: 0 32px 0 32px;
+    box-sizing: border-box;
+
+    background-color: hsla(0, 0%, 0%, 0.7);
+    color: #FFFFFF;
+
+    backdrop-filter: blur(8px);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    float: left;
+    margin-top: -80px;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Webview_Overview > h1 {
+    font-size: 16px;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Webview_Overview > p {
+    font-size: 12px;
+
+    opacity: 0.6;
+
+    margin-top: 2px;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+
+    margin-right: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Sample {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 100%;
+
+    color: #FFFFFF;
+    background-color: #33B5E5;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Program_Starter {
+    width: 32px;
+    height: 32px;
+
+    background-image: var(--commandist-icon-image);
+    background-size: 32px 32px;
+
+    transition: all 0.1s ease-in-out;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result.pressed .QuickCommand_Result_Icon_Program_Starter {
+    background-image: var(--commandist-icon-image-focus);
+    background-size: 32px 32px;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 100%;
+
+    color: #000000;
+    background-color: #EBEBEB;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: 500;
+    font-size: 18px;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.Red {
+    color: #FFFFFF;
+    background-color: #EF5350;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.Green {
+    color: #FFFFFF;
+    background-color: #66BB6A;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.Blue {
+    color: #FFFFFF;
+    background-color: #42A5F5;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.Orange {
+    color: #FFFFFF;
+    background-color: #FF9800;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result .QuickCommand_Result_Contents h1 {
+    font-size: 16px;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result .QuickCommand_Result_Contents p {
+    font-size: 12px;
+
+    color: hsla(0, 0%, 0%, 0.5);
+
+    margin-top: 2px;
+}
