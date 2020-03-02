@@ -4,8 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "electron": "^8.0.2",
-    "little-calculator": "^1.1.0"
+    "electron": "^8.0.2"
   },
   "devDependencies": {},
   "scripts": {
