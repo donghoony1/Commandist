@@ -9,7 +9,8 @@
     "jsx": "react",
     "moduleResolution": "node",
     "allowJs": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules"

@@ -4,14 +4,15 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@types/node": "^13.7.7",
     "@types/react-dom": "^16.9.5",
     "electron": "^8.0.2",
     "react": "^16.13.0",
-    "react-dom": "^16.13.0"
+    "react-dom": "^16.13.0",
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
-    "@types/react": "^16.9.23",
-    "webpack-cli": "^3.3.11"
+    "@types/react": "^16.9.23"
   },
   "scripts": {
     "start": "electron core/app.js"

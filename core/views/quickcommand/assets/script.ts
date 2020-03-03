@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keyup', () => {
         const SearchBar: string = (<HTMLInputElement>document.querySelector('#SearchBar')).value;
-        if(SearchBar_Previous != SearchBar) {
+        console.log(SearchBar);
+        if(SearchBar_Previous != SearchBar || SearchBar.length === 0) {
             ipcRenderer.send('command', SearchBar);
             SearchBar_Previous = SearchBar;
         }

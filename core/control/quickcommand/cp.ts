@@ -17,15 +17,19 @@ class CommandProcessor {
     }
 
     public command = (event: any, arg: string): Boolean => {
-        if(arg === undefined || arg === '') return false;
+        if(arg === undefined) return false;
+        if(arg === '') {
+            this.QuickCommand.webContents.send('result', []);
+            return true;
+        }
 
         let args = arg.split(' ');
-        if(args.length === 0) return false;
 
         args[0] = this.ShortcutReplacer(args[0].toLowerCase());
 
         const primary: string = this.Overriders[Object.keys(this.Overriders).find((Overrider) => new RegExp(Overrider).test(arg)) || 'undefined'] || args[0];
-        let result = this.Commands[primary].execute(args);
+        let result: Interfaces.ApplicationStandardReturn = [];
+        if(this.Commands[primary] !== undefined) result = this.Commands[primary].execute({ Configuration: this.Configuration }, args);
         this.QuickCommand.webContents.send('result', result);
 
         return true;
@@ -38,7 +42,7 @@ class CommandProcessor {
     private DefaultCommandLoader: Function = (): Interfaces.CPIntegrated => {
         let commands: Interfaces.CPIntegrated = {};
         const list = [
-            'calculator'
+            'calculator', 'webview'
         ];
         list.forEach((CommandName) => {
             if(this.Configuration[`QuickCommand.v1.commands.default.${CommandName}.v1.enabled`] === false) return false;

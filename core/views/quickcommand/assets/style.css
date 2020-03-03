@@ -142,6 +142,21 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     height: 100%;
 
     overflow: hidden;
+
+    position: relative;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Webview:after {
+    width: 100%;
+    height: 100%;
+
+    content: ' ';
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    box-shadow: inset 0px 0px 128px hsla(0, 0%, 0%, 0.2);
 }
 .QuickCommand_main .QuickCommand_Results .QuickCommand_Webview_Overview {
     width: 640px;
@@ -154,6 +169,8 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     color: #FFFFFF;
 
     backdrop-filter: blur(8px);
+
+    box-shadow: 0px 0px 64px hsla(0, 0%, 0%, 0.4);
 
     display: flex;
     flex-direction: column;
@@ -187,21 +204,7 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     align-items: center;
     justify-content: center;
 }
-.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Sample {
-    width: 40px;
-    height: 40px;
-
-    border-radius: 100%;
-
-    color: #FFFFFF;
-    background-color: #33B5E5;
-
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-}
-.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Program_Starter {
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Image {
     width: 32px;
     height: 32px;
 
@@ -209,10 +212,6 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     background-size: 32px 32px;
 
     transition: all 0.1s ease-in-out;
-}
-.QuickCommand_main .QuickCommand_Results .QuickCommand_Result.pressed .QuickCommand_Result_Icon_Program_Starter {
-    background-image: var(--commandist-icon-image-focus);
-    background-size: 32px 32px;
 }
 .QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle {
     width: 40px;
@@ -231,21 +230,53 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     font-weight: 500;
     font-size: 18px;
 }
-.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.Red {
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.red {
     color: #FFFFFF;
-    background-color: #EF5350;
+    background-color: #F44336;
 }
-.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.Green {
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.orange {
     color: #FFFFFF;
-    background-color: #66BB6A;
+    background-color: #EF6C00;
 }
-.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.Blue {
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.yellow {
     color: #FFFFFF;
-    background-color: #42A5F5;
+    background-color: #FDD835;
 }
-.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.Orange {
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.green {
     color: #FFFFFF;
-    background-color: #FF9800;
+    background-color: #43A047;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.brightGreen {
+    color: #FFFFFF;
+    background-color: #7CB342;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.blue {
+    color: #FFFFFF;
+    background-color: #1E88E5;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.brightBlue {
+    color: #FFFFFF;
+    background-color: #29B6F6;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.ingido {
+    color: #FFFFFF;
+    background-color: #3F51B5;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.purple {
+    color: #FFFFFF;
+    background-color: #5E35B1;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.brightPurple {
+    color: #FFFFFF;
+    background-color: #7E57C2;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.dark {
+    color: #EBEBEB;
+    background-color: #333333;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.light {
+    color: #333333;
+    background-color: #EBEBEB;
 }
 .QuickCommand_main .QuickCommand_Results .QuickCommand_Result .QuickCommand_Result_Contents h1 {
     font-size: 16px;

@@ -33,11 +33,15 @@ namespace Interfaces {
 
     export type Operator = '+' | '-' | '*' | '/' | '**' | '%'
 
+    export interface ModuleSuite {
+        [key: string]: any
+    }
+
     export type ApplicationStandardReturn = Array<ApplicationStdReturnInstance>
 
     export interface ApplicationStdReturnInstance {
-        ApplicationName: string,
-        ApplicationIcon: {
+        Name: string,
+        Icon: {
             ImageFileName?: string,
             DefaultIcon: {
                 IconText: string,
@@ -48,6 +52,11 @@ namespace Interfaces {
             Default?: {
                 Subject: string,
                 Description: string
+            },
+            Webview?: {
+                URI: string,
+                Description: string,
+                Zoom?: number
             }
         },
         Event: {
@@ -55,7 +64,9 @@ namespace Interfaces {
             Return?: Array<ApplicationAction>,
             ShiftClick?: Array<ApplicationAction>,
             ShiftReturn?: Array<ApplicationAction>
-        }
+        },
+        Error: Boolean,
+        DefaultApp: Boolean
     }
 
     export interface ApplicationAction {
@@ -67,7 +78,8 @@ namespace Interfaces {
         },
         Execute?: {
             Process: string,
-            Arguments?: string
+            Arguments?: string,
+            AtBackground: Boolean
         },
         OSInteraction?: {
             Shutdown?: {
