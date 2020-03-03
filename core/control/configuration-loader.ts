@@ -3,7 +3,7 @@ import * as fs from 'fs';
 
 const Load = (): Interfaces.Configuration => {
     const Path: Interfaces.ConfigurationPath = {
-        Directory: './configurations', 
+        Directory: '../configurations', 
         File: 'configuration.json'
     };
     if(!fs.existsSync(Path.Directory)) fs.mkdirSync(Path.Directory);

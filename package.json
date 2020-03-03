@@ -14,8 +14,7 @@
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "start": "electron .",
-    "build": "webpack --config webpack.config.js"
+    "start": "electron core/app.js"
   },
   "repository": {
     "type": "git",

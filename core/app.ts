@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { Interfaces } from './core/control/interfaces';
-import * as ConfigurationLoader from './core/control/configuration-loader';
-import * as CP from './core/control/quickcommand/cp';
+import { Interfaces } from './control/interfaces';
+import * as ConfigurationLoader from './control/configuration-loader';
+import * as CP from './control/quickcommand/cp';
 
 let Windows: Interfaces.Windows = {};
 
@@ -29,7 +29,7 @@ const Initializer = () => {
         }
     });
 
-    Windows.QuickCommand.loadFile('./core/views/quickcommand/index.html');
+    Windows.QuickCommand.loadFile('./views/quickcommand/index.html');
 
     const screen = require('electron').screen;
     const screenSize = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).size;
