@@ -5,6 +5,13 @@
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "watch": true
-  }
+    "watch": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

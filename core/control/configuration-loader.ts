@@ -1,4 +1,4 @@
-import * as Interfaces from './interfaces';
+import { Interfaces } from './interfaces';
 import * as fs from 'fs';
 
 const Load = (): Interfaces.Configuration => {

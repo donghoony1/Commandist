@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron';
-import * as Interfaces from '../interfaces';
+import { Interfaces } from '../interfaces';
 
 class CommandProcessor {
     private Configuration: Interfaces.Configuration;
@@ -25,10 +25,8 @@ class CommandProcessor {
         args[0] = this.ShortcutReplacer(args[0].toLowerCase());
 
         const primary: string = this.Overriders[Object.keys(this.Overriders).find((Overrider) => new RegExp(Overrider).test(arg)) || 'undefined'] || args[0];
-        console.log(primary);
         let result = this.Commands[primary].execute(args);
-        //this.QuickCommand.webContents.send(result);
-        console.log(result);
+        this.QuickCommand.webContents.send('result', result);
 
         return true;
     }

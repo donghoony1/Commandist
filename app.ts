@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import * as Interfaces from './core/common/interfaces';
-import * as ConfigurationLoader from './core/common/configuration-loader';
-import * as CP from './core/common/quickcommand/cp';
+import { Interfaces } from './core/control/interfaces';
+import * as ConfigurationLoader from './core/control/configuration-loader';
+import * as CP from './core/control/quickcommand/cp';
 
 let Windows: Interfaces.Windows = {};
 
@@ -37,4 +37,18 @@ const Initializer = () => {
 
     const CommandProcessor = new CP.CommandProcessor(Configuration, Windows.QuickCommand);
     ipcMain.on('command', CommandProcessor.command);
+
+    ipcMain.on('resize', (event, arg) => {
+        if(  arg[0] && arg[1] &&
+            (Windows.QuickCommand.getSize()[0] != arg[0] || Windows.QuickCommand.getSize()[1] != arg[1]) &&
+            (Math.abs(Windows.QuickCommand.getSize()[0] - arg[0]) < 2 || Math.abs(Windows.QuickCommand.getSize()[1] - arg[1]) < 2)) Windows.QuickCommand.setSize(arg[0], arg[1] + 16);
+    });
+
+    setInterval(() => {
+        if(Windows.QuickCommand && Windows.QuickCommand.isVisible()) {
+            const screen = require('electron').screen;
+            const screenSize = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).size;
+            Windows.QuickCommand.webContents.send('MaxWindowSearchResultsHeight', Math.ceil(screenSize.height - (screenSize.height / 10 * 2.5)) - 76 - 160);
+        }
+    }, 500);
 }
