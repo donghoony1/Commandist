@@ -38,12 +38,11 @@ class Results extends React.Component {
         const DefaultResultElement = (data: Interfaces.ApplicationStdReturnInstance | any): JSX.Element => {
             data = data.data;
             return (
-                <li className="QuickCommand_Result" data-event={ JSON.stringify(data.Event) }>
+                <li className="QuickCommand_Result" data-origin={ JSON.stringify(data) }>
                     <div className="QuickCommand_Result_Grid">
                         <div className="QuickCommand_Result_Icon">
                             { Object.keys(data.Icon).includes('ImageFilePath') === true ? (
-                                <div className="QuickCommand_Result_Icon_Image" style={ { '--commandist-icon-image': `url('${ data.Icon.ImageFilePath }')` } }>
-                                </div>
+                                <div className="QuickCommand_Result_Icon_Image"></div>
                             ) : (
                                 <div className={ `QuickCommand_Result_Icon_Circle ${ data.Icon.DefaultIcon.IconColor }` }>
                                     { data.Icon.DefaultIcon.IconText.substring(0, 1) }
@@ -89,6 +88,13 @@ class Results extends React.Component {
     }
 
     componentDidUpdate() {
+        document.querySelectorAll('.QuickCommand_Result').forEach((ResultLI) => {
+            const ElementOrigin: Interfaces.ApplicationStdReturnInstance = JSON.parse(ResultLI.getAttribute('data-origin') || '{}');
+            if(ResultLI.querySelector('.QuickCommand_Result_Icon_Image') && ElementOrigin.Icon.ImageFilePath !== undefined) {
+                const IconImage: HTMLElement = ResultLI.querySelector('.QuickCommand_Result_Icon_Image') as HTMLElement;
+                IconImage.setAttribute('style', `--commandist-icon-image: url('${ ElementOrigin.Icon.ImageFilePath }')`);
+            }
+        });
         document.querySelectorAll('.QuickCommand_Result.QuickCommand_Result_Webview').forEach((WebviewLI): void => {
             const Webview: WebviewTag = WebviewLI.querySelector('.QuickCommand_Webview') as WebviewTag;
             const Overview: HTMLElement = WebviewLI.querySelector('.QuickCommand_Webview_Overview') as HTMLElement;
