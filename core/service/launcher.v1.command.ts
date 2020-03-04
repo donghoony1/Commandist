@@ -9,7 +9,7 @@ const Configuration: Interfaces.Configuration = ConfigurationLoader.Load();
 const ApplicationName: string = 'launcher';
 let ApplicationCompatible: Array<string> = [];
 
-const init = () => {
+const init = (): void => {
     ApplicationCompatible = Configuration['QuickCommand.v1.components.default.launcher.v1.feature.compatible'] as Array<string>;
 
     if(!ApplicationCompatible.includes(process.platform)) return;
@@ -19,20 +19,20 @@ const init = () => {
             case 'win32': {
                 const getApplicationsList = (path: string): Array<string> => {
                     let output: Array<string> = [];
-                    fs.readdirSync(path).forEach((program) => {
+                    fs.readdirSync(path).forEach((program): void => {
                         if(!(/\.[A-Za-z]+/).test(program)) output = [ ...output, ...getApplicationsList(`${path}\\${program}`) ];
                         else output.push(`${ path }\\${ program }`);
                     });
                     return output;
                 }
-                const Applications: Array<Interfaces.LauncherV1Applications> = getApplicationsList(`C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs`).map((program) => ({
+                const Applications: Array<Interfaces.LauncherV1Applications> = getApplicationsList(`C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs`).map((program): Interfaces.LauncherV1Applications => ({
                     Name: program.substring(program.lastIndexOf('\\') + 1, program.lastIndexOf('.')),
                     LnkPath: program,
                     ActualPath: require('child_process').spawnSync('powershell.exe', [ `-c`, `(New-Object -COM WScript.Shell).CreateShortcut("${ program }").TargetPath` ]).output[1].toString().replace(/\r\n/g, ''),
                     LnkPathMD5: new Md5().appendStr(program).end() as string
                 }));
                 if(!fs.existsSync(IconCachePath)) fs.mkdirSync(IconCachePath, { recursive: true });
-                Applications.forEach((program) => {
+                Applications.forEach((program): void => {
                     try {
                         fs.writeFileSync(`${IconCachePath}/${program.LnkPathMD5}.ico`, extractIcon(program.ActualPath, 'large'));
                     } catch(Exception) {

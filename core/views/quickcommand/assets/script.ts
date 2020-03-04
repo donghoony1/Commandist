@@ -2,9 +2,20 @@ import { ipcRenderer } from 'electron';
 
 let MaxWindowSearchResultsHeight = 0;
 
+let SearchBar_Previous: string = '';
+
 ipcRenderer.on('MaxWindowSearchResultsHeight', (event, arg): void => {
     MaxWindowSearchResultsHeight = arg;
     (<HTMLUListElement>document.getElementById('Results')).setAttribute('style', `--commandist-max-height: ${arg}px;`);
+});
+
+ipcRenderer.on('show', (): void => {
+    if(document.body.classList.contains('QuickCommand_hide')) document.body.classList.remove('QuickCommand_hide');
+    
+});
+
+ipcRenderer.on('hide', (): void => {
+    if(!document.body.classList.contains('QuickCommand_hide')) document.body.classList.add('QuickCommand_hide');
 });
 
 const getSelection = (): number => parseInt(document.querySelector('.QuickCommand_Results')?.getAttribute('data-selection') || `0`);
@@ -25,21 +36,51 @@ const RefreshPression = (Key: 0 | 1): void => {
     document.querySelectorAll('.QuickCommand_Result')![selection]!.classList.add('pressed');
 }
 
-document.addEventListener('DOMContentLoaded', (): void => {
-    let SearchBar_Previous: string = (<HTMLInputElement>document.querySelector('#SearchBar')).value;
+const Search = (): void => {
+    const SearchBar: string = (<HTMLInputElement>document.querySelector('#SearchBar')).value;
+    if(SearchBar_Previous != SearchBar || SearchBar.length === 0) {
+        ipcRenderer.send('command', SearchBar);
+        SearchBar_Previous = SearchBar;
+    }
+}
 
-    setInterval(() => {
+const Clear = (): void => {
+    (<HTMLInputElement>document.querySelector('#SearchBar')).value = '';
+    Search();
+}
+
+const Hide = (): void => {
+    ipcRenderer.send('hide');
+    if(!document.body.classList.contains('QuickCommand_hide')) document.body.classList.add('QuickCommand_hide');
+}
+
+document.addEventListener('DOMContentLoaded', (): void => {
+    SearchBar_Previous = (<HTMLInputElement>document.querySelector('#SearchBar')).value;
+
+    setInterval((): void => {
         let Window = document.body;
         ipcRenderer.send('resize', [Window.offsetWidth, Window.offsetHeight]);
+
+        if(document.getElementById('SearchBar') !== document.activeElement) {
+            document.getElementById('SearchBar')!.focus();
+        }
     }, 10);
 
     document.addEventListener('keydown', (event): void => {
-        if([38, 40].includes(event.keyCode)) {
-            event.stopPropagation();
-            event.preventDefault();  
-            event.returnValue = false;
-            event.cancelBubble = true;
-            return;
+        switch(event.keyCode) {
+            case 27: {
+                Clear();
+                Hide();
+                break;
+            }
+            case 38:
+            case 40: {
+                event.stopPropagation();
+                event.preventDefault();  
+                event.returnValue = false;
+                event.cancelBubble = true;
+                break;
+            }
         }
     });
 
@@ -61,11 +102,7 @@ document.addEventListener('DOMContentLoaded', (): void => {
                 break;
             }
             default: {
-                const SearchBar: string = (<HTMLInputElement>document.querySelector('#SearchBar')).value;
-                if(SearchBar_Previous != SearchBar || SearchBar.length === 0) {
-                    ipcRenderer.send('command', SearchBar);
-                    SearchBar_Previous = SearchBar;
-                }
+                Search();
                 break;
             }
         }

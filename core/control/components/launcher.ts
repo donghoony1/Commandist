@@ -12,12 +12,12 @@ const init = (MS: Interfaces.ModuleSuite): void => {
     if(!ApplicationCompatible.includes(process.platform)) return;
 
     const app = require('child_process').spawn('node', [ './core/service/launcher.v1.command.js' ]);
-    app.stdout.on('data', (data: any) => console.log(data.toString()));
-    app.stderr.on('data', (data: any) => console.log(data.toString()));
-    app.on('close', (data: any) => console.log(data.toString()));
+    app.stdout.on('data', (data: any): void => console.log(data.toString()));
+    app.stderr.on('data', (data: any): void => console.log(data.toString()));
+    app.on('close', (data: any): void => console.log(data.toString()));
 
     const IconCachePath: string = `./applicationData/Launcher.v1/Icons/${ process.platform }`;
-    setTimeout(() => {
+    setTimeout((): void => {
         if(fs.existsSync(`${ IconCachePath }/${ process.platform }.json`)) Applications = JSON.parse(fs.readFileSync(`${ IconCachePath }/${ process.platform }.json`, 'utf-8'));
     }, 1000);
 }
@@ -46,7 +46,7 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             }
         ];
     }
-    return Applications.filter((Application) => Application.Name.toLowerCase().indexOf(Keyword) !== -1).map((Application) => (
+    return Applications.filter((Application): Boolean => Application.Name.toLowerCase().indexOf(Keyword) !== -1).map((Application): Interfaces.ApplicationStdReturnInstance => (
         {
             Name: ApplicationName,
             Icon: {
