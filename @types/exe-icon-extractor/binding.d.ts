@@ -4,5 +4,5 @@ declare module 'exe-icon-extractor' {
         size?: string
     ): any;
 
-    export default extractIcon;
+    export { extractIcon };
 }

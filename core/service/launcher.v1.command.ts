@@ -1,11 +1,7 @@
-import * as ConfigurationLoader from '../control/configuration-loader';
-
 import { Interfaces } from '../control/interfaces';
 import { Md5 } from 'ts-md5/dist/md5';
 import { extractIcon } from 'exe-icon-extractor';
 import * as fs from 'fs';
-
-const Configuration: Interfaces.Configuration = ConfigurationLoader.Load();
 
 const ApplicationName: string = 'launcher';
 const ApplicationCompartible: Array<string> = ['win32'];
