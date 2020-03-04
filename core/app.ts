@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, globalShortcut, dialog, shell, Display, Si
 import { Interfaces } from './control/interfaces';
 import * as ConfigurationLoader from './control/configuration-loader';
 import * as CP from './control/quickcommand/cp';
+import { CpuInfo } from 'os';
 
 let Windows: Interfaces.Windows = {};
 
@@ -49,7 +50,7 @@ app.on('browser-window-blur', () => {
 
 const HideQuickCommandWindow = (): void => {
     Windows.QuickCommand.webContents.send('hide');
-    setTimeout(() => Windows.QuickCommand.hide(), 100);
+    setTimeout((): void => Windows.QuickCommand.hide(), 100);
 }
 
 const Initializer = (): void => {
@@ -71,7 +72,7 @@ const Initializer = (): void => {
 
     Windows.QuickCommand.webContents.send('hide');
 
-    const CommandProcessor = new CP.CommandProcessor(Configuration, Windows.QuickCommand);
+    const CommandProcessor: CP.CommandProcessor = new CP.CommandProcessor(Configuration, Windows.QuickCommand);
     ipcMain.on('command', CommandProcessor.command);
 
     ipcMain.on('resize', (event, arg): void => {
@@ -79,14 +80,14 @@ const Initializer = (): void => {
     });
 
     ipcMain.on('hide', (): void => {
-        setTimeout(() => Windows.QuickCommand.hide(), 100);
+        setTimeout((): void => Windows.QuickCommand.hide(), 100);
     });
 
     setInterval((): void => {
         if(Windows.QuickCommand && Windows.QuickCommand.isVisible()) {
-            const screen = require('electron').screen;
-            const screenSize = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).size;
-            Windows.QuickCommand.webContents.send('MaxWindowSearchResultsHeight', Math.ceil(screenSize.height - (screenSize.height / 10 * 2.5)) - 76 - 160);
+            const Screen: Electron.Screen = require('electron').screen;
+            const ScreenSize: Electron.Size = Screen.getDisplayNearestPoint(Screen.getCursorScreenPoint()).size;
+            Windows.QuickCommand.webContents.send('MaxWindowSearchResultsHeight', Math.ceil(ScreenSize.height - (ScreenSize.height / 10 * 2.5)) - 76 - 160);
         }
     }, 500);
 

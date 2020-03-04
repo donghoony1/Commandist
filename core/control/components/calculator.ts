@@ -36,7 +36,7 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             }
         ];
     }
-    const DataFormatted = number_format(Data);
+    const DataFormatted: string = number_format(Data);
     return [
         {
             Name: ApplicationName,

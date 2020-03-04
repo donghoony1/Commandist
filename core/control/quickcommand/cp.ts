@@ -44,7 +44,7 @@ class CommandProcessor {
     
     private DefaultCommandLoader: Function = (): Interfaces.CPIntegrated => {
         let components: Interfaces.CPIntegrated = {};
-        const list = [
+        const list: Array<string> = [
             'calculator', 'webview', 'launcher'
         ];
         list.forEach((CommandName) => {
