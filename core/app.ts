@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, globalShortcut, dialog, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, globalShortcut, dialog, shell, Display, Size } from 'electron';
 import { Interfaces } from './control/interfaces';
 import * as ConfigurationLoader from './control/configuration-loader';
 import * as CP from './control/quickcommand/cp';
@@ -14,8 +14,16 @@ app.on('ready', (): void => {
         const RetKey: string = Configuration['QuickCommand.v1.window.call.shortcutkey'] as string || 'CommandOrControl+Alt+Shift+S';
 
         const ret = globalShortcut.register(RetKey, (): void => {
-            Windows.QuickCommand.show();
-            Windows.QuickCommand.webContents.send('show');
+            if(Windows.QuickCommand.isVisible()) HideQuickCommandWindow();
+            else {
+                Windows.QuickCommand.show();
+                Windows.QuickCommand.webContents.send('show');
+
+                const Screen: Electron.Screen = require('electron').screen;
+                const FocusedDisplay: Electron.Display = Screen.getDisplayNearestPoint(Screen.getCursorScreenPoint());
+                const MonitorPos: { x: number, y: number } = { x: FocusedDisplay.bounds.x, y: FocusedDisplay.bounds.y };
+                Windows.QuickCommand.setPosition(MonitorPos.x + Math.ceil((FocusedDisplay.size.width / 2) - (656 / 2)), MonitorPos.y + Math.ceil(FocusedDisplay.size.height / 10 * 2.5));
+            }
         });
         
         Initializer();
@@ -36,20 +44,23 @@ app.on('ready', (): void => {
 });
 
 app.on('browser-window-blur', () => {
-    if(Windows.QuickCommand.isVisible()) {
-        Windows.QuickCommand.hide();
-        Windows.QuickCommand.webContents.send('hide');
-    }
+    if(Windows.QuickCommand.isVisible()) HideQuickCommandWindow();
 });
+
+const HideQuickCommandWindow = (): void => {
+    Windows.QuickCommand.webContents.send('hide');
+    setTimeout(() => Windows.QuickCommand.hide(), 100);
+}
 
 const Initializer = (): void => {
     Windows.QuickCommand = new BrowserWindow({
         width: 656,
         height: 76,
-        frame: false,
         titleBarStyle: 'hidden',
+        frame: false,
         transparent: true,
         skipTaskbar: true,
+        show: false,
         webPreferences: {
             nodeIntegration: true,
             webviewTag: true
@@ -58,9 +69,7 @@ const Initializer = (): void => {
 
     Windows.QuickCommand.loadFile('./views/quickcommand/index.html');
 
-    const screen = require('electron').screen;
-    const screenSize = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).size;
-    Windows.QuickCommand.setPosition(Math.ceil((screenSize.width / 2) - (656 / 2)), Math.ceil(screenSize.height / 10 * 2.5));
+    Windows.QuickCommand.webContents.send('hide');
 
     const CommandProcessor = new CP.CommandProcessor(Configuration, Windows.QuickCommand);
     ipcMain.on('command', CommandProcessor.command);
@@ -69,7 +78,9 @@ const Initializer = (): void => {
         if(arg[0] && arg[1] && (Windows.QuickCommand.getSize()[0] != arg[0] || Windows.QuickCommand.getSize()[1] != arg[1]) && (Math.abs(Windows.QuickCommand.getSize()[0] - arg[0]) < 2 || Math.abs(Windows.QuickCommand.getSize()[1] - arg[1]) < 2)) Windows.QuickCommand.setSize(arg[0], arg[1] + 16);
     });
 
-    ipcMain.on('hide', (): void => Windows.QuickCommand.hide());
+    ipcMain.on('hide', (): void => {
+        setTimeout(() => Windows.QuickCommand.hide(), 100);
+    });
 
     setInterval((): void => {
         if(Windows.QuickCommand && Windows.QuickCommand.isVisible()) {
