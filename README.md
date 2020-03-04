@@ -1,5 +1,5 @@
 # The Commandist
-Accelerator of all work speeds.
+A accelerator of all work speeds.
 
 # 🔧 Development
 ## TODOs
