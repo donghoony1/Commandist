@@ -7,7 +7,7 @@ let ApplicationCompatible: Array<string> = [];
 let Applications: Array<Interfaces.LauncherV1Applications> = [];
 
 const init = (MS: Interfaces.ModuleSuite): void => {
-    ApplicationCompatible = MS.Configuration['QuickCommand.v1.commands.default.launcher.v1.feature.compatible'];
+    ApplicationCompatible = MS.Configuration['QuickCommand.v1.components.default.launcher.v1.feature.compatible'];
 
     if(!ApplicationCompatible.includes(process.platform)) return;
 

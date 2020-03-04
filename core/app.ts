@@ -50,5 +50,5 @@ const Initializer = () => {
         }
     }, 500);
 
-    require(`./control/commands/launcher`).init({ Configuration });
+    require(`./control/components/launcher`).init({ Configuration });
 }

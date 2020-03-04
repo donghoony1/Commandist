@@ -4,7 +4,7 @@ const ApplicationName: string = 'webview';
 
 const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interfaces.ApplicationStandardReturn => {
     const URI: string = (args[0] === ApplicationName ? args.slice(1, args.length) : args).join('');
-    if(!new RegExp(MS.Configuration['QuickCommand.v1.commands.default.webview.v1.command.overrider']).test(URI)) {
+    if(!new RegExp(MS.Configuration['QuickCommand.v1.components.default.webview.v1.command.overrider']).test(URI)) {
         return [
             {
                 Name: ApplicationName,

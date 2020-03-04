@@ -10,7 +10,7 @@ const ApplicationName: string = 'launcher';
 let ApplicationCompatible: Array<string> = [];
 
 const init = () => {
-    ApplicationCompatible = Configuration['QuickCommand.v1.commands.default.launcher.v1.feature.compatible'] as Array<string>;
+    ApplicationCompatible = Configuration['QuickCommand.v1.components.default.launcher.v1.feature.compatible'] as Array<string>;
 
     if(!ApplicationCompatible.includes(process.platform)) return;
     const UpdateCacheData = (): void => {

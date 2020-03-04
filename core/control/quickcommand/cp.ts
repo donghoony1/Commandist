@@ -5,13 +5,13 @@ class CommandProcessor {
     private Configuration: Interfaces.Configuration;
     private QuickCommand: BrowserWindow;
     private shortcutReplacers: Interfaces.CPShortcutReplacers = {};
-    private Commands: Interfaces.CPIntegrated = {};
+    private Components: Interfaces.CPIntegrated = {};
     private Overriders: Interfaces.CPOverriders = {};
 
     constructor(Configuration: Interfaces.Configuration, QuickCommand: BrowserWindow) {
         this.Configuration = Configuration;
         this.QuickCommand = QuickCommand;
-        this.Commands = {
+        this.Components = {
             ...this.DefaultCommandLoader()
         }
     }
@@ -29,9 +29,9 @@ class CommandProcessor {
 
         const primary: string = this.Overriders[Object.keys(this.Overriders).find((Overrider) => new RegExp(Overrider).test(arg)) || 'undefined'] || args[0];
         let result: Interfaces.ApplicationStandardReturn = [];
-        if(this.Commands[primary] !== undefined) result = this.Commands[primary].execute({ Configuration: this.Configuration }, args);
+        if(this.Components[primary] !== undefined) result = this.Components[primary].execute({ Configuration: this.Configuration }, args);
         
-        if(result.length === 0 && Object.keys(this.Commands).includes('launcher')) result = this.Commands['launcher'].execute({ Configuration: this.Configuration }, args);
+        if(result.length === 0 && Object.keys(this.Components).includes('launcher')) result = this.Components['launcher'].execute({ Configuration: this.Configuration }, args);
 
         this.QuickCommand.webContents.send('result', result);
 
@@ -43,19 +43,19 @@ class CommandProcessor {
     }
     
     private DefaultCommandLoader: Function = (): Interfaces.CPIntegrated => {
-        let commands: Interfaces.CPIntegrated = {};
+        let components: Interfaces.CPIntegrated = {};
         const list = [
             'calculator', 'webview', 'launcher'
         ];
         list.forEach((CommandName) => {
-            if(this.Configuration[`QuickCommand.v1.commands.default.${CommandName}.v1.enabled`] === false) return false;
-            commands[CommandName] = {
-                execute: require(`../commands/${CommandName}`).application
+            if(this.Configuration[`QuickCommand.v1.components.default.${CommandName}.v1.enabled`] === false) return false;
+            components[CommandName] = {
+                execute: require(`../components/${CommandName}`).application
             };
-            if(this.Configuration[`QuickCommand.v1.commands.default.${CommandName}.v1.command.shortcutReplacers`] !== undefined) (this.Configuration[`QuickCommand.v1.commands.default.${CommandName}.v1.command.shortcutReplacers`] as Array<string>).forEach((replacer) => this.shortcutReplacers[replacer] = CommandName);
-            if(this.Configuration[`QuickCommand.v1.commands.default.${CommandName}.v1.command.overrider`] !== undefined) this.Overriders[this.Configuration[`QuickCommand.v1.commands.default.${CommandName}.v1.command.overrider`] as string] = CommandName;
+            if(this.Configuration[`QuickCommand.v1.components.default.${CommandName}.v1.command.shortcutReplacers`] !== undefined) (this.Configuration[`QuickCommand.v1.components.default.${CommandName}.v1.command.shortcutReplacers`] as Array<string>).forEach((replacer) => this.shortcutReplacers[replacer] = CommandName);
+            if(this.Configuration[`QuickCommand.v1.components.default.${CommandName}.v1.command.overrider`] !== undefined) this.Overriders[this.Configuration[`QuickCommand.v1.components.default.${CommandName}.v1.command.overrider`] as string] = CommandName;
         });
-        return commands;
+        return components;
     }
 }
 
