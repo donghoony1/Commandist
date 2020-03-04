@@ -2,12 +2,14 @@ import { Interfaces } from '../interfaces';
 import * as fs from 'fs';
 
 const ApplicationName: string = 'launcher';
-const ApplicationCompartible: Array<string> = ['win32'];
+let ApplicationCompatible: Array<string> = [];
 
 let Applications: Array<Interfaces.LauncherV1Applications> = [];
 
-const init = (): void => {
-    if(!ApplicationCompartible.includes(process.platform)) return;
+const init = (MS: Interfaces.ModuleSuite): void => {
+    ApplicationCompatible = MS.Configuration['QuickCommand.v1.commands.default.launcher.v1.feature.compatible'];
+
+    if(!ApplicationCompatible.includes(process.platform)) return;
 
     const app = require('child_process').spawn('node', [ './core/service/launcher.v1.command.js' ]);
     app.stdout.on('data', (data: any) => console.log(data.toString()));
@@ -22,7 +24,7 @@ const init = (): void => {
 
 const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interfaces.ApplicationStandardReturn => {
     const Keyword: string = (args[0] === ApplicationName ? args.slice(1, args.length) : args).join(' ');
-    if(!ApplicationCompartible.includes(process.platform)) {
+    if(!ApplicationCompatible.includes(process.platform)) {
         return [
             {
                 Name: ApplicationName,
@@ -35,7 +37,7 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
                 Output: {
                     Default: {
                         Subject: '이 플랫폼은 지원하지 않습니다.',
-                        Description: `지원하는 플랫폼: ${ ApplicationCompartible.join(', ') }`
+                        Description: `지원하는 플랫폼: ${ ApplicationCompatible.join(', ') }`
                     }
                 },
                 Event: {},

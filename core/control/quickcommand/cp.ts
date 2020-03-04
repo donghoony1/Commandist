@@ -31,7 +31,7 @@ class CommandProcessor {
         let result: Interfaces.ApplicationStandardReturn = [];
         if(this.Commands[primary] !== undefined) result = this.Commands[primary].execute({ Configuration: this.Configuration }, args);
         
-        if(result.length === 0) result = this.Commands['launcher'].execute({ Configuration: this.Configuration }, args);
+        if(result.length === 0 && Object.keys(this.Commands).includes('launcher')) result = this.Commands['launcher'].execute({ Configuration: this.Configuration }, args);
 
         this.QuickCommand.webContents.send('result', result);
 
@@ -54,7 +54,7 @@ class CommandProcessor {
             };
             if(this.Configuration[`QuickCommand.v1.commands.default.${CommandName}.v1.command.shortcutReplacers`] !== undefined) (this.Configuration[`QuickCommand.v1.commands.default.${CommandName}.v1.command.shortcutReplacers`] as Array<string>).forEach((replacer) => this.shortcutReplacers[replacer] = CommandName);
             if(this.Configuration[`QuickCommand.v1.commands.default.${CommandName}.v1.command.overrider`] !== undefined) this.Overriders[this.Configuration[`QuickCommand.v1.commands.default.${CommandName}.v1.command.overrider`] as string] = CommandName;
-        })
+        });
         return commands;
     }
 }

@@ -1,13 +1,18 @@
+import * as ConfigurationLoader from '../control/configuration-loader';
 import { Interfaces } from '../control/interfaces';
 import { Md5 } from 'ts-md5/dist/md5';
 import { extractIcon } from 'exe-icon-extractor';
 import * as fs from 'fs';
 
+const Configuration: Interfaces.Configuration = ConfigurationLoader.Load();
+
 const ApplicationName: string = 'launcher';
-const ApplicationCompartible: Array<string> = ['win32'];
+let ApplicationCompatible: Array<string> = [];
 
 const init = () => {
-    if(!ApplicationCompartible.includes(process.platform)) return;
+    ApplicationCompatible = Configuration['QuickCommand.v1.commands.default.launcher.v1.feature.compatible'] as Array<string>;
+
+    if(!ApplicationCompatible.includes(process.platform)) return;
     const UpdateCacheData = (): void => {
         const IconCachePath: string = `./applicationData/Launcher.v1/Icons/${process.platform}`;
         switch(process.platform) {

@@ -5,7 +5,7 @@ import * as CP from './control/quickcommand/cp';
 
 let Windows: Interfaces.Windows = {};
 
-let Configuration: Interfaces.Configuration = ConfigurationLoader.Load();
+const Configuration: Interfaces.Configuration = ConfigurationLoader.Load();
 
 app.on('ready', () => {
     if(Windows.QuickCommand === undefined) {
@@ -50,5 +50,5 @@ const Initializer = () => {
         }
     }, 500);
 
-    require(`./control/commands/launcher`).init();
+    require(`./control/commands/launcher`).init({ Configuration });
 }
