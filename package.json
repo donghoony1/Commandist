@@ -7,8 +7,10 @@
     "@types/node": "^13.7.7",
     "@types/react-dom": "^16.9.5",
     "electron": "^8.0.2",
+    "exe-icon-extractor": "^1.0.8",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "ts-md5": "^1.2.7",
     "typescript": "^3.8.3"
   },
   "devDependencies": {

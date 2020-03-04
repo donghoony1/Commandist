@@ -41,11 +41,14 @@ class Results extends React.Component {
                 <li className="QuickCommand_Result" data-event={ JSON.stringify(data.Event) }>
                     <div className="QuickCommand_Result_Grid">
                         <div className="QuickCommand_Result_Icon">
-                            { !Object.keys(data.Icon).includes('ImageFileName') && 
-                                <div className={`QuickCommand_Result_Icon_Circle ${ data.Icon.DefaultIcon.IconColor }`}>
+                            { Object.keys(data.Icon).includes('ImageFilePath') === true ? (
+                                <div className="QuickCommand_Result_Icon_Image" style={ { '--commandist-icon-image': `url('${ data.Icon.ImageFilePath }')` } }>
+                                </div>
+                            ) : (
+                                <div className={ `QuickCommand_Result_Icon_Circle ${ data.Icon.DefaultIcon.IconColor }` }>
                                     { data.Icon.DefaultIcon.IconText.substring(0, 1) }
                                 </div>
-                            }
+                            )}
                         </div>
                         <div className="QuickCommand_Result_Contents">
                             <h1>{ data.Output.Default!.Subject }</h1>

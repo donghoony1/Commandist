@@ -4,5 +4,7 @@
     "QuickCommand.v1.commands.default.calculator.v1.command.overrider": "^(\\(?([\\s]+)?([\\d.]+|(\\+|-|\\*|\\/|\\*\\*|%))?\\)?)+$",
     "QuickCommand.v1.commands.default.webview.v1.enabled": true,
     "QuickCommand.v1.commands.default.webview.v1.command.shortcutReplacers": [],
-    "QuickCommand.v1.commands.default.webview.v1.command.overrider": "^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)$"
+    "QuickCommand.v1.commands.default.webview.v1.command.overrider": "^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)$",
+    "QuickCommand.v1.commands.default.launcher.v1.enabled": true,
+    "QuickCommand.v1.commands.default.launcher.v1.command.shortcutReplacers": []
 }

@@ -1,6 +1,6 @@
 import { Interfaces } from '../interfaces';
 
-const ApplicationName = 'webview';
+const ApplicationName: string = 'webview';
 
 const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interfaces.ApplicationStandardReturn => {
     const URI: string = (args[0] === ApplicationName ? args.slice(1, args.length) : args).join('');
@@ -38,7 +38,7 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             Output: {
                 Webview: {
                     URI,
-                    Description: '웹 브라우저에서 보려면 Return을 누르세요.',
+                    Description: '웹 브라우저에서 실행하려면 Return을 누르세요.',
                     Zoom: -5
                 }
             },

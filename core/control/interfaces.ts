@@ -42,7 +42,7 @@ namespace Interfaces {
     export interface ApplicationStdReturnInstance {
         Name: string,
         Icon: {
-            ImageFileName?: string,
+            ImageFilePath?: string,
             DefaultIcon: {
                 IconText: string,
                 IconColor: 'red' | 'orange' | 'yellow' | 'green' | 'brightGreen' | 'blue' | 'brightBlue' | 'ingido' | 'purple' | 'brightPurple' | 'dark' | 'light'
@@ -96,6 +96,12 @@ namespace Interfaces {
         }
     }
 
+    export interface LauncherV1Applications {
+        Name: string,
+        LnkPath: string,
+        ActualPath: string,
+        LnkPathMD5: string
+    }    
 }
 
 export { Interfaces };

@@ -49,4 +49,6 @@ const Initializer = () => {
             Windows.QuickCommand.webContents.send('MaxWindowSearchResultsHeight', Math.ceil(screenSize.height - (screenSize.height / 10 * 2.5)) - 76 - 160);
         }
     }, 500);
+
+    require(`./control/commands/launcher`).init();
 }

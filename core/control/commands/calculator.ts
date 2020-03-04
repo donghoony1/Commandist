@@ -1,6 +1,6 @@
 import { Interfaces } from '../interfaces';
 
-const ApplicationName = 'calculator';
+const ApplicationName: string = 'calculator';
 
 const evil:Function = (fn: string): number => {
     try {
