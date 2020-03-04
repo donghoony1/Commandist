@@ -21,7 +21,7 @@ const HexToRGBA = (hex: string): string => {
 const SearchBar: JSX.Element = (
     <div className="QuickCommand_SearchBar">
         <div className="QuickCommand_Logo">Commandist</div>
-        <input className="QuickCommand_SearchBar_Input" id="SearchBar" type="text" placeholder="QuickCommand" />
+        <input className="QuickCommand_SearchBar_Input" id="SearchBar" type="text" placeholder="QuickCommand" tabIndex={0} />
     </div>
 );
 
@@ -88,7 +88,10 @@ class Results extends React.Component {
     }
 
     componentDidUpdate() {
-        document.querySelectorAll('.QuickCommand_Result').forEach((ResultLI) => {
+        document.querySelector('.QuickCommand_Results')!.setAttribute('data-selection', '0');
+        const Results = document.querySelectorAll('.QuickCommand_Result');
+        if(0 < Results.length) Results[0].classList.add('pressed');
+        Results.forEach((ResultLI) => {
             const ElementOrigin: Interfaces.ApplicationStdReturnInstance = JSON.parse(ResultLI.getAttribute('data-origin') || '{}');
             if(ResultLI.querySelector('.QuickCommand_Result_Icon_Image') && ElementOrigin.Icon.ImageFilePath !== undefined) {
                 const IconImage: HTMLElement = ResultLI.querySelector('.QuickCommand_Result_Icon_Image') as HTMLElement;
@@ -114,7 +117,7 @@ class Results extends React.Component {
 
     render() {
         return (
-            <ul className="QuickCommand_Results" id="Results">
+            <ul className="QuickCommand_Results" id="Results" data-selection="0">
                 { this.state.Results }
             </ul>
         );
