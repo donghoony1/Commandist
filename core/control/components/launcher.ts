@@ -11,7 +11,7 @@ const init = (MS: Interfaces.ModuleSuite): void => {
 
     if(!ApplicationCompatible.includes(process.platform)) return;
 
-    const app = require('child_process').spawn('node', [ './core/service/launcher.v1.command.js' ]);
+    const app = require('child_process').spawn('node', [ './core/service/launcher.v1.component.js' ]);
     app.stdout.on('data', (data: any): void => console.log(data.toString()));
     app.stderr.on('data', (data: any): void => console.log(data.toString()));
     app.on('close', (data: any): void => console.log(data.toString()));

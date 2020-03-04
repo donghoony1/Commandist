@@ -42,7 +42,7 @@ const init = (): void => {
                 fs.writeFileSync(`${IconCachePath}/win32.json`, JSON.stringify(Applications));
             }
         }
-        setTimeout(UpdateCacheData, 60000);
+        setTimeout(UpdateCacheData, Configuration['QuickCommand.v1.components.default.launcher.v1.service.cache.updatinginterval'] as number || 60000);
     }
     UpdateCacheData();
 }

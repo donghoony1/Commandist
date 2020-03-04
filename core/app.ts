@@ -11,7 +11,7 @@ app.on('ready', (): void => {
     if(Windows.QuickCommand === undefined) {
         app.setAsDefaultProtocolClient('Commandist');
 
-        const RetKey: string = 'CommandOrControl+Alt+Shift+S';
+        const RetKey: string = Configuration['QuickCommand.v1.window.call.shortcutkey'] as string || 'CommandOrControl+Alt+Shift+S';
 
         const ret = globalShortcut.register(RetKey, (): void => {
             Windows.QuickCommand.show();
