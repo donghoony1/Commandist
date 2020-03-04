@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, globalShortcut } from 'electron';
+import { app, BrowserWindow, ipcMain, globalShortcut, dialog, shell } from 'electron';
 import { Interfaces } from './control/interfaces';
 import * as ConfigurationLoader from './control/configuration-loader';
 import * as CP from './control/quickcommand/cp';
@@ -11,12 +11,27 @@ app.on('ready', (): void => {
     if(Windows.QuickCommand === undefined) {
         app.setAsDefaultProtocolClient('Commandist');
 
-        const ret = globalShortcut.register('CommandOrControl+Alt+Shift+S', (): void => {
+        const RetKey: string = 'CommandOrControl+Alt+Shift+S';
+
+        const ret = globalShortcut.register(RetKey, (): void => {
             Windows.QuickCommand.show();
             Windows.QuickCommand.webContents.send('show');
         });
         
         Initializer();
+
+        if(globalShortcut.isRegistered(RetKey) === false) {
+            const dialogWarning: number = dialog.showMessageBoxSync(Windows.QuickCommand, {
+                type: 'warning',
+                buttons: ['오류 제보 및 프로그램 종료', '무시'],
+                defaultId: 0,
+                cancelId: 1,
+                title: 'The Commandist',
+                message: 'QuickCommand 실행 단축키 등록에 실패했습니다.',
+                detail: '프로그램을 다시 시작하면 문제를 해결할 수 있습니다.\n\n다시 시작해도 문제가 해결되지 않으면 \'오류 제보\' 버튼을 사용하거나 a@donghoonyoo.com 으로 오류에 관한 이메일을 보내십시오.'
+            });
+            if(dialogWarning === 0) shell.openExternal('https://github.com/donghoony1/Commandist/issues');
+        }
     }
 });
 
