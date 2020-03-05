@@ -45,5 +45,5 @@ A accelerator of all work speeds.
     - Examples: `alarm 0 0 */1 * * *`, `alarm 0 */15 * * *`
 - Stopwatch: `stopwatch`
     - Examples: `stopwatch start English Reading`, `stopwatch list`, `stopwatch stop English Reading`, `stopwatch pause English Reading`, `stopwatch English Reading`
-- Convert timezone: `convert-timezone`, `ct`
-    - Examples: `ct`, `ct all`, `ct Asia/Seoul`, `ct +9`
+- World time: `world-time`, `t`
+    - Examples: `t`, `t all`, `t Asia/Seoul`, `t +9`
