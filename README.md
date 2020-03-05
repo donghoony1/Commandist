@@ -49,5 +49,5 @@ An accelerator of all work speeds.
     - Examples: `t`, `t all`, `t Asia/Seoul`, `t +9`
 
 # Contributors
-- Jeongmin Kim
+- Jeongmin Kim `Translation`
     - E-Mail: [appff13@gmail.com](mailto:appff13@gmail.com)
