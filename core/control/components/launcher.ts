@@ -64,35 +64,23 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             },
             Event: {
                 Click: [{
-                    Execute: {
-                        Process: 'cmd.exe',
-                        Arguments: [ `/c`, `start ${Application.ActualPath}` ],
-                        AtBackground: true,
-                        Synchronize: false
+                    OpenExternal: {
+                        URI: Application.ActualPath
                     }
                 }],
                 Return: [{
-                    Execute: {
-                        Process: 'cmd.exe',
-                        Arguments: [ `/c`, `start ${Application.ActualPath}` ],
-                        AtBackground: true,
-                        Synchronize: false
+                    OpenExternal: {
+                        URI: Application.ActualPath
                     }
                 }],
                 ShiftClick: [{
-                    Execute: {
-                        Process: 'cmd.exe',
-                        Arguments: [ `/c`, `start ${Application.ActualPath}` ],
-                        AtBackground: true,
-                        Synchronize: false
+                    OpenExternal: {
+                        URI: Application.ActualPath
                     }
                 }],
                 ShiftReturn: [{
-                    Execute: {
-                        Process: 'cmd.exe',
-                        Arguments: [ `/c`, `start ${Application.ActualPath}` ],
-                        AtBackground: true,
-                        Synchronize: false
+                    OpenExternal: {
+                        URI: Application.ActualPath
                     }
                 }]
             },
