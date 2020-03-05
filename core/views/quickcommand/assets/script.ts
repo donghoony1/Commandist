@@ -33,7 +33,7 @@ const RefreshPression = (Key: 0 | 1): void => {
     if(Key == 0 && ElementScrollTop <= Min) modify -= 80;
     else if(Key == 1 && Max <= ElementScrollTop) modify += 80;
     document.getElementById('Results')!.scrollTop = document.getElementById('Results')!.scrollTop + modify;
-    document.querySelectorAll('.QuickCommand_Result').forEach(result => result.classList.remove('pressed'));
+    document.querySelectorAll('.QuickCommand_Result').forEach((result) => result.classList.remove('pressed'));
     document.querySelectorAll('.QuickCommand_Result')![selection]!.classList.add('pressed');
 }
 
@@ -67,6 +67,17 @@ document.addEventListener('DOMContentLoaded', (): void => {
         }
     }, 10);
 
+    document.addEventListener('click', (event): void => {
+        const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(event.path.filter((element: any) => element.classList !== undefined && element.classList[0] === 'QuickCommand_Result' && element!.getAttribute('data-origin')! !== undefined)[0]!.getAttribute('data-origin')!).Event[`${ event.shiftKey === true ? 'Shift' : '' }Click`];
+        
+        if(EventData) {
+            ipcRenderer.send('Windows.QuickCommand.execute', EventData);
+    
+            Clear();
+            Hide();
+        }
+    });
+
     document.addEventListener('keydown', (event): void => {
         switch(event.keyCode) {
             case 13: {
@@ -75,7 +86,7 @@ document.addEventListener('DOMContentLoaded', (): void => {
                 event.returnValue = false;
                 event.cancelBubble = true;
 
-                const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!).Event[event.shiftKey === false ? 'Return' : 'ShiftReturn'] as Array<Interfaces.ApplicationAction>;
+                const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!).Event[`${ event.shiftKey === true ? 'Shift' : '' }Return`];
                 if(EventData === undefined) break;
 
                 ipcRenderer.send('Windows.QuickCommand.execute', EventData);
