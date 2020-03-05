@@ -1,4 +1,5 @@
 import { ipcRenderer } from 'electron';
+import { Interfaces } from '../../../control/interfaces';
 
 let MaxWindowSearchResultsHeight = 0;
 
@@ -69,7 +70,19 @@ document.addEventListener('DOMContentLoaded', (): void => {
     document.addEventListener('keydown', (event): void => {
         switch(event.keyCode) {
             case 13: {
+                event.stopPropagation();
+                event.preventDefault();  
+                event.returnValue = false;
+                event.cancelBubble = true;
+
+                const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!).Event.Return as Array<Interfaces.ApplicationAction>;
+                if(EventData === undefined) break;
                 
+                ipcRenderer.send('Windows.QuickCommand.execute', EventData);
+
+                Clear();
+                Hide();
+                break;
             }
             case 27: {
                 Clear();

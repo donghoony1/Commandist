@@ -44,10 +44,23 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             },
             Event: {
                 Click: [{
-                    Execute: {
-                        Process: 'cmd.exe',
-                        Arguments: '/c start ' + URI,
-                        AtBackground: true
+                    OpenExternal: {
+                        URI
+                    }
+                }],
+                Return: [{
+                    OpenExternal: {
+                        URI
+                    }
+                }],
+                ShiftClick: [{
+                    OpenExternal: {
+                        URI
+                    }
+                }],
+                ShiftReturn: [{
+                    OpenExternal: {
+                        URI
                     }
                 }]
             },

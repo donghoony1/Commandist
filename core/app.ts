@@ -2,7 +2,6 @@ import { app, BrowserWindow, ipcMain, globalShortcut, dialog, shell } from 'elec
 import { Interfaces } from './control/interfaces';
 import * as ConfigurationLoader from './control/configuration-loader';
 import * as CP from './control/quickcommand/cp';
-import { CpuInfo } from 'os';
 
 let Windows: Interfaces.Windows = {};
 

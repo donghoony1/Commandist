@@ -66,7 +66,7 @@ class CommandProcessor {
         ///   TODO: Refactor to simplify.                                    ///
         ///                                                                  ///
         ////////////////////////////////////////////////////////////////////////
-        const arlen = args.length;
+        const arlen: number = args.length;
         for(let i = 0; i < arlen; i++) {
             let result: string = '';
             const arg = args[i];

@@ -70,6 +70,30 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
                         AtBackground: true,
                         Synchronize: false
                     }
+                }],
+                Return: [{
+                    Execute: {
+                        Process: 'cmd.exe',
+                        Arguments: [ `/c`, `start ${Application.ActualPath}` ],
+                        AtBackground: true,
+                        Synchronize: false
+                    }
+                }],
+                ShiftClick: [{
+                    Execute: {
+                        Process: 'cmd.exe',
+                        Arguments: [ `/c`, `start ${Application.ActualPath}` ],
+                        AtBackground: true,
+                        Synchronize: false
+                    }
+                }],
+                ShiftReturn: [{
+                    Execute: {
+                        Process: 'cmd.exe',
+                        Arguments: [ `/c`, `start ${Application.ActualPath}` ],
+                        AtBackground: true,
+                        Synchronize: false
+                    }
                 }]
             },
             Error: false,
