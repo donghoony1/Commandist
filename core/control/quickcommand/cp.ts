@@ -94,7 +94,7 @@ class CommandProcessor {
                 };
 
                 if(arg.Execute.Synchronize === true) result = ChildProcess.execSync(`${ arg.Execute.Process } ${arg.Execute.Arguments.map((Argument) => ReplaceStringToResult(Argument)).join(' ')}`, options).toString();
-                else ChildProcess.spawnSync(arg.Execute.Process, arg.Execute.Arguments.map((Argument) => ReplaceStringToResult(Argument)), options);
+                else ChildProcess.spawn(arg.Execute.Process, arg.Execute.Arguments.map((Argument) => ReplaceStringToResult(Argument)), options);
             } else if(arg.ControlOS !== undefined) {
                 switch(process.platform) {
                     case 'win32': {
