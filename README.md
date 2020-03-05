@@ -1,11 +1,11 @@
 # The Commandist
-A accelerator of all work speeds.
+An accelerator of all work speeds.
 
 # 🔧 Development
 ## TODOs
 - Make a script to build Electron as Windows Application.
 - Change the structure of core for multilingual support.
-- Add support components which was made by user.
+- Add support components which are made by user.
 - Add a feature to modify the placeholder on QuickCommand.
 - Add a support to return asynchronous result.
 - Add a support to display dialog.
@@ -47,3 +47,7 @@ A accelerator of all work speeds.
     - Examples: `stopwatch start English Reading`, `stopwatch list`, `stopwatch stop English Reading`, `stopwatch pause English Reading`, `stopwatch English Reading`
 - World time: `world-time`, `t`
     - Examples: `t`, `t all`, `t Asia/Seoul`, `t +9`
+
+# Contributors
+- Jeongmin Kim
+    - E-Mail: [appff13@gmail.com](mailto:appff13@gmail.com)
