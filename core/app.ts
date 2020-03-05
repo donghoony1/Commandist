@@ -9,6 +9,8 @@ const Configuration: Interfaces.Configuration = ConfigurationLoader.Load();
 
 app.on('ready', (): void => {
     if(Windows.QuickCommand === undefined) {
+        Initializer();
+
         app.setAsDefaultProtocolClient('Commandist');
 
         const RetKey: string = Configuration['QuickCommand.v1.window.call.shortcutkey'] as string || 'CommandOrControl+Alt+Shift+S';
@@ -16,17 +18,12 @@ app.on('ready', (): void => {
         globalShortcut.register(RetKey, (): void => {
             if(Windows.QuickCommand.isVisible()) HideQuickCommandWindow();
             else {
-                Windows.QuickCommand.show();
-                Windows.QuickCommand.webContents.send('show');
+                RepositionQuickCommandWindow();
 
-                const Screen: Electron.Screen = require('electron').screen;
-                const FocusedDisplay: Electron.Display = Screen.getDisplayNearestPoint(Screen.getCursorScreenPoint());
-                const MonitorPos: { x: number, y: number } = { x: FocusedDisplay.bounds.x, y: FocusedDisplay.bounds.y };
-                Windows.QuickCommand.setPosition(MonitorPos.x + Math.ceil((FocusedDisplay.size.width / 2) - (656 / 2)), MonitorPos.y + Math.ceil(FocusedDisplay.size.height / 10 * 2.5));
+                Windows.QuickCommand.webContents.send('show');
+                Windows.QuickCommand.show();
             }
         });
-        
-        Initializer();
 
         if(globalShortcut.isRegistered(RetKey) === false) {
             const dialogWarning: number = dialog.showMessageBoxSync(Windows.QuickCommand, {
@@ -49,7 +46,18 @@ app.on('browser-window-blur', () => {
 
 const HideQuickCommandWindow = (): void => {
     Windows.QuickCommand.webContents.send('hide');
-    setTimeout((): void => Windows.QuickCommand.hide(), 100);
+    setTimeout((): void => Windows.QuickCommand.hide(), 70);
+}
+
+const RepositionQuickCommandWindow = (): void => {
+    const Screen: Electron.Screen = require('electron').screen;
+    const FocusedDisplay: Electron.Display = Screen.getDisplayNearestPoint(Screen.getCursorScreenPoint());
+    const MonitorPos: { x: number, y: number } = { x: FocusedDisplay.bounds.x, y: FocusedDisplay.bounds.y };
+    const x: number = MonitorPos.x + Math.ceil((FocusedDisplay.size.width / 2) - (656 / 2));
+    const y: number = MonitorPos.y + Math.ceil(FocusedDisplay.size.height / 10 * 2.5);
+    Windows.QuickCommand.setPosition(x, y);
+    const WindowPos: Array<number> = Windows.QuickCommand.getPosition();
+    if(WindowPos[0] !== x || WindowPos[1] !== y) Windows.QuickCommand.setPosition(x, y);
 }
 
 const Initializer = (): void => {
@@ -58,9 +66,9 @@ const Initializer = (): void => {
         height: 76,
         titleBarStyle: 'hidden',
         frame: false,
+        show: false,
         transparent: true,
         skipTaskbar: true,
-        show: false,
         webPreferences: {
             nodeIntegration: true,
             webviewTag: true
@@ -69,7 +77,7 @@ const Initializer = (): void => {
 
     Windows.QuickCommand.loadFile('./views/quickcommand/index.html');
 
-    Windows.QuickCommand.webContents.send('hide');
+    RepositionQuickCommandWindow();
 
     const CommandProcessor: CP.CommandProcessor = new CP.CommandProcessor(Configuration, Windows.QuickCommand);
 
@@ -78,7 +86,7 @@ const Initializer = (): void => {
     ipcMain.on('Windows.QuickCommand.execute', CommandProcessor.execute);
 
     ipcMain.on('Windows.QuickCommand.resize', (event, arg): void => {
-        if(arg[0] && arg[1] && (Windows.QuickCommand.getSize()[0] != arg[0] || Windows.QuickCommand.getSize()[1] != arg[1]) && (Math.abs(Windows.QuickCommand.getSize()[0] - arg[0]) < 2 || Math.abs(Windows.QuickCommand.getSize()[1] - arg[1]) < 2)) Windows.QuickCommand.setSize(arg[0], arg[1] + 16);
+        if(arg[0] && arg[1] && (Windows.QuickCommand.getSize()[0] != arg[0] || Windows.QuickCommand.getSize()[1] != arg[1]) && (Math.abs(Windows.QuickCommand.getSize()[0] - arg[0]) < 2 || Math.abs(Windows.QuickCommand.getSize()[1] - arg[1]) < 2)) Windows.QuickCommand.setSize(656, arg[1] + 16);
     });
 
     ipcMain.on('Windows.QuickCommand.hide', (): void => {

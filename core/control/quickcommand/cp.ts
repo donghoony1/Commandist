@@ -53,7 +53,6 @@ class CommandProcessor {
 
         const Preferences = this.Preferences;
         Object.keys(Preferences).forEach((Element) => {
-            console.log(Element, Preferences[Element]);
             const Found = Results.findIndex((Result) => (new Md5().appendStr(JSON.stringify(Result)).end() as string) === Element);
             if(Found !== -1) {
                 const Copy = Results[Found];
