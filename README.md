@@ -1,6 +1,12 @@
 # The Commandist
 An accelerator of all work speeds.
 
+# ⚠ Cautions
+- This project is still under development.
+    - It may not work.
+    - The structure and the code may be changed.
+    - There may be a security problems.
+
 # 🔧 Development
 ## TODOs
 - Make a script to build Electron as Windows Application.
