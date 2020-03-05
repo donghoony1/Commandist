@@ -15,7 +15,7 @@ const init = (): void => {
     ApplicationCompatible = Configuration['QuickCommand.v1.component.default.launcher.v1.feature.compatible'] as Array<string>;
 
     if(!ApplicationCompatible.includes(process.platform)) return;
-    const UpdateCacheData = (Paths: Array<string>) => {
+    const UpdateCacheData = (Paths: Array<string>, Refresh: Boolean) => {
         const IconCachePath: string = `./applicationData/Launcher.v1/Icons/${process.platform}`;
         switch(process.platform) {
             case 'win32': {
@@ -47,7 +47,7 @@ const init = (): void => {
                 });
                 Applications.filter((program): Boolean => {
                     try {
-                        fs.writeFileSync(`${IconCachePath}/${program.IconPath}`, extractIcon(program.ActualPath, 'large'));
+                        if(!fs.existsSync(`${IconCachePath}/${program.IconPath}`) && Refresh === true) fs.writeFileSync(`${IconCachePath}/${program.IconPath}`, extractIcon(program.ActualPath, 'large'));
                         return true;
                     } catch(Exception) {
                         console.log(program, Exception);
@@ -126,7 +126,7 @@ const init = (): void => {
 
                     if(fs.existsSync(Application.IconPath)) {
                         try {
-                            fs.copyFileSync(Application.IconPath, `${ IconCachePath }\\${ IconPath }`);
+                            if(!fs.existsSync(`${ IconCachePath }\\${ IconPath }`) && Refresh === true) fs.copyFileSync(Application.IconPath, `${ IconCachePath }\\${ IconPath }`);
                         } catch(Exception) {
                             Application.Name === 'N/A';
                         }
@@ -153,12 +153,12 @@ const init = (): void => {
             }
         }
 
-        setTimeout(UpdateCacheData, Configuration['QuickCommand.v1.component.default.launcher.v1.service.cache.updatinginterval'] as number || 60000);
+        setTimeout(() => UpdateCacheData(Paths, !Refresh), Configuration['QuickCommand.v1.component.default.launcher.v1.service.cache.updatinginterval'] as number || 300000);
     }
     UpdateCacheData([
         'C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs',
         `${ os.homedir() }\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs`
-    ]);
+    ], true);
 }
 
 init();
