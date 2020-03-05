@@ -1,17 +1,22 @@
-# The Commandist
-An accelerator of all work speeds.
+# Commandist
+Commandist is an accelerator that speeds up your work with a smart search bar (QuickCommand) and 3rd party components.
+We enumerate the main features of Commandist.
+- QuickCommand is a smart search bar that can do many things instead of you (e.g., running programs, searching web, converting currency and more).
+- Everyone gets 3rd party components in Commandist store, which extremely enhances the productivity of Commandist.
+- Everyone develops and distributes 3rd party components through the store.
+- Commandist also synchronizes your configuration, which brings a seamless working experience among different devices.
 
 # ⚠ Cautions
 - This project is still under development.
     - It may not work.
     - The structure and the code may be changed.
-    - There may be a security problems.
+    - Security problems might occur.
 
 # 🔧 Development
 ## TODOs
 - Make a script to build Electron as Windows Application.
-- Change the structure of core for multilingual support.
-- Add support components which are made by user.
+- Change the core strucuture of Commandist to support different languages.
+- Support plugins that can be attached to Commandist. Everybody can implement Commandist plugins and distribute them.
 - Add a feature to modify the placeholder on QuickCommand.
 - Add a support to return asynchronous result.
 - Add a support to display dialog.
