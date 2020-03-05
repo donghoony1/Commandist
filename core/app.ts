@@ -1,17 +1,20 @@
 import { app, BrowserWindow, ipcMain, globalShortcut, dialog, shell } from 'electron';
 import { Interfaces } from './control/interfaces';
 import * as ConfigurationLoader from './control/configuration-loader';
-import * as CP from './control/quickcommand/cp';
+import * as LanguageLoader from './control/language-loader';
+import * as CP from './control/quickcommand/command-processor';
 
 let Windows: Interfaces.Windows = {};
 
 const Configuration: Interfaces.Configuration = ConfigurationLoader.Load();
+const Language: Interfaces.Language = LanguageLoader.Load(Configuration['Commandist.v1.Language'] as Interfaces.LanguageTypeList);
 
 app.on('ready', (): void => {
     if(Windows.QuickCommand === undefined) {
         Initializer();
 
         app.setAsDefaultProtocolClient('Commandist');
+        app.setAppUserModelId(process.execPath);
 
         const RetKey: string = Configuration['QuickCommand.v1.window.call.shortcutkey'] as string || 'CommandOrControl+Alt+Shift+S';
 
@@ -28,12 +31,12 @@ app.on('ready', (): void => {
         if(globalShortcut.isRegistered(RetKey) === false) {
             const dialogWarning: number = dialog.showMessageBoxSync(Windows.QuickCommand, {
                 type: 'warning',
-                buttons: ['오류 제보 및 프로그램 종료', '무시'],
+                buttons: [ Language['Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.button0'], Language['Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.button1'] ],
                 defaultId: 0,
                 cancelId: 1,
                 title: 'The Commandist',
-                message: 'QuickCommand 실행 단축키 등록에 실패했습니다.',
-                detail: '프로그램을 다시 시작하면 문제를 해결할 수 있습니다.\n\n다시 시작해도 문제가 해결되지 않으면 \'오류 제보\' 버튼을 사용하거나 a@donghoonyoo.com 으로 오류에 관한 이메일을 보내십시오.'
+                message: Language['Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.message'],
+                detail: Language['Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.detail']
             });
             if(dialogWarning === 0) shell.openExternal('https://github.com/donghoony1/Commandist/issues');
         }
@@ -79,7 +82,7 @@ const Initializer = (): void => {
 
     RepositionQuickCommandWindow();
 
-    const CommandProcessor: CP.CommandProcessor = new CP.CommandProcessor(Configuration, Windows.QuickCommand);
+    const CommandProcessor: CP.CommandProcessor = new CP.CommandProcessor(Configuration, Language, Windows.QuickCommand);
 
     ipcMain.on('Windows.QuickCommand.command', CommandProcessor.command);
 
@@ -102,5 +105,5 @@ const Initializer = (): void => {
     }, 500);
 
 
-    require(`./control/components/launcher`).init({ Configuration });
+    require(`./control/quickcommand/components/launcher`).init({ Configuration, Language });
 }

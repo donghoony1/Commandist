@@ -1,4 +1,4 @@
-import { Interfaces } from '../interfaces';
+import { Interfaces } from '../../interfaces';
 
 const ApplicationName: string = 'calculator';
 
@@ -30,8 +30,8 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
                 },
                 Output: {
                     Default: {
-                        Subject: '오류가 발생했습니다.',
-                        Description: '유효한 수식을 입력하세요.'
+                        Subject: MS.Language['Commandist.v1.control.QuickCommand.v1.component.calculator.return.invalid.subject'],
+                        Description: MS.Language['Commandist.v1.control.QuickCommand.v1.component.calculator.return.invalid.description']
                     }
                 },
                 Event: {},
@@ -57,7 +57,7 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             Output: {
                 Default: {
                     Subject: DataFormatted,
-                    Description: '결과를 복사하려면 Return을 누르세요.'
+                    Description: MS.Language['Commandist.v1.control.QuickCommand.v1.component.calculator.return.description']
                 }
             },
             Event: {

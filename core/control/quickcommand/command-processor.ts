@@ -1,4 +1,4 @@
-import { BrowserWindow, clipboard, shell } from 'electron';
+import { BrowserWindow, clipboard, shell, dialog, Notification } from 'electron';
 import { Interfaces } from '../interfaces';
 import { Md5 } from 'ts-md5/dist/md5';
 import * as ChildProcess from 'child_process';
@@ -6,6 +6,7 @@ import * as fs from 'fs';
 
 class CommandProcessor {
     private Configuration: Interfaces.Configuration;
+    private Language: Interfaces.Language;
     private QuickCommand: BrowserWindow;
     
     private shortcutReplacers: Interfaces.CPShortcutReplacers = {};
@@ -14,8 +15,9 @@ class CommandProcessor {
 
     private Preferences: { [key: string]: number } = {};
 
-    constructor(Configuration: Interfaces.Configuration, QuickCommand: BrowserWindow) {
+    constructor(Configuration: Interfaces.Configuration, Language: Interfaces.Language, QuickCommand: BrowserWindow) {
         this.Configuration = Configuration;
+        this.Language = Language;
         this.QuickCommand = QuickCommand;
         this.Components = {
             ...this.DefaultCommandLoader()
@@ -47,9 +49,9 @@ class CommandProcessor {
 
         const primary: string = this.Overriders[Object.keys(this.Overriders).find((Overrider) => new RegExp(Overrider).test(arg)) || 'undefined'] || args[0];
         let Results: Interfaces.ApplicationStandardReturn = [];
-        if(this.Components[primary] !== undefined) Results = this.Components[primary].execute({ Configuration: this.Configuration }, args);
+        if(this.Components[primary] !== undefined) Results = this.Components[primary].execute({ Configuration: this.Configuration, Language: this.Language }, args);
         
-        if(Results.length === 0 && Object.keys(this.Components).includes('launcher')) Results = this.Components['launcher'].execute({ Configuration: this.Configuration }, args);
+        if(Results.length === 0 && Object.keys(this.Components).includes('launcher')) Results = this.Components['launcher'].execute({ Configuration: this.Configuration, Language: this.Language }, args);
 
         const Preferences = this.Preferences;
         Object.keys(Preferences).forEach((Element) => {
@@ -72,10 +74,10 @@ class CommandProcessor {
         let components: Interfaces.CPIntegrated = {};
         const list: Array<string> = [ 'calculator', 'webview', 'launcher' ];
         list.forEach((CommandName) => {
-            if(this.Configuration[`QuickCommand.v1.components.default.${CommandName}.v1.enabled`] === false) return false;
-            components[CommandName] = { execute: require(`../components/${CommandName}`).application };
-            if(this.Configuration[`QuickCommand.v1.components.default.${CommandName}.v1.command.shortcutReplacers`] !== undefined) (this.Configuration[`QuickCommand.v1.components.default.${CommandName}.v1.command.shortcutReplacers`] as Array<string>).forEach((replacer) => this.shortcutReplacers[replacer] = CommandName);
-            if(this.Configuration[`QuickCommand.v1.components.default.${CommandName}.v1.command.overrider`] !== undefined) this.Overriders[this.Configuration[`QuickCommand.v1.components.default.${CommandName}.v1.command.overrider`] as string] = CommandName;
+            if(this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.enabled`] === false) return false;
+            components[CommandName] = { execute: require(`./components/${CommandName}`).application };
+            if(this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.command.shortcutReplacers`] !== undefined) (this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.command.shortcutReplacers`] as Array<string>).forEach((replacer) => this.shortcutReplacers[replacer] = CommandName);
+            if(this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.command.overrider`] !== undefined) this.Overriders[this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.command.overrider`] as string] = CommandName;
         });
         return components;
     }
@@ -167,6 +169,24 @@ class CommandProcessor {
                 }
             } else if(arg.OpenExternal !== undefined) {
                 shell.openExternal(arg.OpenExternal.URI);
+            } else if(arg.Dialog !== undefined) {
+                if(0 < arg.Dialog.Buttons.length && arg.Dialog.Buttons.length < arg.Dialog.CancelID) {
+                    result = `${dialog.showMessageBoxSync(this.QuickCommand, {
+                        type: arg.Dialog.Type,
+                        buttons: arg.Dialog.Buttons,
+                        cancelId: arg.Dialog.CancelID,
+                        defaultId: 0,
+                        title: 'The Commandist',
+                        message: arg.Dialog.Message,
+                        detail: arg.Dialog.Detail
+                    })}`;
+                }
+            } else if(arg.Notification !== undefined) {
+                new Notification({
+                    title: arg.Notification.Title,
+                    body: arg.Notification.Body,
+                    silent: arg.Notification.Silent === true
+                }).show();
             }
             Results.push(result);
         };

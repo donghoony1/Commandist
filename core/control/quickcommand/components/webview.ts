@@ -1,10 +1,10 @@
-import { Interfaces } from '../interfaces';
+import { Interfaces } from '../../interfaces';
 
 const ApplicationName: string = 'webview';
 
 const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interfaces.ApplicationStandardReturn => {
     const URI: string = (args[0] === ApplicationName ? args.slice(1, args.length) : args).join('');
-    if(!new RegExp(MS.Configuration['QuickCommand.v1.components.default.webview.v1.command.overrider']).test(URI)) {
+    if(!new RegExp(MS.Configuration['QuickCommand.v1.component.default.webview.v1.command.overrider']).test(URI)) {
         return [
             {
                 Name: ApplicationName,
@@ -20,8 +20,8 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
                 },
                 Output: {
                     Default: {
-                        Subject: '오류가 발생했습니다.',
-                        Description: '유효한 URI를 입력하세요.'
+                        Subject: MS.Language['Commandist.v1.control.QuickCommand.v1.component.webview.return.invalid.subject'],
+                        Description: MS.Language['Commandist.v1.control.QuickCommand.v1.component.webview.return.invalid.description']
                     }
                 },
                 Event: {},
@@ -42,7 +42,7 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             Output: {
                 Webview: {
                     URI,
-                    Description: '웹 브라우저에서 실행하려면 Return을 누르세요.',
+                    Description: MS.Language['Commandist.v1.control.QuickCommand.v1.component.webview.return.description'],
                     Zoom: -5
                 }
             },

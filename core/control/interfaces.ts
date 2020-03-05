@@ -12,6 +12,12 @@ namespace Interfaces {
 
     export type ConfigurationValue = boolean | string | number | Array<any>;
 
+    export interface Language {
+        [key: string]: string
+    }
+
+    export type LanguageTypeList = 'ko-KR' | 'en-US'
+
     export interface ConfigurationPath {
         Directory: string, 
         File: string
@@ -68,7 +74,7 @@ namespace Interfaces {
         DefaultApp: Boolean
     }
 
-    export type ApplicationEventTypeList = 'Click' | 'Return' | 'ShiftClick' | 'ShiftReturn';
+    export type ApplicationEventTypeList = 'Click' | 'Return' | 'ShiftClick' | 'ShiftReturn'
 
     export interface ApplicationEventTypes {
         'Click'?: Array<ApplicationAction>,
@@ -100,6 +106,18 @@ namespace Interfaces {
         },
         OpenExternal?: {
             URI: string
+        },
+        Dialog?: {
+            Type: 'none' | 'info' | 'error' | 'question' | 'warning',
+            Message: string,
+            Detail: string,
+            Buttons: Array<string>,
+            CancelID: number
+        },
+        Notification?: {
+            Title: string,
+            Body: string,
+            Silent: Boolean
         }
     }
 

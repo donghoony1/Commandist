@@ -10,10 +10,8 @@ const Load = (): Interfaces.Configuration => {
     if(!fs.existsSync(Path.Directory + '/' + Path.File)) fs.writeFileSync(Path.Directory + '/' + Path.File, '{}');
     const User: Interfaces.Configuration = JSON.parse(fs.readFileSync(Path.Directory + '/' + Path.File, 'utf-8'));
     const Default: Interfaces.Configuration = JSON.parse(fs.readFileSync('./core/default/configurations/configuration.json', 'utf-8'));
-    let Output: Interfaces.Configuration = User;
-    Object.keys(Default).forEach((Key) => {
-        if(Output[Key] === undefined) Output[Key] = Default[Key];
-    });
+    let Output: Interfaces.Configuration = Default;
+    Object.assign(Output, User);
     return Output;
 }
 

@@ -15,7 +15,6 @@ We enumerate the main features of Commandist.
 # 🔧 Development
 ## TODOs
 - Make a script to build Electron as Windows Application.
-- Change the core strucuture of Commandist to support different languages.
 - Support plugins that can be attached to Commandist. Everybody can implement Commandist plugins and distribute them.
 - Add a feature to modify the placeholder on QuickCommand.
 - Add a support to return asynchronous result.

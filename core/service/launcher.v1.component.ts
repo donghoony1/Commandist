@@ -10,7 +10,7 @@ const ApplicationName: string = 'launcher';
 let ApplicationCompatible: Array<string> = [];
 
 const init = (): void => {
-    ApplicationCompatible = Configuration['QuickCommand.v1.components.default.launcher.v1.feature.compatible'] as Array<string>;
+    ApplicationCompatible = Configuration['QuickCommand.v1.component.default.launcher.v1.feature.compatible'] as Array<string>;
 
     if(!ApplicationCompatible.includes(process.platform)) return;
     const UpdateCacheData = (): void => {
@@ -42,7 +42,7 @@ const init = (): void => {
                 fs.writeFileSync(`${IconCachePath}/win32.json`, JSON.stringify(Applications));
             }
         }
-        setTimeout(UpdateCacheData, Configuration['QuickCommand.v1.components.default.launcher.v1.service.cache.updatinginterval'] as number || 60000);
+        setTimeout(UpdateCacheData, Configuration['QuickCommand.v1.component.default.launcher.v1.service.cache.updatinginterval'] as number || 60000);
     }
     UpdateCacheData();
 }

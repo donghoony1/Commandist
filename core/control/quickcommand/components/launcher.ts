@@ -1,4 +1,4 @@
-import { Interfaces } from '../interfaces';
+import { Interfaces } from '../../interfaces';
 import * as fs from 'fs';
 
 const ApplicationName: string = 'launcher';
@@ -7,7 +7,7 @@ let ApplicationCompatible: Array<string> = [];
 let Applications: Array<Interfaces.LauncherV1Applications> = [];
 
 const init = (MS: Interfaces.ModuleSuite): void => {
-    ApplicationCompatible = MS.Configuration['QuickCommand.v1.components.default.launcher.v1.feature.compatible'];
+    ApplicationCompatible = MS.Configuration['QuickCommand.v1.component.default.launcher.v1.feature.compatible'];
 
     if(!ApplicationCompatible.includes(process.platform)) return;
 
@@ -40,8 +40,8 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
                 },
                 Output: {
                     Default: {
-                        Subject: '이 플랫폼은 지원하지 않습니다.',
-                        Description: `지원하는 플랫폼: ${ ApplicationCompatible.join(', ') }`
+                        Subject: MS.Language['Commandist.v1.control.QuickCommand.v1.component.launcher.return.notsupported.subject'],
+                        Description: MS.Language['Commandist.v1.control.QuickCommand.v1.component.launcher.return.notsupported.description'].replace(/\${ApplicationCompatible}/, ApplicationCompatible.join(', '))
                     }
                 },
                 Event: {},
@@ -63,7 +63,7 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             Output: {
                 Default: {
                     Subject: Application.Name,
-                    Description: '실행하려면 Return을 누르세요.'
+                    Description: MS.Language['Commandist.v1.control.QuickCommand.v1.component.launcher.return.description']
                 }
             },
             Event: {
