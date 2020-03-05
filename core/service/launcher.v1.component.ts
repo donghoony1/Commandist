@@ -30,7 +30,7 @@ const init = (): void => {
                     LnkPath: program,
                     ActualPath: require('child_process').spawnSync('powershell.exe', [ `-c`, `(New-Object -COM WScript.Shell).CreateShortcut("${ program }").TargetPath` ]).output[1].toString().replace(/\r\n/g, ''),
                     LnkPathMD5: new Md5().appendStr(program).end() as string
-                })).filter((program) => /^[A-Z]:.+\\.+\.exe$/.test(program.ActualPath));
+                })).filter((program) => /^[A-Z]:.+\\.+\.(exe|EXE)$/.test(program.ActualPath));
                 if(!fs.existsSync(IconCachePath)) fs.mkdirSync(IconCachePath, { recursive: true });
                 Applications.forEach((program): void => {
                     try {
