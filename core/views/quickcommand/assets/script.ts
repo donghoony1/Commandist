@@ -68,14 +68,14 @@ document.addEventListener('DOMContentLoaded', (): void => {
     }, 10);
 
     document.addEventListener('click', (event): void => {
-        const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(event.path.filter((element: any) => element.classList !== undefined && element.classList[0] === 'QuickCommand_Result' && element!.getAttribute('data-origin')! !== undefined)[0]!.getAttribute('data-origin')!).Event[`${ event.shiftKey === true ? 'Shift' : '' }Click`];
-        
-        if(EventData) {
-            ipcRenderer.send('Windows.QuickCommand.execute', EventData);
-    
-            Clear();
-            Hide();
-        }
+        const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!);
+        if(EventData === undefined) return;
+
+        ipcRenderer.send('Windows.QuickCommand.execute', {
+            Return: EventData,
+            ShiftKey: event.shiftKey,
+            IsClick: true
+        });
     });
 
     document.addEventListener('keydown', (event): void => {
@@ -86,10 +86,14 @@ document.addEventListener('DOMContentLoaded', (): void => {
                 event.returnValue = false;
                 event.cancelBubble = true;
 
-                const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!).Event[`${ event.shiftKey === true ? 'Shift' : '' }Return`];
+                const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!);
                 if(EventData === undefined) break;
 
-                ipcRenderer.send('Windows.QuickCommand.execute', EventData);
+                ipcRenderer.send('Windows.QuickCommand.execute', {
+                    Return: EventData,
+                    ShiftKey: event.shiftKey,
+                    IsClick: false
+                });
 
                 Clear();
                 Hide();

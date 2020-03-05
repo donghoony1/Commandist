@@ -63,14 +63,18 @@ namespace Interfaces {
                 Zoom?: number
             }
         },
-        Event: {
-            Click?: Array<ApplicationAction>,
-            Return?: Array<ApplicationAction>,
-            ShiftClick?: Array<ApplicationAction>,
-            ShiftReturn?: Array<ApplicationAction>
-        },
+        Event: ApplicationEventTypes,
         Error: Boolean,
         DefaultApp: Boolean
+    }
+
+    export type ApplicationEventTypeList = 'Click' | 'Return' | 'ShiftClick' | 'ShiftReturn';
+
+    export interface ApplicationEventTypes {
+        'Click'?: Array<ApplicationAction>,
+        'Return'?: Array<ApplicationAction>,
+        'ShiftClick'?: Array<ApplicationAction>,
+        'ShiftReturn'?: Array<ApplicationAction>
     }
 
     export interface ApplicationAction {

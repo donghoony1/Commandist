@@ -1,6 +1,8 @@
 import { BrowserWindow, clipboard, shell } from 'electron';
 import { Interfaces } from '../interfaces';
+import { Md5 } from 'ts-md5/dist/md5';
 import * as ChildProcess from 'child_process';
+import * as fs from 'fs';
 
 class CommandProcessor {
     private Configuration: Interfaces.Configuration;
@@ -10,12 +12,25 @@ class CommandProcessor {
     private Components: Interfaces.CPIntegrated = {};
     private Overriders: Interfaces.CPOverriders = {};
 
+    private Preferences: { [key: string]: number } = {};
+
     constructor(Configuration: Interfaces.Configuration, QuickCommand: BrowserWindow) {
         this.Configuration = Configuration;
         this.QuickCommand = QuickCommand;
         this.Components = {
             ...this.DefaultCommandLoader()
         }
+
+        const PreferenceDirectory: string = './applicationData/QuickCommand.v1/Command-Processor';
+        if(!fs.existsSync(PreferenceDirectory)) fs.mkdirSync(PreferenceDirectory, { recursive: true });
+        if(!fs.existsSync(`${ PreferenceDirectory }/preferences.json`)) fs.writeFileSync(`${ PreferenceDirectory }/preferences.json`, '{}');
+
+        this.Preferences = JSON.parse(fs.readFileSync(`${ PreferenceDirectory }/preferences.json`, 'utf-8'));
+
+        setInterval(() => {
+            const Stringify: string = JSON.stringify(this.Preferences);
+            if(Stringify !== fs.readFileSync(`${ PreferenceDirectory }/preferences.json`, 'utf-8')) fs.writeFileSync(`${ PreferenceDirectory }/preferences.json`, Stringify);
+        }, 5000);
     }
 
     public command = (event: any, arg: string): Boolean => {
@@ -31,12 +46,23 @@ class CommandProcessor {
         args[0] = this.ShortcutReplacer(args[0].toLowerCase());
 
         const primary: string = this.Overriders[Object.keys(this.Overriders).find((Overrider) => new RegExp(Overrider).test(arg)) || 'undefined'] || args[0];
-        let result: Interfaces.ApplicationStandardReturn = [];
-        if(this.Components[primary] !== undefined) result = this.Components[primary].execute({ Configuration: this.Configuration }, args);
+        let Results: Interfaces.ApplicationStandardReturn = [];
+        if(this.Components[primary] !== undefined) Results = this.Components[primary].execute({ Configuration: this.Configuration }, args);
         
-        if(result.length === 0 && Object.keys(this.Components).includes('launcher')) result = this.Components['launcher'].execute({ Configuration: this.Configuration }, args);
+        if(Results.length === 0 && Object.keys(this.Components).includes('launcher')) Results = this.Components['launcher'].execute({ Configuration: this.Configuration }, args);
 
-        this.QuickCommand.webContents.send('result', result);
+        const Preferences = this.Preferences;
+        Object.keys(Preferences).forEach((Element) => {
+            console.log(Element, Preferences[Element]);
+            const Found = Results.findIndex((Result) => (new Md5().appendStr(JSON.stringify(Result)).end() as string) === Element);
+            if(Found !== -1) {
+                const Copy = Results[Found];
+                Results.splice(Found, 1);
+                Results.unshift(Copy);
+            }
+        });
+
+        this.QuickCommand.webContents.send('result', Results);
 
         return true;
     }
@@ -55,9 +81,9 @@ class CommandProcessor {
         return components;
     }
 
-    public execute = (event: any, args: Array<Interfaces.ApplicationAction>): void => {
-        let results: Array<string> = [];
-        const ReplaceStringToResult = (string: string): string => string.replace(/\${Result\[(\d+)\]}/g, results[parseInt(RegExp.$1 as string) || 0]);
+    public execute = (event: any, args: { Return: Interfaces.ApplicationStdReturnInstance, ShiftKey: Boolean, IsClick: Boolean }): void => {
+        let Results: Array<string> = [];
+        const ReplaceStringToResult = (string: string): string => string.replace(/\${Result\[(\d+)\]}/g, Results[parseInt(RegExp.$1 as string) || 0]);
 
         ////////////////////////////////////////////////////////////////////////
         ///                                                                  ///
@@ -66,10 +92,12 @@ class CommandProcessor {
         ///   TODO: Refactor to simplify.                                    ///
         ///                                                                  ///
         ////////////////////////////////////////////////////////////////////////
-        const arlen: number = args.length;
+        const EventType: Interfaces.ApplicationEventTypeList = ((args.ShiftKey === true ? 'Shift' : '') + (args.IsClick === true ? 'Click' : 'Return') as Interfaces.ApplicationEventTypeList || 'Click');
+        const Event: Array<Interfaces.ApplicationAction> = args.Return.Event[EventType]!;
+        const arlen: number = Event.length;
         for(let i = 0; i < arlen; i++) {
             let result: string = '';
-            const arg = args[i];
+            const arg = Event[i];
             if(arg.Commandist !== undefined) {
                 switch(arg.Commandist.Action) {
                     case 'Quit': {
@@ -141,8 +169,17 @@ class CommandProcessor {
             } else if(arg.OpenExternal !== undefined) {
                 shell.openExternal(arg.OpenExternal.URI);
             }
-            results.push(result);
+            Results.push(result);
         };
+
+        const Hash: string = new Md5().appendStr(JSON.stringify(args.Return)).end() as string;
+        if(this.Preferences[Hash] === undefined) this.Preferences[Hash] = 0;
+        this.Preferences[Hash] += 1;
+
+        const CopiedPreferences: { [key: string]: number } = this.Preferences;
+        const TemporaryPreferences: { [key: string]: number } = {};
+        Object.keys(CopiedPreferences).sort((a, b) => CopiedPreferences[a] - CopiedPreferences[b]).forEach((Element) => TemporaryPreferences[Element] = CopiedPreferences[Element]);
+        this.Preferences = TemporaryPreferences;
     }
 }
 
