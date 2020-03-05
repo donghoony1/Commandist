@@ -75,9 +75,9 @@ document.addEventListener('DOMContentLoaded', (): void => {
                 event.returnValue = false;
                 event.cancelBubble = true;
 
-                const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!).Event.Return as Array<Interfaces.ApplicationAction>;
+                const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!).Event[event.shiftKey === false ? 'Return' : 'ShiftReturn'] as Array<Interfaces.ApplicationAction>;
                 if(EventData === undefined) break;
-                
+
                 ipcRenderer.send('Windows.QuickCommand.execute', EventData);
 
                 Clear();
