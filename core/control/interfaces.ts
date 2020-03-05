@@ -43,6 +43,10 @@ namespace Interfaces {
         Name: string,
         Icon: {
             ImageFilePath?: string,
+            FontAwesome?: {
+                Icon: string,
+                Type: 'solid' | 'regular' | 'light' | 'duotone' | 'brands'
+            }
             DefaultIcon: {
                 IconText: string,
                 IconColor: 'red' | 'orange' | 'yellow' | 'green' | 'brightGreen' | 'blue' | 'brightBlue' | 'ingido' | 'purple' | 'brightPurple' | 'dark' | 'light'

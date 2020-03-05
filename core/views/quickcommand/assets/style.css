@@ -278,6 +278,71 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     color: #333333;
     background-color: #EBEBEB;
 }
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 100%;
+
+    color: #000000;
+    background-color: #EBEBEB;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: 500;
+    font-size: 24px;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.red {
+    background-color: transparent;
+    color: #F44336;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.orange {
+    background-color: transparent;
+    color: #EF6C00;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.yellow {
+    background-color: transparent;
+    color: #FDD835;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.green {
+    background-color: transparent;
+    color: #43A047;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.brightGreen {
+    background-color: transparent;
+    color: #7CB342;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.blue {
+    background-color: transparent;
+    color: #1E88E5;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.brightBlue {
+    background-color: transparent;
+    color: #29B6F6;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.ingido {
+    background-color: transparent;
+    color: #3F51B5;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.purple {
+    background-color: transparent;
+    color: #5E35B1;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.brightPurple {
+    background-color: transparent;
+    color: #7E57C2;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.dark {
+    background-color: #EBEBEB;
+    color: #333333;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.light {
+    background-color: #333333;
+    color: #EBEBEB;
+}
 .QuickCommand_main .QuickCommand_Results .QuickCommand_Result .QuickCommand_Result_Contents h1 {
     font-size: 16px;
 }

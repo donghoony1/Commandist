@@ -43,11 +43,15 @@ class Results extends React.Component {
                         <div className="QuickCommand_Result_Icon">
                             { Object.keys(data.Icon).includes('ImageFilePath') === true ? (
                                 <div className="QuickCommand_Result_Icon_Image"></div>
+                            ) : (Object.keys(data.Icon).includes('FontAwesome') === true ? (
+                                <div className={ `QuickCommand_Result_Icon_FontAwesome ${ data.Icon.DefaultIcon.IconColor }` }>
+                                    <i className={ `fa${ data.Icon.FontAwesome.Type.substring(0, 1) } fa-${ data.Icon.FontAwesome.Icon }` }></i>
+                                </div>
                             ) : (
                                 <div className={ `QuickCommand_Result_Icon_Circle ${ data.Icon.DefaultIcon.IconColor }` }>
                                     { data.Icon.DefaultIcon.IconText.substring(0, 1) }
                                 </div>
-                            )}
+                            ))}
                         </div>
                         <div className="QuickCommand_Result_Contents">
                             <h1>{ data.Output.Default!.Subject }</h1>
