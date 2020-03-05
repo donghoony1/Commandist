@@ -74,25 +74,24 @@ namespace Interfaces {
             Action: 'Quit' | 'Restart' | 'OpenSettings'
         },
         CopyText?: {
-            Data: string | number
+            Data: string
         },
         Execute?: {
             Process: string,
-            Arguments?: string,
-            AtBackground: Boolean
+            Arguments: Array<string>,
+            CurrentWorkingDirectory?: string,
+            Timeout?: number,
+            AtBackground: Boolean,
+            Synchronize: Boolean
         },
-        OSInteraction?: {
-            Shutdown?: {
-                Time: number,
-                Force?: Boolean
-            },
-            Restart?: {
-                Time: number,
-                Force?: Boolean
-            },
-            Windows?: {
-                Action: 'Lock' | 'Logout'
-            }
+        ControlOS?: {
+            Action: 'Shutdown' | 'Restart' | 'Logout' | 'Lock' | 'Suspend' | 'Hibernate'
+            Time: number,
+            Force?: Boolean,
+            HideWarn?: Boolean
+        },
+        OpenExternal?: {
+            URI: string
         }
     }
 

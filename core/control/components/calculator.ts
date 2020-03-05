@@ -55,12 +55,12 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             Event: {
                 Click: [{
                     CopyText: {
-                        Data
+                        Data: `Data`
                     }
                 }],
                 Return: [{
                     CopyText: {
-                        Data
+                        Data: `Data`
                     }
                 }],
                 ShiftClick: [{

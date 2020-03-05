@@ -39,7 +39,7 @@ const RefreshPression = (Key: 0 | 1): void => {
 const Search = (): void => {
     const SearchBar: string = (<HTMLInputElement>document.querySelector('#SearchBar')).value;
     if(SearchBar_Previous != SearchBar || SearchBar.length === 0) {
-        ipcRenderer.send('command', SearchBar);
+        ipcRenderer.send('Windows.QuickCommand.command', SearchBar);
         SearchBar_Previous = SearchBar;
     }
 }
@@ -50,7 +50,7 @@ const Clear = (): void => {
 }
 
 const Hide = (): void => {
-    ipcRenderer.send('hide');
+    ipcRenderer.send('Windows.QuickCommand.hide');
     if(!document.body.classList.contains('QuickCommand_hide')) document.body.classList.add('QuickCommand_hide');
 }
 
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', (): void => {
 
     setInterval((): void => {
         let Window = document.body;
-        ipcRenderer.send('resize', [Window.offsetWidth, Window.offsetHeight]);
+        ipcRenderer.send('Windows.QuickCommand.resize', [Window.offsetWidth, Window.offsetHeight]);
 
         if(document.getElementById('SearchBar') !== document.activeElement) {
             document.getElementById('SearchBar')!.focus();
@@ -68,6 +68,9 @@ document.addEventListener('DOMContentLoaded', (): void => {
 
     document.addEventListener('keydown', (event): void => {
         switch(event.keyCode) {
+            case 13: {
+                
+            }
             case 27: {
                 Clear();
                 Hide();

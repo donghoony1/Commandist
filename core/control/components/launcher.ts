@@ -66,8 +66,9 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
                 Click: [{
                     Execute: {
                         Process: 'cmd.exe',
-                        Arguments: `/c start ${Application.ActualPath}`,
-                        AtBackground: true
+                        Arguments: [ `/c`, `start ${Application.ActualPath}` ],
+                        AtBackground: true,
+                        Synchronize: false
                     }
                 }]
             },

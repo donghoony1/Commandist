@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, globalShortcut, dialog, shell, Display, Size } from 'electron';
+import { app, BrowserWindow, ipcMain, globalShortcut, dialog, shell } from 'electron';
 import { Interfaces } from './control/interfaces';
 import * as ConfigurationLoader from './control/configuration-loader';
 import * as CP from './control/quickcommand/cp';
@@ -14,7 +14,7 @@ app.on('ready', (): void => {
 
         const RetKey: string = Configuration['QuickCommand.v1.window.call.shortcutkey'] as string || 'CommandOrControl+Alt+Shift+S';
 
-        const ret = globalShortcut.register(RetKey, (): void => {
+        globalShortcut.register(RetKey, (): void => {
             if(Windows.QuickCommand.isVisible()) HideQuickCommandWindow();
             else {
                 Windows.QuickCommand.show();
@@ -73,13 +73,16 @@ const Initializer = (): void => {
     Windows.QuickCommand.webContents.send('hide');
 
     const CommandProcessor: CP.CommandProcessor = new CP.CommandProcessor(Configuration, Windows.QuickCommand);
-    ipcMain.on('command', CommandProcessor.command);
 
-    ipcMain.on('resize', (event, arg): void => {
+    ipcMain.on('Windows.QuickCommand.command', CommandProcessor.command);
+
+    ipcMain.on('Windows.QuickCommand.execute', CommandProcessor.execute);
+
+    ipcMain.on('Windows.QuickCommand.resize', (event, arg): void => {
         if(arg[0] && arg[1] && (Windows.QuickCommand.getSize()[0] != arg[0] || Windows.QuickCommand.getSize()[1] != arg[1]) && (Math.abs(Windows.QuickCommand.getSize()[0] - arg[0]) < 2 || Math.abs(Windows.QuickCommand.getSize()[1] - arg[1]) < 2)) Windows.QuickCommand.setSize(arg[0], arg[1] + 16);
     });
 
-    ipcMain.on('hide', (): void => {
+    ipcMain.on('Windows.QuickCommand.hide', (): void => {
         setTimeout((): void => Windows.QuickCommand.hide(), 100);
     });
 
@@ -90,6 +93,7 @@ const Initializer = (): void => {
             Windows.QuickCommand.webContents.send('MaxWindowSearchResultsHeight', Math.ceil(ScreenSize.height - (ScreenSize.height / 10 * 2.5)) - 76 - 160);
         }
     }, 500);
+
 
     require(`./control/components/launcher`).init({ Configuration });
 }
