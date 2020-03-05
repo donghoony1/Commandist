@@ -13,7 +13,7 @@ const evil:Function = (fn: string): number => {
 const number_format = (x: number): string => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interfaces.ApplicationStandardReturn => {
-    const Data: number = evil((args[0] === ApplicationName ? args.slice(1, args.length) : args).join(''));
+    const Data: number = evil((args[0] === ApplicationName ? args.slice(1, args.length) : args).join('').replace(/\^/, '**'));
     if(isNaN(Data)) {
         return [
             {
