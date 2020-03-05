@@ -10,7 +10,7 @@ namespace Interfaces {
         [key: string]: ConfigurationValue
     }
 
-    export type ConfigurationValue = boolean | string | number | Array<any>;
+    export type ConfigurationValue = boolean | string | number | Array<any> | { [key: string]: string };
 
     export interface Language {
         [key: string]: string
@@ -121,11 +121,11 @@ namespace Interfaces {
         }
     }
 
-    export interface LauncherV1Applications {
+    export interface LauncherV1ApplicationsWin32 {
         Name: string,
-        LnkPath: string,
         ActualPath: string,
-        LnkPathMD5: string
+        IconPath: string,
+        UWP: Boolean
     }    
 }
 

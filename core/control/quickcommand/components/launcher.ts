@@ -4,7 +4,7 @@ import * as fs from 'fs';
 const ApplicationName: string = 'launcher';
 let ApplicationCompatible: Array<string> = [];
 
-let Applications: Array<Interfaces.LauncherV1Applications> = [];
+let Applications: Array<Interfaces.LauncherV1ApplicationsWin32> = [];
 
 const init = (MS: Interfaces.ModuleSuite): void => {
     ApplicationCompatible = MS.Configuration['QuickCommand.v1.component.default.launcher.v1.feature.compatible'];
@@ -17,7 +17,8 @@ const init = (MS: Interfaces.ModuleSuite): void => {
     app.on('close', (data: any): void => console.log(data.toString()));
 
     const IconCachePath: string = `./applicationData/Launcher.v1/Icons/${ process.platform }`;
-    setTimeout((): void => {
+    
+    setInterval((): void => {
         if(fs.existsSync(`${ IconCachePath }/${ process.platform }.json`)) Applications = JSON.parse(fs.readFileSync(`${ IconCachePath }/${ process.platform }.json`, 'utf-8'));
     }, 1000);
 }
@@ -54,7 +55,7 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
         {
             Name: ApplicationName,
             Icon: {
-                ImageFilePath: `../../../../applicationData/Launcher.v1/Icons/${ process.platform }/${ Application.LnkPathMD5 }.ico`,
+                ImageFilePath: `../../../../applicationData/Launcher.v1/Icons/${ process.platform }/${ Application.IconPath }`,
                 DefaultIcon: {
                     IconText: ApplicationName.toUpperCase(),
                     IconColor: 'brightPurple'

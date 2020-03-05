@@ -13,5 +13,9 @@
 
     "QuickCommand.v1.component.default.launcher.v1.enabled": true,
     "QuickCommand.v1.component.default.launcher.v1.feature.compatible": ["win32"],
-    "QuickCommand.v1.component.default.launcher.v1.service.cache.updatinginterval": 60000
+    "QuickCommand.v1.component.default.launcher.v1.service.cache.updatinginterval": 60000,
+    "QuickCommand.v1.component.default.launcher.v1.service.win32.universal-windows-platform.blacklist": [ "ms-resource" ],
+    "QuickCommand.v1.component.default.launcher.v1.service.win32.universal-windows-platform.dictionary": {
+        "ms-resource:StickyNotesStoreAppName": "Sticky Notes"
+    }
 }
