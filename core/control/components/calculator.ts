@@ -19,6 +19,10 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             {
                 Name: ApplicationName,
                 Icon: {
+                    FontAwesome: {
+                        Icon: 'exclamation-triangle',
+                        Type: 'duotone'
+                    },
                     DefaultIcon: {
                         IconText: ApplicationName.toUpperCase(),
                         IconColor: 'red'
@@ -41,6 +45,10 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
         {
             Name: ApplicationName,
             Icon: {
+                FontAwesome: {
+                    Icon: 'calculator-alt',
+                    Type: 'duotone'
+                },
                 DefaultIcon: {
                     IconText: ApplicationName.toUpperCase(),
                     IconColor: 'brightGreen'
