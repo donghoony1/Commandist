@@ -95,6 +95,7 @@ class CommandProcessor {
         ////////////////////////////////////////////////////////////////////////
         const EventType: Interfaces.ApplicationEventTypeList = ((args.ShiftKey === true ? 'Shift' : '') + (args.IsClick === true ? 'Click' : 'Return') as Interfaces.ApplicationEventTypeList || 'Click');
         const Event: Array<Interfaces.ApplicationAction> = args.Return.Event[EventType]!;
+        if(!Event) return;
         const arlen: number = Event.length;
         for(let i = 0; i < arlen; i++) {
             let result: string = '';

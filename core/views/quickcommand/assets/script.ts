@@ -55,6 +55,19 @@ const Hide = (): void => {
     if(!document.body.classList.contains('QuickCommand_hide')) document.body.classList.add('QuickCommand_hide');
 }
 
+const Execute = (EventData: Interfaces.ApplicationStdReturnInstance, IsClick: Boolean, ShiftKey: Boolean): void => {
+    if(EventData === undefined || Object.keys(EventData.Event).length === 0) return;
+
+    ipcRenderer.send('Windows.QuickCommand.execute', {
+        Return: EventData,
+        IsClick,
+        ShiftKey
+    });
+
+    Clear();
+    Hide();
+}
+
 document.addEventListener('DOMContentLoaded', (): void => {
     SearchBar_Previous = (<HTMLInputElement>document.querySelector('#SearchBar')).value;
 
@@ -68,14 +81,25 @@ document.addEventListener('DOMContentLoaded', (): void => {
     }, 10);
 
     document.addEventListener('click', (event): void => {
-        const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!);
-        if(EventData === undefined) return;
+        let Selection: Array<Interfaces.ApplicationStdReturnInstance> = [];
 
-        ipcRenderer.send('Windows.QuickCommand.execute', {
-            Return: EventData,
-            ShiftKey: event.shiftKey,
-            IsClick: true
+        const SearchResultHeader = event.path.some((Element: any) => {
+            if(Element.classList !== undefined
+                && 0 < Element.classList.length
+                && Element.classList[0] === 'QuickCommand_Result'
+                && Element.getAttribute('data-origin') !== undefined) {
+                event.stopPropagation();
+                event.preventDefault();
+                event.returnValue = false;
+                event.cancelBubble = true;
+
+                Selection.push(JSON.parse(Element.getAttribute('data-origin')));
+
+                return true;
+            }
         });
+
+        if(SearchResultHeader === true) Execute(Selection[0], true, event.shiftKey);
     });
 
     document.addEventListener('keydown', (event): void => {
@@ -86,17 +110,10 @@ document.addEventListener('DOMContentLoaded', (): void => {
                 event.returnValue = false;
                 event.cancelBubble = true;
 
-                const EventData: Array<Interfaces.ApplicationAction> = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!);
-                if(EventData === undefined) break;
+                const EventData: Interfaces.ApplicationStdReturnInstance = JSON.parse(document.querySelectorAll('.QuickCommand_Result')[getSelection()].getAttribute('data-origin')!);
 
-                ipcRenderer.send('Windows.QuickCommand.execute', {
-                    Return: EventData,
-                    ShiftKey: event.shiftKey,
-                    IsClick: false
-                });
+                Execute(EventData, false, event.shiftKey);
 
-                Clear();
-                Hide();
                 break;
             }
             case 27: {

@@ -44,7 +44,7 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     
     border-radius: 4px;
 
-    box-shadow: 0px 1px 8px hsla(0, 0%, 0%, 0.16);
+    box-shadow: 0px 8px 16px hsla(0, 0%, 0%, 0.16);
 }
 .QuickCommand_main .QuickCommand_SearchBar {
     width: 640px;
@@ -53,14 +53,27 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     border-radius: 4px;
 
     overflow: hidden;
+
+    position: relative;
 }
-.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Logo {
-    top: calc(60px + 8px - 22px);
-    right: 18px;
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Status {
+    top: 8px;
+    right: 12px;
 
     position: absolute;
 
-    font-size: 12px;
+    font-size: 10px;
+    font-family: 'Interstate', sans-serif;
+
+    color: hsla(0, 0%, 0%, 0.4);
+}
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Logo {
+    bottom: 8px;
+    right: 12px;
+
+    position: absolute;
+
+    font-size: 10px;
     font-family: 'Interstate', sans-serif;
 
     color: hsla(0, 0%, 0%, 0.4);
@@ -105,6 +118,8 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     flex-flow: row;
 
     transition: all 0.1s ease-in-out;
+
+    cursor: pointer
 }
 .QuickCommand_main .QuickCommand_Results .QuickCommand_Result[data-actions] {
     cursor: pointer;
