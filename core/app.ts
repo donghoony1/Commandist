@@ -65,8 +65,8 @@ const RepositionQuickCommandWindow = (): void => {
 
 const Initializer = (): void => {
     Windows.QuickCommand = new BrowserWindow({
-        width: 672,
-        height: 92,
+        width: 688,
+        height: 0,
         titleBarStyle: 'hidden',
         frame: false,
         show: false,
@@ -89,7 +89,7 @@ const Initializer = (): void => {
     ipcMain.on('Windows.QuickCommand.execute', CommandProcessor.execute);
 
     ipcMain.on('Windows.QuickCommand.resize', (event, arg): void => {
-        if(arg[0] && arg[1] && (Windows.QuickCommand.getSize()[0] != arg[0] || Windows.QuickCommand.getSize()[1] != arg[1]) && (Math.abs(Windows.QuickCommand.getSize()[0] - arg[0]) < 2 || Math.abs(Windows.QuickCommand.getSize()[1] - arg[1]) < 2)) Windows.QuickCommand.setSize(672, arg[1] + 32);
+        if(arg[0] && arg[1] && (Windows.QuickCommand.getSize()[0] != arg[0] || Windows.QuickCommand.getSize()[1] != arg[1]) && (Math.abs(Windows.QuickCommand.getSize()[0] - arg[0]) < 2 || Math.abs(Windows.QuickCommand.getSize()[1] - arg[1]) < 2)) Windows.QuickCommand.setSize(688, arg[1] + 48);
     });
 
     ipcMain.on('Windows.QuickCommand.hide', (): void => {

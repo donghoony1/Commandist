@@ -12,7 +12,6 @@ ipcRenderer.on('MaxWindowSearchResultsHeight', (event, arg): void => {
 
 ipcRenderer.on('show', (): void => {
     if(document.body.classList.contains('QuickCommand_hide')) document.body.classList.remove('QuickCommand_hide');
-    
 });
 
 ipcRenderer.on('hide', (): void => {
@@ -70,14 +69,20 @@ const Execute = (EventData: Interfaces.ApplicationStdReturnInstance, IsClick: Bo
 
 document.addEventListener('DOMContentLoaded', (): void => {
     SearchBar_Previous = (<HTMLInputElement>document.querySelector('#SearchBar')).value;
+    (document.querySelector('.QuickCommand_Results') as HTMLDivElement).style.display = 'none';
 
     setInterval((): void => {
         let Window = document.body;
         ipcRenderer.send('Windows.QuickCommand.resize', [Window.offsetWidth, Window.offsetHeight]);
 
-        if(document.getElementById('SearchBar') !== document.activeElement) {
-            document.getElementById('SearchBar')!.focus();
-        }
+        if(document.getElementById('SearchBar') !== document.activeElement) document.getElementById('SearchBar')!.focus();
+
+        const Results: HTMLDivElement = (document.querySelector('.QuickCommand_Results') as HTMLDivElement);
+        const ResultsClasses: Array<string> = Object.values(Results.classList);
+        const IsResult: Boolean = Object.values(document.querySelectorAll('.QuickCommand_Result')).length !== 0;
+        console.log(Results.style.display);
+        if(IsResult === false && !ResultsClasses.includes('QuickCommand_Results_hide')) Results.classList.add('QuickCommand_Results_hide');
+        else if(IsResult === true && ResultsClasses.includes('QuickCommand_Results_hide')) Results.classList.remove('QuickCommand_Results_hide');
     }, 10);
 
     document.addEventListener('click', (event): void => {
