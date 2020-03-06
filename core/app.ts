@@ -44,7 +44,7 @@ app.on('ready', (): void => {
 });
 
 app.on('browser-window-blur', () => {
-    //if(Windows.QuickCommand.isVisible()) HideQuickCommandWindow();
+    if(Windows.QuickCommand.isVisible()) HideQuickCommandWindow();
 });
 
 const HideQuickCommandWindow = (): void => {
