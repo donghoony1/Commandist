@@ -1,0 +1,175 @@
+::selection {
+    background-color: hsla(0, 0%, 0%, 0.2);
+}
+
+::-webkit-scrollbar {     
+    background-color: #FFFFFF;
+}
+
+::-webkit-scrollbar-thumb:window-inactive,
+::-webkit-scrollbar-thumb {
+    background-color: hsla(0, 0%, 0%, 0.2);
+}
+
+body {
+    color: #000000;
+}
+
+.QuickCommand_main {
+    background-color: #FFFFFF;
+    box-shadow: 0px 8px 16px hsla(0, 0%, 0%, 0.12);
+    border: 0.4px solid hsla(0, 0%, 0%, 0.1);
+}
+
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_SearchBar_Input {
+    color: #000000;
+    background-color: #FFFFFF;
+}
+
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Status {
+    color: hsla(0, 0%, 0%, 0.4);
+}
+
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Logo {
+    color: hsla(0, 0%, 0%, 0.4);
+}
+
+.QuickCommand_main .QuickCommand_Results {
+    border-top: 0.8px solid hsla(0, 0%, 0%, 0.08);
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result.pressed {
+    background-color: #F5F5F5;
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Webview:after {
+    box-shadow: inset 0px 0px 128px hsla(0, 0%, 0%, 0.2);
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Webview_Overview {
+    background-color: hsla(0, 0%, 0%, 0.7);
+    color: #FFFFFF;
+
+    box-shadow: 0px 0px 64px hsla(0, 0%, 0%, 0.4);
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Image {
+    background-color: #FFFFFF;
+    background-blend-mode: multiply;
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result.pressed .QuickCommand_Result_Icon_Image {
+    background-color: #F5F5F5;
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle {
+    color: #000000;
+    background-color: #EBEBEB;
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.red {
+    color: #FFFFFF;
+    background-color: #F44336;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.orange {
+    color: #FFFFFF;
+    background-color: #EF6C00;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.yellow {
+    color: #FFFFFF;
+    background-color: #FDD835;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.green {
+    color: #FFFFFF;
+    background-color: #43A047;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.brightGreen {
+    color: #FFFFFF;
+    background-color: #7CB342;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.blue {
+    color: #FFFFFF;
+    background-color: #1E88E5;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.brightBlue {
+    color: #FFFFFF;
+    background-color: #29B6F6;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.ingido {
+    color: #FFFFFF;
+    background-color: #3F51B5;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.purple {
+    color: #FFFFFF;
+    background-color: #5E35B1;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.brightPurple {
+    color: #FFFFFF;
+    background-color: #7E57C2;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.dark {
+    color: #EBEBEB;
+    background-color: #333333;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle.light {
+    color: #333333;
+    background-color: #EBEBEB;
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome {
+    color: #000000;
+    background-color: #EBEBEB;
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.red {
+    background-color: transparent;
+    color: #F44336;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.orange {
+    background-color: transparent;
+    color: #EF6C00;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.yellow {
+    background-color: transparent;
+    color: #FDD835;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.green {
+    background-color: transparent;
+    color: #43A047;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.brightGreen {
+    background-color: transparent;
+    color: #7CB342;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.blue {
+    background-color: transparent;
+    color: #1E88E5;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.brightBlue {
+    background-color: transparent;
+    color: #29B6F6;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.ingido {
+    background-color: transparent;
+    color: #3F51B5;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.purple {
+    background-color: transparent;
+    color: #5E35B1;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.brightPurple {
+    background-color: transparent;
+    color: #7E57C2;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.dark {
+    background-color: #EBEBEB;
+    color: #333333;
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_FontAwesome.light {
+    background-color: #333333;
+    color: #EBEBEB;
+}
+
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result .QuickCommand_Result_Contents p {
+    color: hsla(0, 0%, 0%, 0.5);
+}
