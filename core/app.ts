@@ -105,5 +105,12 @@ const Initializer = (): void => {
     }, 500);
 
 
-    require(`./control/quickcommand/components/launcher`).init({ Configuration, Language });
+    require(`./control/quickcommand/components/launcher`).init({ Configuration, Language }, (error: any, data: any) => {
+        console.log(data);
+        if(Object.keys(data).length !== 0) {
+            Object.keys(data).forEach((Key) => {
+                Windows[Key.split('.')[0]].webContents.send(Key.split('.')[1], data[Key]);
+            });
+        }
+    });
 }

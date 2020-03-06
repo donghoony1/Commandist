@@ -16,12 +16,23 @@ const init = (): void => {
 
     if(!ApplicationCompatible.includes(process.platform)) return;
     const UpdateCacheData = (Paths: Array<string>, Refresh: Boolean) => {
+        if(Refresh === true) console.log('FullScan-Start');
         const IconCachePath: string = `./applicationData/Launcher.v1/Icons/${process.platform}`;
         switch(process.platform) {
             case 'win32': {
                 if(!fs.existsSync(IconCachePath)) fs.mkdirSync(IconCachePath, { recursive: true });
 
                 let Applications: Array<Interfaces.LauncherV1ApplicationsWin32> = [];
+
+
+
+                // Add Explorer.exe
+                Applications.push({
+                    Name: 'Explorer',
+                    ActualPath: `${ os.homedir().substring(0, 1) }:\\Windows\\explorer.exe`,
+                    IconPath: new Md5().appendStr('Explorer.exe').end() as string + '.ico',
+                    UWP: false
+                });
 
 
 
@@ -152,6 +163,8 @@ const init = (): void => {
                 });
             }
         }
+        if(Refresh === true) console.log('FullScan-Finish');
+        else console.log('Scan-Finish');
 
         setTimeout(() => UpdateCacheData(Paths, !Refresh), Configuration['QuickCommand.v1.component.default.launcher.v1.service.cache.updatinginterval'] as number || 300000);
     }

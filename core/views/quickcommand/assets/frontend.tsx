@@ -20,6 +20,7 @@ const HexToRGBA = (hex: string): string => {
 
 const SearchBar: JSX.Element = (
     <div className="QuickCommand_SearchBar">
+        <div className="QuickCommand_Status"><i className="fad fa-spinner-third fa-spin"></i> Indexing...</div>
         <div className="QuickCommand_Logo">Commandist</div>
         <input className="QuickCommand_SearchBar_Input" id="SearchBar" type="text" placeholder="QuickCommand" tabIndex={0} />
     </div>

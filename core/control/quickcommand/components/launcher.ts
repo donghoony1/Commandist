@@ -1,26 +1,36 @@
 import { Interfaces } from '../../interfaces';
 import * as fs from 'fs';
+import { app, BrowserWindow, ipcMain } from 'electron';
 
 const ApplicationName: string = 'launcher';
 let ApplicationCompatible: Array<string> = [];
 
 let Applications: Array<Interfaces.LauncherV1ApplicationsWin32> = [];
 
-const init = (MS: Interfaces.ModuleSuite): void => {
+const init = (MS: Interfaces.ModuleSuite, callback: Function): void => {
     ApplicationCompatible = MS.Configuration['QuickCommand.v1.component.default.launcher.v1.feature.compatible'];
 
     if(!ApplicationCompatible.includes(process.platform)) return;
 
+    const IconCachePath: string = `./applicationData/Launcher.v1/Icons/${ process.platform }`;
+
+    const Load = (): void => {
+        if(fs.existsSync(`${ IconCachePath }/${ process.platform }.json`)) Applications = JSON.parse(fs.readFileSync(`${ IconCachePath }/${ process.platform }.json`, 'utf-8'));
+    }
+
+    Load();
+
     const app = require('child_process').spawn('node', [ './core/service/launcher.v1.component.js' ]);
-    app.stdout.on('data', (data: any): void => console.log(data.toString()));
+    app.stdout.on('data', (data: any): void => {
+        console.log(`'${ data.toString() }`);
+
+        const dataInline: string = data.toString().split('\n')[0];
+        if(/^FullScan-(Start|Finish)$/.test(dataInline)) callback(null, { 'QuickCommand.SetIndexingState': dataInline === 'FullScan-Start' ? true : false });
+
+        if(/Scan-Finish$/.test(data.toString())) Load();
+    });
     app.stderr.on('data', (data: any): void => console.log(data.toString()));
     app.on('close', (data: any): void => console.log(data.toString()));
-
-    const IconCachePath: string = `./applicationData/Launcher.v1/Icons/${ process.platform }`;
-    
-    setInterval((): void => {
-        if(fs.existsSync(`${ IconCachePath }/${ process.platform }.json`)) Applications = JSON.parse(fs.readFileSync(`${ IconCachePath }/${ process.platform }.json`, 'utf-8'));
-    }, 1000);
 }
 
 const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interfaces.ApplicationStandardReturn => {

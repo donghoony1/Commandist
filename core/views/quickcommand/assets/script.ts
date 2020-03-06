@@ -18,6 +18,11 @@ ipcRenderer.on('hide', (): void => {
     if(!document.body.classList.contains('QuickCommand_hide')) document.body.classList.add('QuickCommand_hide');
 });
 
+ipcRenderer.on('SetIndexingState', (event: any, args: Boolean): void => {
+    console.log(event, args);
+    document.querySelector('.QuickCommand_Status')!.innerHTML = args === true ? '<i class="fad fa-spinner-third fa-spin"></i> Indexing...' : '';
+});
+
 const getSelection = (): number => parseInt(document.querySelector('.QuickCommand_Results')?.getAttribute('data-selection') || `0`);
 
 const setSelection = (number: number): void => document.querySelector('.QuickCommand_Results')?.setAttribute('data-selection', `${number}`);
@@ -80,7 +85,6 @@ document.addEventListener('DOMContentLoaded', (): void => {
         const Results: HTMLDivElement = (document.querySelector('.QuickCommand_Results') as HTMLDivElement);
         const ResultsClasses: Array<string> = Object.values(Results.classList);
         const IsResult: Boolean = Object.values(document.querySelectorAll('.QuickCommand_Result')).length !== 0;
-        console.log(Results.style.display);
         if(IsResult === false && !ResultsClasses.includes('QuickCommand_Results_hide')) Results.classList.add('QuickCommand_Results_hide');
         else if(IsResult === true && ResultsClasses.includes('QuickCommand_Results_hide')) Results.classList.remove('QuickCommand_Results_hide');
     }, 10);

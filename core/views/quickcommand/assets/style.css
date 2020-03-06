@@ -70,6 +70,11 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
 
     color: hsla(0, 0%, 0%, 0.4);
 }
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Status i {
+    margin-right: 2px;
+    vertical-align: 0.6px;
+    font-size: 0.8em;
+}
 .QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Logo {
     bottom: 8px;
     right: 10px;
@@ -145,7 +150,7 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
 }
 
 .QuickCommand_main .QuickCommand_Results .QuickCommand_Result.pressed {
-    background-color: hsla(0, 0%, 0%, 0.04);
+    background-color: #F5F5F5;
 }
 .QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Grid {
     display: flex;
@@ -229,10 +234,17 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     width: 32px;
     height: 32px;
 
+    background-color: #FFFFFF;
     background-image: var(--commandist-icon-image);
     background-size: 32px 32px;
+    background-blend-mode: multiply;
 
     transition: all 0.1s ease-in-out;
+
+    /* filter: invert(100%); */
+}
+.QuickCommand_main .QuickCommand_Results .QuickCommand_Result.pressed .QuickCommand_Result_Icon_Image {
+    background-color: #F5F5F5;
 }
 .QuickCommand_main .QuickCommand_Results .QuickCommand_Result_Icon_Circle {
     width: 40px;
