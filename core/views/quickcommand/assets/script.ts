@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', (): void => {
     document.addEventListener('click', (event): void => {
         let Selection: Array<Interfaces.ApplicationStdReturnInstance> = [];
 
-        const SearchResultHeader = event.path.some((Element: any) => {
+        const SearchResultHeader = (<any>event).path.some((Element: any) => {
             if(Element.classList !== undefined
                 && 0 < Element.classList.length
                 && Element.classList[0] === 'QuickCommand_Result'

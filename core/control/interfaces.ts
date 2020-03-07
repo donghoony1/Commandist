@@ -125,7 +125,7 @@ namespace Interfaces {
         Name: string,
         ActualPath: string,
         IconPath: string,
-        UWP: Boolean
+        AppX: Boolean
     }    
 }
 

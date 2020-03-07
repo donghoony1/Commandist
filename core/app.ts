@@ -1,6 +1,5 @@
 import { app, BrowserWindow, ipcMain, globalShortcut, dialog, shell } from 'electron';
 import * as ConfigurationLoader from './control/configuration-loader';
-import * as ElectronIntegration from './control/electron-integration';
 import * as CP from './control/quickcommand/command-processor';
 import * as LanguageLoader from './control/language-loader';
 import { Interfaces } from './control/interfaces';
@@ -82,7 +81,7 @@ const Initializer = (): void => {
         }
     });
 
-    Windows.QuickCommand.loadFile(path.join(ElectronIntegration.CoreDir, 'views', 'quickcommand', 'index.html'));
+    Windows.QuickCommand.loadFile(path.join(__dirname, 'views', 'quickcommand', 'index.html'));
 
     RepositionQuickCommandWindow();
 

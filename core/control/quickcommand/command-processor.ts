@@ -1,5 +1,4 @@
 import { BrowserWindow, clipboard, shell, dialog, Notification } from 'electron';
-import * as ElectronIntegration from '../electron-integration';
 import * as ChildProcess from 'child_process';
 import { Interfaces } from '../interfaces';
 import { Md5 } from 'ts-md5/dist/md5';
@@ -25,7 +24,7 @@ class CommandProcessor {
             ...this.DefaultCommandLoader()
         }
 
-        const PreferenceDirectory: string = path.join(ElectronIntegration.BaseDir, 'applicationData', 'QuickCommand.v1', 'Command-Processor');
+        const PreferenceDirectory: string = path.join(__dirname, '..', '..', '..', 'applicationData', 'QuickCommand.v1', 'Command-Processor');
         if(!fs.existsSync(PreferenceDirectory)) fs.mkdirSync(PreferenceDirectory, { recursive: true });
         if(!fs.existsSync(path.join(PreferenceDirectory, 'preferences.json'))) fs.writeFileSync(path.join(PreferenceDirectory, 'preferences.json'), '{}');
 

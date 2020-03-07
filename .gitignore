@@ -112,4 +112,4 @@ configurations/
 applicationData/
 
 #Package
-builds/
+dist/

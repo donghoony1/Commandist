@@ -1,11 +1,10 @@
-import * as ElectronIntegration from './electron-integration';
 import { Interfaces } from './interfaces';
 import * as path from 'path';
 import * as fs from 'fs';
 
 const Load = (PreferedLanguage: Interfaces.LanguageTypeList): Interfaces.Language => {
     const Instruction: string = '\nPlease reinstall this program after backup \'applicationData\' and \'configurations\'.';
-    const GetPath = (Language: Interfaces.LanguageTypeList): string => path.join(ElectronIntegration.CoreDir, 'languages', `${Language}.json`);
+    const GetPath = (Language: Interfaces.LanguageTypeList): string => path.join(__dirname, '..', 'languages', `${Language}.json`);
     if(!fs.existsSync(GetPath('ko-KR'))) {
         console.log('There is no default language.' + Instruction);
         process.exit();

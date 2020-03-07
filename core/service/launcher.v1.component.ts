@@ -1,10 +1,11 @@
 import * as ConfigurationLoader from '../control/configuration-loader';
 import { Interfaces } from '../control/interfaces';
-import { Md5 } from 'ts-md5/dist/md5';
 import { extractIcon } from 'exe-icon-extractor';
+import * as ChildProcess from 'child_process';
+import { Md5 } from 'ts-md5/dist/md5';
+import * as path from 'path';
 import * as fs from 'fs';
 import * as os from 'os';
-import * as ChildProcess from 'child_process';
 
 const Configuration: Interfaces.Configuration = ConfigurationLoader.Load();
 
@@ -17,7 +18,7 @@ const init = (): void => {
     if(!ApplicationCompatible.includes(process.platform)) return;
     const UpdateCacheData = (Paths: Array<string>, Refresh: Boolean) => {
         if(Refresh === true) console.log('FullScan-Start');
-        const IconCachePath: string = `./applicationData/Launcher.v1/Icons/${process.platform}`;
+        const IconCachePath: string = path.join(__dirname, '..', '..', 'applicationData', 'Launcher.v1', 'Icons', process.platform);
         switch(process.platform) {
             case 'win32': {
                 if(!fs.existsSync(IconCachePath)) fs.mkdirSync(IconCachePath, { recursive: true });
@@ -31,7 +32,7 @@ const init = (): void => {
                     Name: 'Explorer',
                     ActualPath: `${ os.homedir().substring(0, 1) }:\\Windows\\explorer.exe`,
                     IconPath: new Md5().appendStr('Explorer.exe').end() as string + '.ico',
-                    UWP: false
+                    AppX: false
                 });
 
 
@@ -52,13 +53,13 @@ const init = (): void => {
                             Name: program.substring(program.lastIndexOf('\\') + 1, program.lastIndexOf('.')),
                             ActualPath: ChildProcess.spawnSync('powershell.exe', [ `-c`, `(New-Object -COM WScript.Shell).CreateShortcut("${ program }").TargetPath` ]).output[1].toString().replace(/\r\n/g, ''),
                             IconPath: new Md5().appendStr(program).end() as string + '.ico',
-                            UWP: false
+                            AppX: false
                         })).filter((program) => /^[A-Z]:.+\\.+\.(exe|EXE)$/.test(program.ActualPath))
                     ];
                 });
                 Applications.filter((program): Boolean => {
                     try {
-                        if(!fs.existsSync(`${IconCachePath}/${program.IconPath}`) && Refresh === true) fs.writeFileSync(`${IconCachePath}/${program.IconPath}`, extractIcon(program.ActualPath, 'large'));
+                        if(!fs.existsSync(path.join(IconCachePath, program.IconPath)) && Refresh === true) fs.writeFileSync(path.join(IconCachePath, program.IconPath), extractIcon(program.ActualPath, 'large'));
                         return true;
                     } catch(Exception) {
                         console.log(program, Exception);
@@ -75,7 +76,7 @@ const init = (): void => {
                 }
 
                 // Get applications from PowerShell and filter required rows.
-                const UWPApplications = JSON.parse(
+                const AppX = JSON.parse(
                     ChildProcess
                     .execSync('powershell.exe /c "get-appxpackage | select InstallLocation,PackageFamilyName | convertto-json"')
                     .toString()
@@ -84,12 +85,12 @@ const init = (): void => {
 
                 // Filter invalid applications by checking whether there is appxmanifest.xml or not.
                 .filter((Application: Temporary1): Boolean => (
-                    fs.existsSync(Application.InstallLocation + '\\appxmanifest.xml')
+                    fs.existsSync(path.join(Application.InstallLocation, 'appxmanifest.xml'))
                 ))
 
                 // Trim up the informations of applications.
                 .map((Application: Temporary1): Interfaces.LauncherV1ApplicationsWin32 => {
-                    const AppxManifest: string = fs.readFileSync(Application.InstallLocation + '\\appxmanifest.xml', 'utf-8');
+                    const AppxManifest: string = fs.readFileSync(path.join(Application.InstallLocation, 'appxmanifest.xml'), 'utf-8');
 
                     const Name: any = /<DisplayName>(.+)<\/DisplayName>/.exec(AppxManifest);
 
@@ -97,7 +98,7 @@ const init = (): void => {
                     ApplicationID = ApplicationID === null ? 'N/A' : ApplicationID[1];
 
                     let Logo: any = /<Logo>(.+)<\/Logo>/.exec(AppxManifest);
-                    Logo = Logo === null ? 'N/A' : Application.InstallLocation + '\\' + Logo[1];
+                    Logo = Logo === null ? 'N/A' : path.join(Application.InstallLocation, Logo[1]);
 
                     if(Logo !== 'N/A' && !fs.existsSync(Logo)) {
                         const LastDelimiter: number = Math.max(Logo.lastIndexOf('\\'), Logo.lastIndexOf('/'));
@@ -105,7 +106,7 @@ const init = (): void => {
                         const TemporaryFilePrefix: string = Logo.substring(LastDelimiter + 1, Logo.lastIndexOf('.'));
                         const Assets: string = Logo.substring(0, LastDelimiter);
 
-                        if(fs.existsSync(Assets)) Logo = `${ Assets }\\${ fs.readdirSync(Assets).filter((TemporaryPath: string) => TemporaryPath.substring(0, TemporaryFilePrefix.length) === TemporaryFilePrefix).sort((a, b) => fs.statSync(`${ Assets }\\${ b }`).size - fs.statSync(`${ Assets }\\${ a }`).size)[0] }`;
+                        if(fs.existsSync(Assets)) Logo = `${ Assets }\\${ fs.readdirSync(Assets).filter((TemporaryPath: string) => TemporaryPath.substring(0, TemporaryFilePrefix.length) === TemporaryFilePrefix).sort((a, b) => fs.statSync(path.join(Assets, b)).size - fs.statSync(path.join(Assets, a)).size)[0] }`;
                         else Logo = 'N/A';
                     }
 
@@ -113,7 +114,7 @@ const init = (): void => {
                         Name: Name === null ? 'N/A' : ((Configuration['QuickCommand.v1.component.default.launcher.v1.service.win32.universal-windows-platform.dictionary'] as { [key: string]: string })[Name[1]] || Name[1]),
                         ActualPath: ApplicationID === 'N/A' ? 'N/A' : `shell:appsFolder\\${ Application.PackageFamilyName }!${ ApplicationID }`,
                         IconPath: Logo,
-                        UWP: true
+                        AppX: true
                     };
                 })
                 .filter((Application: Interfaces.LauncherV1ApplicationsWin32): Boolean => (
@@ -137,7 +138,7 @@ const init = (): void => {
 
                     if(fs.existsSync(Application.IconPath)) {
                         try {
-                            if(!fs.existsSync(`${ IconCachePath }\\${ IconPath }`) && Refresh === true) fs.copyFileSync(Application.IconPath, `${ IconCachePath }\\${ IconPath }`);
+                            if(!fs.existsSync(path.join(IconCachePath, IconPath)) && Refresh === true) fs.copyFileSync(Application.IconPath, path.join(IconCachePath, IconPath));
                         } catch(Exception) {
                             Application.Name === 'N/A';
                         }
@@ -146,7 +147,7 @@ const init = (): void => {
                     return {
                         Name: Application.Name,
                         ActualPath: Application.ActualPath,
-                        UWP: Application.UWP,
+                        AppX: Application.AppX,
                         IconPath
                     }
                 })
@@ -154,12 +155,12 @@ const init = (): void => {
                     Application.Name !== 'N/A'
                 ));
 
-                Applications = [ ...Applications, ...UWPApplications ];
+                Applications = [ ...Applications, ...AppX ];
 
-                fs.writeFileSync(`${IconCachePath}/win32.json`, JSON.stringify(Applications));
+                fs.writeFileSync(path.join(IconCachePath, 'win32.json'), JSON.stringify(Applications));
                 
                 fs.readdirSync(IconCachePath).filter((Icon) => Icon !== `${ process.platform }.json`).forEach((Icon) => {
-                    if(Applications.find((Application) => Application.IconPath === Icon) === undefined) fs.unlinkSync(`${ IconCachePath }/${ Icon }`);
+                    if(Applications.find((Application) => Application.IconPath === Icon) === undefined) fs.unlinkSync(path.join(IconCachePath, Icon));
                 });
             }
         }

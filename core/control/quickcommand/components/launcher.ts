@@ -1,4 +1,3 @@
-import * as ElectronIntegration from '../../electron-integration';
 import { Interfaces } from '../../interfaces';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -13,9 +12,9 @@ const init = (MS: Interfaces.ModuleSuite, callback: Function): void => {
 
     if(!ApplicationCompatible.includes(process.platform)) return;
 
-    const IconCachePath: string = path.join(ElectronIntegration.BaseDir, 'applicationData', 'Launcher.v1', 'Icons', process.platform);
+    const IconCachePath: string = path.join(__dirname, '..', '..', '..', '..', 'applicationData', 'Launcher.v1', 'Icons', process.platform);
 
-    const app = require('child_process').spawn('node', [ path.join(ElectronIntegration.CoreDir, 'service', 'launcher.v1.component.js') ]);
+    const app = require('child_process').spawn('node', [ path.join(__dirname, '..', '..', '..', 'service', 'launcher.v1.component.js') ]);
     app.stdout.on('data', (data: any): void => {
         console.log(`'${ data.toString() }`);
     });
@@ -65,7 +64,7 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
         {
             Name: ApplicationName,
             Icon: {
-                ImageFilePath: `../../../../${ /Commandist\.exe$/.test(process.argv[0]) === true ? '../../' : '' }applicationData/Launcher.v1/Icons/${ process.platform }/${ Application.IconPath }`,
+                ImageFilePath: `../../../../applicationData/Launcher.v1/Icons/${ process.platform }/${ Application.IconPath }`,
                 DefaultIcon: {
                     IconText: ApplicationName.toUpperCase(),
                     IconColor: 'brightPurple'

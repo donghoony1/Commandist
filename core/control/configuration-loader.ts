@@ -1,4 +1,3 @@
-import * as ElectronIntegration from './electron-integration';
 import { Interfaces } from './interfaces';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -27,8 +26,8 @@ const DefaultConfiguration: Interfaces.Configuration = {
 
 const Load = (): Interfaces.Configuration => {
     const Path: Interfaces.ConfigurationPath = {
-        Directory: path.join(ElectronIntegration.BaseDir, 'configurations'), 
-        File: path.join(ElectronIntegration.BaseDir, 'configurations', 'configuration.json')
+        Directory: path.join(__dirname, '..', '..', 'configurations'), 
+        File: path.join(__dirname, '..', '..', 'configurations', 'configuration.json')
     };
     if(!fs.existsSync(Path.Directory)) fs.mkdirSync(Path.Directory);
     if(!fs.existsSync(Path.File)) fs.writeFileSync(Path.File, '{}');

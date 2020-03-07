@@ -5,9 +5,8 @@
   "main": "core/app.js",
   "dependencies": {
     "@types/node": "^13.7.7",
+    "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
-    "electron": "^8.0.2",
-    "electron-wix-msi": "^2.2.0",
     "exe-icon-extractor": "^1.0.8",
     "path": "^0.12.7",
     "react": "^16.13.0",
@@ -16,10 +15,43 @@
     "typescript": "^3.8.3"
   },
   "devDependencies": {
-    "@types/react": "^16.9.23"
+    "electron": "^8.0.2",
+    "electron-builder": "^22.4.0"
   },
   "scripts": {
-    "start": "electron core/app.js"
+    "test": "electron core/app.js",
+    "build": "npm install && tsc && electron-builder build"
+  },
+  "build": {
+    "appId": "com.commandist",
+    "productName": "Commandist (Developer Preview)",
+    "copyright": "GPL-3.0",
+    "asar": false,
+    "files": [
+      "core/**",
+      "node_modules/**",
+      "LICENSE"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
+      "publisherName": "Donghoon Yoo"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "license": "LICENSE",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   },
   "repository": {
     "type": "git",
