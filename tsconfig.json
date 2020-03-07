@@ -5,7 +5,6 @@
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "watch": true,
     "jsx": "react",
     "moduleResolution": "node",
     "allowJs": true,
@@ -13,6 +12,7 @@
     "skipLibCheck": true
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "builds/Commandist-win32-x64"
   ]
 }

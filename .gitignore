@@ -110,3 +110,6 @@ dist
 # Commandist
 configurations/
 applicationData/
+
+#Package
+builds/

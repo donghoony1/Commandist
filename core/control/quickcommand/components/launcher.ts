@@ -1,6 +1,7 @@
+import * as ElectronIntegration from '../../electron-integration';
 import { Interfaces } from '../../interfaces';
+import * as path from 'path';
 import * as fs from 'fs';
-import { app, BrowserWindow, ipcMain } from 'electron';
 
 const ApplicationName: string = 'launcher';
 let ApplicationCompatible: Array<string> = [];
@@ -12,25 +13,24 @@ const init = (MS: Interfaces.ModuleSuite, callback: Function): void => {
 
     if(!ApplicationCompatible.includes(process.platform)) return;
 
-    const IconCachePath: string = `./applicationData/Launcher.v1/Icons/${ process.platform }`;
+    const IconCachePath: string = path.join(ElectronIntegration.BaseDir, 'applicationData', 'Launcher.v1', 'Icons', process.platform);
 
-    const Load = (): void => {
-        if(fs.existsSync(`${ IconCachePath }/${ process.platform }.json`)) Applications = JSON.parse(fs.readFileSync(`${ IconCachePath }/${ process.platform }.json`, 'utf-8'));
-    }
-
-    Load();
-
-    const app = require('child_process').spawn('node', [ './core/service/launcher.v1.component.js' ]);
+    const app = require('child_process').spawn('node', [ path.join(ElectronIntegration.CoreDir, 'service', 'launcher.v1.component.js') ]);
     app.stdout.on('data', (data: any): void => {
         console.log(`'${ data.toString() }`);
-
-        const dataInline: string = data.toString().split('\n')[0];
-        if(/^FullScan-(Start|Finish)$/.test(dataInline)) callback(null, { 'QuickCommand.SetIndexingState': dataInline === 'FullScan-Start' ? true : false });
-
-        if(/Scan-Finish$/.test(data.toString())) Load();
     });
     app.stderr.on('data', (data: any): void => console.log(data.toString()));
     app.on('close', (data: any): void => console.log(data.toString()));
+
+    const Load = (): void => {
+        if(fs.existsSync(path.join(IconCachePath, `${ process.platform }.json`))) {
+            Applications = JSON.parse(fs.readFileSync(path.join(IconCachePath, `${ process.platform }.json`), 'utf-8'));
+            callback(null, { 'QuickCommand.SetIndexingState': false });
+        }
+    }
+
+    Load();
+    setInterval(Load, 5000);
 }
 
 const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interfaces.ApplicationStandardReturn => {
@@ -65,7 +65,7 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
         {
             Name: ApplicationName,
             Icon: {
-                ImageFilePath: `../../../../applicationData/Launcher.v1/Icons/${ process.platform }/${ Application.IconPath }`,
+                ImageFilePath: `../../../../${ /Commandist\.exe$/.test(process.argv[0]) === true ? '../../' : '' }applicationData/Launcher.v1/Icons/${ process.platform }/${ Application.IconPath }`,
                 DefaultIcon: {
                     IconText: ApplicationName.toUpperCase(),
                     IconColor: 'brightPurple'

@@ -1,7 +1,9 @@
 import { BrowserWindow, clipboard, shell, dialog, Notification } from 'electron';
+import * as ElectronIntegration from '../electron-integration';
+import * as ChildProcess from 'child_process';
 import { Interfaces } from '../interfaces';
 import { Md5 } from 'ts-md5/dist/md5';
-import * as ChildProcess from 'child_process';
+import * as path from 'path';
 import * as fs from 'fs';
 
 class CommandProcessor {
@@ -23,15 +25,15 @@ class CommandProcessor {
             ...this.DefaultCommandLoader()
         }
 
-        const PreferenceDirectory: string = './applicationData/QuickCommand.v1/Command-Processor';
+        const PreferenceDirectory: string = path.join(ElectronIntegration.BaseDir, 'applicationData', 'QuickCommand.v1', 'Command-Processor');
         if(!fs.existsSync(PreferenceDirectory)) fs.mkdirSync(PreferenceDirectory, { recursive: true });
-        if(!fs.existsSync(`${ PreferenceDirectory }/preferences.json`)) fs.writeFileSync(`${ PreferenceDirectory }/preferences.json`, '{}');
+        if(!fs.existsSync(path.join(PreferenceDirectory, 'preferences.json'))) fs.writeFileSync(path.join(PreferenceDirectory, 'preferences.json'), '{}');
 
-        this.Preferences = JSON.parse(fs.readFileSync(`${ PreferenceDirectory }/preferences.json`, 'utf-8'));
+        this.Preferences = JSON.parse(fs.readFileSync(path.join(PreferenceDirectory, 'preferences.json'), 'utf-8'));
 
         setInterval(() => {
             const Stringify: string = JSON.stringify(this.Preferences);
-            if(Stringify !== fs.readFileSync(`${ PreferenceDirectory }/preferences.json`, 'utf-8')) fs.writeFileSync(`${ PreferenceDirectory }/preferences.json`, Stringify);
+            if(Stringify !== fs.readFileSync(path.join(PreferenceDirectory, 'preferences.json'), 'utf-8')) fs.writeFileSync(path.join(PreferenceDirectory, 'preferences.json'), Stringify);
         }, 5000);
     }
 
