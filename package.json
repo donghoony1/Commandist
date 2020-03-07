@@ -42,7 +42,8 @@
           ]
         }
       ],
-      "publisherName": "Donghoon Yoo"
+      "publisherName": "Donghoon Yoo",
+      "icon": "./assets/build/Commandist-Developer_Preview.ico"
     },
     "nsis": {
       "oneClick": false,
@@ -50,7 +51,8 @@
       "allowToChangeInstallationDirectory": false,
       "license": "LICENSE",
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "installerIcon": "assets/build/Commandist-Developer_Preview.ico"
     }
   },
   "repository": {

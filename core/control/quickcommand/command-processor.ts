@@ -73,7 +73,7 @@ class CommandProcessor {
     
     private DefaultCommandLoader: Function = (): Interfaces.CPIntegrated => {
         let components: Interfaces.CPIntegrated = {};
-        const list: Array<string> = [ 'calculator', 'webview', 'launcher' ];
+        const list: Array<string> = [ 'calculator', 'webview', 'launcher', 'quit' ];
         list.forEach((CommandName) => {
             if(this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.enabled`] === false) return false;
             components[CommandName] = { execute: require(`./components/${CommandName}`).application };

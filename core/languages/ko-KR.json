@@ -14,5 +14,8 @@
 
     "Commandist.v1.control.QuickCommand.v1.component.webview.return.invalid.subject": "오류가 발생했습니다.",
     "Commandist.v1.control.QuickCommand.v1.component.webview.return.invalid.description": "유효한 URI를 입력하세요.",
-    "Commandist.v1.control.QuickCommand.v1.component.webview.return.description": "웹 브라우저에서 실행하려면 Return을 누르세요."
+    "Commandist.v1.control.QuickCommand.v1.component.webview.return.description": "웹 브라우저에서 실행하려면 Return을 누르세요.",
+
+    "Commandist.v1.control.QuickCommand.v1.component.quit.return.subject": "Commandist 종료",
+    "Commandist.v1.control.QuickCommand.v1.component.quit.return.description": "애플리케이션을 종료합니다."
 }
