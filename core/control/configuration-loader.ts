@@ -21,7 +21,9 @@ const DefaultConfiguration: Interfaces.Configuration = {
     'QuickCommand.v1.component.default.launcher.v1.service.win32.universal-windows-platform.blacklist': [ 'ms-resource' ],
     'QuickCommand.v1.component.default.launcher.v1.service.win32.universal-windows-platform.dictionary': {
         'ms-resource:StickyNotesStoreAppName': 'Sticky Notes'
-    }
+    },
+
+    'QuickCommand.v1.component.default.quit.v1.enabled': true
 }
 
 const Load = (): Interfaces.Configuration => {
