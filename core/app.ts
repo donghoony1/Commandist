@@ -75,7 +75,16 @@ const Initializer = (): void => {
         show: false,
         transparent: true,
         skipTaskbar: true,
+        minimizable: false,
+        maximizable: false,
+        closable: false,
+        fullscreen: false,
+        title: 'Commandist',
+        enableLargerThanScreen: false,
+        hasShadow: false,
         webPreferences: {
+            //devTools: false,
+            zoomFactor: 1.0,
             nodeIntegration: true,
             webviewTag: true
         }
