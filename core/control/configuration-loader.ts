@@ -28,8 +28,8 @@ const DefaultConfiguration: Interfaces.Configuration = {
 
 const Load = (): Interfaces.Configuration => {
     const Path: Interfaces.ConfigurationPath = {
-        Directory: path.join(__dirname, '..', '..', 'configurations'), 
-        File: path.join(__dirname, '..', '..', 'configurations', 'configuration.json')
+        Directory: path.join(__dirname, '..', '..', process.env.build === 'application' ? '..' : '', 'configurations'), 
+        File: path.join(__dirname, '..', '..', process.env.build === 'application' ? '..' : '', 'configurations', 'configuration.json')
     };
     if(!fs.existsSync(Path.Directory)) fs.mkdirSync(Path.Directory);
     if(!fs.existsSync(Path.File)) fs.writeFileSync(Path.File, '{}');

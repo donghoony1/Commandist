@@ -1,6 +1,6 @@
 import { BrowserWindow, clipboard, shell, dialog, Notification } from 'electron';
 import * as ChildProcess from 'child_process';
-import { Interfaces } from '../interfaces';
+import { Interfaces } from '../control/interfaces';
 import { Md5 } from 'ts-md5/dist/md5';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -24,7 +24,7 @@ class CommandProcessor {
             ...this.DefaultCommandLoader()
         }
 
-        const PreferenceDirectory: string = path.join(__dirname, '..', '..', '..', 'applicationData', 'QuickCommand.v1', 'Command-Processor');
+        const PreferenceDirectory: string = path.join(__dirname, '..', '..', process.env.build === 'application' ? '..' : '', 'applicationData', 'QuickCommand.v1', 'Command-Processor');
         if(!fs.existsSync(PreferenceDirectory)) fs.mkdirSync(PreferenceDirectory, { recursive: true });
         if(!fs.existsSync(path.join(PreferenceDirectory, 'preferences.json'))) fs.writeFileSync(path.join(PreferenceDirectory, 'preferences.json'), '{}');
 
@@ -73,7 +73,7 @@ class CommandProcessor {
     
     private DefaultCommandLoader: Function = (): Interfaces.CPIntegrated => {
         let components: Interfaces.CPIntegrated = {};
-        const list: Array<string> = [ 'calculator', 'webview', 'launcher', 'quit' ];
+        const list: Array<string> = [ 'calculator', 'webview', 'launcher', 'quit', 'restart' ];
         list.forEach((CommandName) => {
             if(this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.enabled`] === false) return false;
             components[CommandName] = { execute: require(`./components/${CommandName}`).application };
@@ -83,7 +83,7 @@ class CommandProcessor {
         return components;
     }
 
-    public execute = (event: any, args: { Return: Interfaces.ApplicationStdReturnInstance, ShiftKey: Boolean, IsClick: Boolean }): void => {
+    public execute = (AppController: Interfaces.AppController, args: { Return: Interfaces.ApplicationStdReturnInstance, ShiftKey: Boolean, IsClick: Boolean }, callback: Function): void => {
         let Results: Array<string> = [];
         const ReplaceStringToResult = (string: string): string => string.replace(/\${Result\[(\d+)\]}/g, Results[parseInt(RegExp.$1 as string) || 0]);
 
@@ -104,10 +104,11 @@ class CommandProcessor {
             if(arg.Commandist !== undefined) {
                 switch(arg.Commandist.Action) {
                     case 'Quit': {
-                        process.exit();
+                        AppController.quit();
+                        break;
                     }
                     case 'Restart': {
-                        // TODO:
+                        AppController.restart();
                         break;
                     }
                     case 'OpenSettings': {

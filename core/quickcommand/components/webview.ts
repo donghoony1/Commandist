@@ -1,4 +1,4 @@
-import { Interfaces } from '../../interfaces';
+import { Interfaces } from '../../control/interfaces';
 
 const ApplicationName: string = 'webview';
 

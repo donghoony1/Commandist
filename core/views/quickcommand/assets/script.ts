@@ -19,7 +19,6 @@ ipcRenderer.on('hide', (): void => {
 });
 
 ipcRenderer.on('SetIndexingState', (event: any, args: Boolean): void => {
-    console.log(event, args);
     document.querySelector('.QuickCommand_Status')!.innerHTML = args === true ? '<i class="fad fa-spinner-third fa-spin"></i> Indexing...' : '';
 });
 

@@ -1,4 +1,4 @@
-import { Interfaces } from '../../interfaces';
+import { Interfaces } from '../../control/interfaces';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -8,23 +8,16 @@ let ApplicationCompatible: Array<string> = [];
 let Applications: Array<Interfaces.LauncherV1ApplicationsWin32> = [];
 
 const init = (MS: Interfaces.ModuleSuite, callback: Function): void => {
-    ApplicationCompatible = MS.Configuration['QuickCommand.v1.component.default.launcher.v1.feature.compatible'];
+    ApplicationCompatible = MS.Configuration['QuickCommand.v1.component.default.launcher.v1.feature.compatible'] as Array<string>;
 
     if(!ApplicationCompatible.includes(process.platform)) return;
 
-    const IconCachePath: string = path.join(__dirname, '..', '..', '..', '..', 'applicationData', 'Launcher.v1', 'Icons', process.platform);
-
-    const app = require('child_process').spawn('node', [ path.join(__dirname, '..', '..', '..', 'service', 'launcher.v1.component.js') ]);
-    app.stdout.on('data', (data: any): void => {
-        console.log(`'${ data.toString() }`);
-    });
-    app.stderr.on('data', (data: any): void => console.log(data.toString()));
-    app.on('close', (data: any): void => console.log(data.toString()));
+    const IconCachePath: string = path.join(__dirname, '..', '..', '..', process.env.build === 'application' ? '..' : '', 'applicationData', 'Launcher.v1', 'Icons', process.platform);
 
     const Load = (): void => {
         if(fs.existsSync(path.join(IconCachePath, `${ process.platform }.json`))) {
             Applications = JSON.parse(fs.readFileSync(path.join(IconCachePath, `${ process.platform }.json`), 'utf-8'));
-            callback(null, { 'QuickCommand.SetIndexingState': false });
+            callback(null, { SetIndexingState: false });
         }
     }
 
@@ -60,11 +53,11 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
             }
         ];
     }
-    return Applications.filter((Application): Boolean => Application.Name.toLowerCase().indexOf(Keyword) !== -1).map((Application): Interfaces.ApplicationStdReturnInstance => (
+    return Applications.filter((Application): Boolean => Application.Name.toLowerCase().indexOf(Keyword.toLowerCase()) !== -1).map((Application): Interfaces.ApplicationStdReturnInstance => (
         {
             Name: ApplicationName,
             Icon: {
-                ImageFilePath: `../../../../applicationData/Launcher.v1/Icons/${ process.platform }/${ Application.IconPath }`,
+                ImageFilePath: `../../../../${ process.env.build === 'application' ? '../' : '' }applicationData/Launcher.v1/Icons/${ process.platform }/${ Application.IconPath }`,
                 DefaultIcon: {
                     IconText: ApplicationName.toUpperCase(),
                     IconColor: 'brightPurple'

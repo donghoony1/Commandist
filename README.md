@@ -17,7 +17,6 @@ We enumerate the main features of Commandist.
 - Support plugins that can be attached to Commandist. Everybody can implement Commandist plugins and distribute them.
 - Add a feature to modify the placeholder on QuickCommand.
 - Add a support to return asynchronous result.
-- Add a support to display dialog.
 
 ## Components
 ### Default

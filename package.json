@@ -1,32 +1,37 @@
 {
   "name": "commandist",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "core/app.js",
   "dependencies": {
-    "@types/node": "^13.7.7",
+    "@donghoonyoo/icon-extractor": "^1.0.10",
+    "@types/node": "^13.9.0",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "exe-icon-extractor": "^1.0.8",
-    "path": "^0.12.7",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "ts-md5": "^1.2.7",
     "typescript": "^3.8.3"
   },
   "devDependencies": {
-    "electron": "^8.0.2",
+    "electron": "^8.1.0",
     "electron-builder": "^22.4.0"
   },
   "scripts": {
-    "test": "electron core/app.js",
+    "start": "tsc && electron core/app.js",
     "build": "npm install && tsc && electron-builder build"
   },
   "build": {
     "appId": "com.commandist",
     "productName": "Commandist (Developer Preview)",
     "copyright": "GPL-3.0",
-    "asar": false,
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/@donghoonyoo/icon-extractor/**",
+      "core/control/configuration-loader.*",
+      "core/service/**"
+    ],
     "files": [
       "core/**",
       "node_modules/**",

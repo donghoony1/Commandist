@@ -1,9 +1,21 @@
-import { BrowserWindow } from 'electron';
+import { Window_QuickCommand } from '../window/quickcommand';
+import { ChildProcess } from 'child_process';
 
 namespace Interfaces {
+    export interface ProtocolURI {
+        control?: 'IgnorePreventingDuplicatedProcess'
+    }
+
+    export interface AppController {
+        [type: string]: Function
+    }
 
     export interface Windows {
-        [key: string]: BrowserWindow
+        QuickCommand?: Window_QuickCommand
+    }
+
+    export interface Workers {
+        [key: string]: ChildProcess
     }
 
     export interface Configuration {

@@ -1,9 +1,14 @@
 {
+    "Commandist.v1.common.notification.event.ready.title": "Commandist",
+    "Commandist.v1.common.notification.event.ready.body": "Commandist의 사용 준비가 완료되었습니다.",
+
     "Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.message": "QuickCommand를 실행하는 단축키를 등록할 수 없습니다.",
     "Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.detail": "프로그램을 다시 시작하면 문제가 해결될 수도 있습니다.\n\n다시 시작해도 문제가 해결되지 않으면, '오류 제보' 버튼을 클릭하여 문의해 주세요.",
     "Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.button0": "오류 제보 및 프로그램 종료",
     "Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.button1": "무시",
 
+
+    
     "Commandist.v1.control.QuickCommand.v1.component.calculator.return.invalid.subject": "오류가 발생했습니다.",
     "Commandist.v1.control.QuickCommand.v1.component.calculator.return.invalid.description": "유효한 수식을 입력하세요.",
     "Commandist.v1.control.QuickCommand.v1.component.calculator.return.description": "결과를 복사하려면 Return을 누르세요.",
@@ -17,5 +22,8 @@
     "Commandist.v1.control.QuickCommand.v1.component.webview.return.description": "웹 브라우저에서 실행하려면 Return을 누르세요.",
 
     "Commandist.v1.control.QuickCommand.v1.component.quit.return.subject": "Commandist 종료",
-    "Commandist.v1.control.QuickCommand.v1.component.quit.return.description": "애플리케이션을 종료합니다."
+    "Commandist.v1.control.QuickCommand.v1.component.quit.return.description": "애플리케이션을 종료합니다.",
+
+    "Commandist.v1.control.QuickCommand.v1.component.restart.return.subject": "Commandist 다시 시작",
+    "Commandist.v1.control.QuickCommand.v1.component.restart.return.description": "애플리케이션을 다시 시작합니다."
 }
