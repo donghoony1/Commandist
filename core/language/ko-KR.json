@@ -2,28 +2,69 @@
     "Commandist.v1.common.notification.event.ready.title": "Commandist",
     "Commandist.v1.common.notification.event.ready.body": "Commandist의 사용 준비가 완료되었습니다.",
 
-    "Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.message": "QuickCommand를 실행하는 단축키를 등록할 수 없습니다.",
-    "Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.detail": "프로그램을 다시 시작하면 문제가 해결될 수도 있습니다.\n\n다시 시작해도 문제가 해결되지 않으면, '오류 제보' 버튼을 클릭하여 문의해 주세요.",
-    "Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.button0": "오류 제보 및 프로그램 종료",
-    "Commandist.v1.control.QuickCommand.v1.globalShortcut.warning.dialog.button1": "무시",
+
+
+    "Commandist.v1.QuickCommand.v1.globalShortcut.warning.dialog.message": "QuickCommand를 실행하는 단축키를 등록할 수 없습니다.",
+    "Commandist.v1.QuickCommand.v1.globalShortcut.warning.dialog.detail": "프로그램을 다시 시작하면 문제가 해결될 수도 있습니다.\n\n다시 시작해도 문제가 해결되지 않으면, '오류 제보' 버튼을 클릭하여 문의해 주세요.",
+    "Commandist.v1.QuickCommand.v1.globalShortcut.warning.dialog.button0": "오류 제보 및 프로그램 종료",
+    "Commandist.v1.QuickCommand.v1.globalShortcut.warning.dialog.button1": "무시",
 
 
     
-    "Commandist.v1.control.QuickCommand.v1.component.calculator.return.invalid.subject": "오류가 발생했습니다.",
-    "Commandist.v1.control.QuickCommand.v1.component.calculator.return.invalid.description": "유효한 수식을 입력하세요.",
-    "Commandist.v1.control.QuickCommand.v1.component.calculator.return.description": "결과를 복사하려면 Return을 누르세요.",
+    "Commandist.v1.window.Setting.v1.restart.warning.dialog.message": "QuickCommand를 다시 시작합니다.",
+    "Commandist.v1.window.Setting.v1.restart.warning.dialog.detail": "QuickCommand를 다시 시작하면 변경된 설정을 적용할 수 있습니다. 지금 적용하지 않아도 다음 시작 때 변경된 설정이 적용됩니다.",
+    "Commandist.v1.window.Setting.v1.restart.warning.dialog.button0": "다시 시작 및 적용",
+    "Commandist.v1.window.Setting.v1.restart.warning.dialog.button1": "취소",
 
-    "Commandist.v1.control.QuickCommand.v1.component.launcher.return.notsupported.subject": "이 플랫폼은 지원하지 않습니다.",
-    "Commandist.v1.control.QuickCommand.v1.component.launcher.return.notsupported.description": "지원하는 플랫폼: ${ApplicationCompatible}",
-    "Commandist.v1.control.QuickCommand.v1.component.launcher.return.description": "실행하려면 Return을 누르세요.",
 
-    "Commandist.v1.control.QuickCommand.v1.component.webview.return.invalid.subject": "오류가 발생했습니다.",
-    "Commandist.v1.control.QuickCommand.v1.component.webview.return.invalid.description": "유효한 URI를 입력하세요.",
-    "Commandist.v1.control.QuickCommand.v1.component.webview.return.description": "웹 브라우저에서 실행하려면 Return을 누르세요.",
+    
+    "Commandist.v1.QuickCommand.v1.component.calculator.return.invalid.subject": "오류가 발생했습니다.",
+    "Commandist.v1.QuickCommand.v1.component.calculator.return.invalid.description": "유효한 수식을 입력하세요.",
+    "Commandist.v1.QuickCommand.v1.component.calculator.return.description": "결과를 복사하려면 Return을 누르세요.",
 
-    "Commandist.v1.control.QuickCommand.v1.component.quit.return.subject": "Commandist 종료",
-    "Commandist.v1.control.QuickCommand.v1.component.quit.return.description": "애플리케이션을 종료합니다.",
+    "Commandist.v1.QuickCommand.v1.component.launcher.return.notsupported.subject": "이 플랫폼은 지원하지 않습니다.",
+    "Commandist.v1.QuickCommand.v1.component.launcher.return.notsupported.description": "지원하는 플랫폼: ${ApplicationCompatible}",
+    "Commandist.v1.QuickCommand.v1.component.launcher.return.description": "실행하려면 Return을 누르세요.",
 
-    "Commandist.v1.control.QuickCommand.v1.component.restart.return.subject": "Commandist 다시 시작",
-    "Commandist.v1.control.QuickCommand.v1.component.restart.return.description": "애플리케이션을 다시 시작합니다."
+    "Commandist.v1.QuickCommand.v1.component.webview.return.invalid.subject": "오류가 발생했습니다.",
+    "Commandist.v1.QuickCommand.v1.component.webview.return.invalid.description": "유효한 URI를 입력하세요.",
+    "Commandist.v1.QuickCommand.v1.component.webview.return.description": "웹 브라우저에서 실행하려면 Return을 누르세요.",
+
+    "Commandist.v1.QuickCommand.v1.component.quit.return.subject": "Commandist 종료",
+    "Commandist.v1.QuickCommand.v1.component.quit.return.description": "애플리케이션을 종료합니다.",
+
+    "Commandist.v1.QuickCommand.v1.component.restart.return.subject": "Commandist 다시 시작",
+    "Commandist.v1.QuickCommand.v1.component.restart.return.description": "애플리케이션을 다시 시작합니다.",
+
+
+
+    "Commandist.v1.Setting.v1.commandist": "Commandist",
+    "Commandist.v1.Setting.v1.commandist.setting": "설정",
+    "Commandist.v1.Setting.v1.commandist.setting.general": "일반",
+    "Commandist.v1.Setting.v1.commandist.setting.general.autorun.subject": "시스템이 시작될 때 자동 실행",
+    "Commandist.v1.Setting.v1.commandist.setting.general.autorun.description": "이 설정을 켜면 시스템이 시작될 때 Commandist가 자동으로 실행됩니다.",
+    "Commandist.v1.Setting.v1.commandist.setting.general.runnotification.subject": "실행 알림",
+    "Commandist.v1.Setting.v1.commandist.setting.general.runnotification.description": "이 설정을 켜면 Commandist가 시작되었을 때 정상적으로 실행되었다는 알림을 표시합니다.",
+    "Commandist.v1.Setting.v1.commandist.setting.batterysaving": "배터리 절약",
+    "Commandist.v1.Setting.v1.commandist.setting.batterysaving.indexing.subject": "인덱싱 기능 사용 안 함",
+    "Commandist.v1.Setting.v1.commandist.setting.batterysaving.indexing.description": "이 설정을 켜면 배터리 상태에서 Commandist가 디스크를 스캔하지 않습니다.",
+
+    "Commandist.v1.Setting.v1.commandist.quickcommand": "QuickCommand",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.general": "일반",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.appearance": "외관",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.appearance.logo.subject": "Commandist 로고 비활성화",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.appearance.logo.description": "이 설정을 켜면 우측 하단의 Commandist 로고를 비활성화합니다.",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.appearance.state.subject": "인덱싱 상태 표시 비활성화",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.appearance.state.description": "이 설정을 켜면 우측 상단의 인덱싱 상태 표시기를 비활성화합니다.",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey": "단축키",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey.enable.subject": "QuickCommand 실행 단축키 사용",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey.enable.description": "이 설정을 켜면 QuickCommand를 실행하기 위해 단축키를 사용합니다.",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey.definition1.subject": "QuickCommand 키 조합 설정",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey.definition1.description": "QuickCommand를 실행할 때 사용할 키 조합을 설정합니다.",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey.definition2.subject": "QuickCommand 단축키 설정",
+    "Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey.definition2.description": "QuickCommand를 실행할 때 사용할 단축키를 설정합니다.",
+
+    "Commandist.v1.Setting.v1.component.default": "기본 컴포넌트",
+
+    "Commandist.v1.Setting.v1.component.extension": "확장 컴포넌트"
 }

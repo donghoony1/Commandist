@@ -51,7 +51,7 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
 
     -webkit-app-region: drag;
 }
-.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Status {
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_State {
     top: 8px;
     right: 10px;
 
@@ -60,7 +60,10 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
     font-size: 10px;
     font-weight: 600;
 }
-.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Status i {
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_State.QuickCommand_State_hide {
+    display: none;
+}
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_State i {
     margin-right: 2px;
     vertical-align: 0.6px;
     font-size: 0.8em;
@@ -73,6 +76,9 @@ body, h1, h2, h3, h4, h5, h6, p, span, form, input {
 
     font-size: 10px;
     font-weight: 600;
+}
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Logo.QuickCommand_Logo_hide {
+    display: none;
 }
 .QuickCommand_main .QuickCommand_SearchBar .QuickCommand_SearchBar_Input {
     width: 640px;

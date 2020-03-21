@@ -4,8 +4,13 @@ import * as fs from 'fs';
 
 const DefaultConfiguration: Interfaces.Configuration = {
     'Commandist.v1.Language': 'ko-KR',
+    'Commandist.v1.notification.run.eanbled': true,
     
-    'QuickCommand.v1.window.call.shortcutkey': 'CommandOrControl+Alt+Shift+S',
+    'QuickCommand.v1.window.call.shortcutkey.enabled': true,
+    'QuickCommand.v1.window.call.shortcutkey.definition': 'CommandOrControl+Alt+Shift+S',
+
+    'QuickCommand.v1.window.appearance.logo': true,
+    'QuickCommand.v1.window.appearance.state': true,
 
     'QuickCommand.v1.component.default.calculator.v1.enabled': true,
     'QuickCommand.v1.component.default.calculator.v1.command.shortcutReplacers': [ 'c' ],
@@ -26,17 +31,34 @@ const DefaultConfiguration: Interfaces.Configuration = {
     'QuickCommand.v1.component.default.quit.v1.enabled': true
 }
 
-const Load = (): Interfaces.Configuration => {
-    const Path: Interfaces.ConfigurationPath = {
-        Directory: path.join(__dirname, '..', '..', process.env.build === 'application' ? '..' : '', 'configurations'), 
-        File: path.join(__dirname, '..', '..', process.env.build === 'application' ? '..' : '', 'configurations', 'configuration.json')
-    };
+const Path: Interfaces.ConfigurationPath = {
+    Directory: path.join(__dirname, '..', '..', process.env.build === 'application' ? '..' : '', 'configurations'), 
+    File: path.join(__dirname, '..', '..', process.env.build === 'application' ? '..' : '', 'configurations', 'configuration.json')
+};
+
+const OpenFile = (): Interfaces.Configuration => {
     if(!fs.existsSync(Path.Directory)) fs.mkdirSync(Path.Directory);
     if(!fs.existsSync(Path.File)) fs.writeFileSync(Path.File, '{}');
-    const User: Interfaces.Configuration = JSON.parse(fs.readFileSync(Path.File, 'utf-8'));
+    return JSON.parse(fs.readFileSync(Path.File, 'utf-8'));
+}
+
+const Load = (): Interfaces.Configuration => {
+    const User: Interfaces.Configuration = OpenFile();
     let Output: Interfaces.Configuration = DefaultConfiguration;
     Object.assign(Output, User);
     return Output;
 }
 
-export { Load };
+const Modify = (Type: Interfaces.SettingTypes, ID: string, Value: Interfaces.SettingValue): void => {
+    let User: Interfaces.Configuration = OpenFile();
+    
+    switch(Type) {
+        case 'Toggle':
+            User[ID] = Value.Toggle === true
+            break;
+    }
+
+    fs.writeFileSync(Path.File, JSON.stringify(User));
+}
+
+export { Load, Modify };

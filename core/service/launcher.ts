@@ -1,4 +1,4 @@
-import * as ConfigurationLoader from '../control/configuration-loader';
+import * as ConfigurationManager from '../control/configuration-manager';
 import { Interfaces } from '../control/interfaces';
 import * as ChildProcess from 'child_process';
 import { Md5 } from 'ts-md5/dist/md5';
@@ -11,7 +11,7 @@ const IconExtractor = require(`${ process.env.build === 'application' ? '../../n
 const ApplicationName: string = 'launcher';
 let ApplicationCompatible: Array<string> = [];
 
-const Configuration: Interfaces.Configuration = ConfigurationLoader.Load();
+const Configuration: Interfaces.Configuration = ConfigurationManager.Load();
 
 ApplicationCompatible = Configuration['QuickCommand.v1.component.default.launcher.v1.feature.compatible'] as Array<string>;
 if(!ApplicationCompatible.includes(process.platform)) process.exit;

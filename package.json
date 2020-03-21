@@ -1,6 +1,6 @@
 {
   "name": "commandist",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "description": "",
   "main": "core/app.js",
   "dependencies": {
@@ -28,11 +28,13 @@
     "copyright": "GPL-3.0",
     "asar": true,
     "asarUnpack": [
+      "assets/**",
       "node_modules/@donghoonyoo/icon-extractor/**",
-      "core/control/configuration-loader.*",
+      "core/control/configuration-manager.*",
       "core/service/**"
     ],
     "files": [
+      "assets/**",
       "core/**",
       "node_modules/**",
       "LICENSE"

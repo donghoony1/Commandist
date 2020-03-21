@@ -17,7 +17,7 @@ const init = (MS: Interfaces.ModuleSuite, callback: Function): void => {
     const Load = (): void => {
         if(fs.existsSync(path.join(IconCachePath, `${ process.platform }.json`))) {
             Applications = JSON.parse(fs.readFileSync(path.join(IconCachePath, `${ process.platform }.json`), 'utf-8'));
-            callback(null, { SetIndexingState: false });
+            if(MS.Configuration['QuickCommand.v1.window.appearance.state'] === true) callback(null, { SetIndexingState: false });
         }
     }
 

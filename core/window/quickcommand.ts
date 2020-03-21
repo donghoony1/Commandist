@@ -27,7 +27,7 @@ class Window_QuickCommand {
             maximizable: false,
             closable: false,
             fullscreen: false,
-            title: 'QuickCommand',
+            title: 'QuickCommandUI',
             enableLargerThanScreen: false,
             hasShadow: false,
             webPreferences: {
@@ -44,23 +44,6 @@ class Window_QuickCommand {
 
         const CommandProcessor: CP.CommandProcessor = new CP.CommandProcessor(this.Configuration, Language, this.Window);
 
-        ipcMain.on('Windows.QuickCommand.command', CommandProcessor.command);
-
-        ipcMain.on('Windows.QuickCommand.execute', (event, args) => CommandProcessor.execute(AppController, args, (error: Error, data: string) => {
-            switch(data) {
-                
-            }
-        }));
-
-        ipcMain.on('Windows.QuickCommand.resize', (event, args): void => {
-            const WindowSize: Array<number> = this.Window.getSize();
-            if(args[0] && args[1] && ([0] != args[0] || WindowSize[1] != args[1]) && (Math.abs(WindowSize[0] - args[0]) < 2 || Math.abs(WindowSize[1] - args[1]) < 2)) this.Window.setSize(688, args[1] + 48);
-        });
-
-        ipcMain.on('Windows.QuickCommand.hide', (): void => {
-            setTimeout((): void => this.Window.hide(), 100);
-        });
-
         setInterval((): void => {
             if(this.Window.isVisible()) {
                 const Screen: Electron.Screen = require('electron').screen;
@@ -73,7 +56,7 @@ class Window_QuickCommand {
             Object.keys(data).forEach((Key) => this.Window.webContents.send(Key, data[Key]));
         });
 
-        const RetKey: string = this.Configuration['QuickCommand.v1.window.call.shortcutkey'] as string || 'CommandOrControl+Alt+Shift+S';
+        const RetKey: string = this.Configuration['QuickCommand.v1.window.call.shortcutkey.definition'] as string || 'CommandOrControl+Alt+Shift+S';
 
         globalShortcut.register(RetKey, (): void => this.Restore());
 
@@ -90,10 +73,34 @@ class Window_QuickCommand {
             if(dialogWarning === 0) shell.openExternal('https://github.com/donghoony1/Commandist/issues');
         }
 
-        new Notification({
+        if(this.Configuration['Commandist.v1.notification.run.eanbled'] === true) new Notification({
             title: this.Language['Commandist.v1.common.notification.event.ready.title'],
             body: this.Language['Commandist.v1.common.notification.event.ready.body']
         }).show();
+
+        ipcMain.on('Windows.QuickCommand.command', CommandProcessor.command);
+
+        ipcMain.on('Windows.QuickCommand.execute', (event, args) => CommandProcessor.execute(this.AppController, args, (error: Error, data: string) => {
+            switch(data) {
+                
+            }
+        }));
+
+        ipcMain.on('Windows.QuickCommand.resize', (event, args): void => {
+            const WindowSize: Array<number> = this.Window.getSize();
+            if(args[0] && args[1] && ([0] != args[0] || WindowSize[1] != args[1]) && (Math.abs(WindowSize[0] - args[0]) < 2 || Math.abs(WindowSize[1] - args[1]) < 2)) this.Window.setSize(688, args[1] + 48);
+        });
+
+        ipcMain.on('Windows.QuickCommand.hide', (): void => {
+            setTimeout((): void => this.Window.hide(), 100);
+        });
+
+        ipcMain.on('Windows.QuickCommand.UIReady', (): void => {
+            this.Window.webContents.send('SetAppearance', {
+                Logo: this.Configuration['QuickCommand.v1.window.appearance.logo'],
+                State: this.Configuration['QuickCommand.v1.window.appearance.state']
+            });
+        });
     }
 
     HideQuickCommandWindow = (): void => {

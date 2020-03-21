@@ -18,8 +18,23 @@ ipcRenderer.on('hide', (): void => {
     if(!document.body.classList.contains('QuickCommand_hide')) document.body.classList.add('QuickCommand_hide');
 });
 
+ipcRenderer.on('SetAppearance', (event: any, args: { [key: string]: any }): void => {
+    Object.keys(args).forEach((Key: string): void => {
+        switch(Key) {
+            case 'Logo': {
+                if(args[Key] === false) document.querySelector('.QuickCommand_Logo')!.classList.add('QuickCommand_Logo_hide')
+                break;
+            }
+            case 'State': {
+                if(args[Key] === false) document.querySelector('.QuickCommand_State')!.classList.add('QuickCommand_State_hide')
+                break;
+            }
+        }
+    });
+});
+
 ipcRenderer.on('SetIndexingState', (event: any, args: Boolean): void => {
-    document.querySelector('.QuickCommand_Status')!.innerHTML = args === true ? '<i class="fad fa-spinner-third fa-spin"></i> Indexing...' : '';
+    document.querySelector('.QuickCommand_State')!.innerHTML = args === true ? '<i class="fad fa-spinner-third fa-spin"></i> Indexing...' : '';
 });
 
 const getSelection = (): number => parseInt(document.querySelector('.QuickCommand_Results')?.getAttribute('data-selection') || `0`);

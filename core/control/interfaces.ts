@@ -1,4 +1,5 @@
 import { Window_QuickCommand } from '../window/quickcommand';
+import { Window_Setting } from '../window/setting';
 import { ChildProcess } from 'child_process';
 
 namespace Interfaces {
@@ -11,7 +12,8 @@ namespace Interfaces {
     }
 
     export interface Windows {
-        QuickCommand?: Window_QuickCommand
+        QuickCommand?: Window_QuickCommand,
+        Setting?: Window_Setting
     }
 
     export interface Workers {
@@ -138,7 +140,64 @@ namespace Interfaces {
         ActualPath: string,
         IconPath: string,
         AppX: Boolean
-    }    
+    }
+
+    export interface SettingUIMenu {
+        Subject: string,
+        Menus: Array<SettingUI>
+    }
+
+    export interface SettingUI {
+        Subject: string,
+        Sections: Array<{
+            Subject: string,
+            Settings: Array<{
+                ID: string,
+                Name: string,
+                Description?: string
+                Type: SettingTypes,
+                Input?: {
+                    Placeholder: string,
+                    Rules: Array<{
+                        ErrorMessage: string,
+                        RegExp: RegExp
+                    }>
+                },
+                TextArea?: {
+                    Placeholder: string,
+                    Rules: Array<{
+                        ErrorMessage: string,
+                        RegExp: RegExp
+                    }>
+                },
+                Number?: {
+                    Placeholder: number,
+                    Rules: Array<{
+                        ErrorMessage: string,
+                        Minimum: number,
+                        Maximum: number
+                    }>
+                },
+                Select?: {
+                    Placeholder: number,
+                    Selections: Array<string>
+                }
+            }>
+        }>
+    }
+
+    export type SettingTypes = 'Input' | 'TextArea' | 'Number' | 'Select' | 'Toggle';
+
+    export interface SettingValue {
+        Input?: string,
+        TextArea?: string,
+        Number?: number,
+        Select?: {
+            Selection: number,
+            Selections: Array<string>
+        },
+        Toggle?: Boolean
+    }
 }
 
 export { Interfaces };

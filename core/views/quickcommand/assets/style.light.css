@@ -26,7 +26,7 @@ body {
     background-color: #FFFFFF;
 }
 
-.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_Status {
+.QuickCommand_main .QuickCommand_SearchBar .QuickCommand_State {
     color: hsla(0, 0%, 0%, 0.4);
 }
 
