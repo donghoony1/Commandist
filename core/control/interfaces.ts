@@ -142,6 +142,8 @@ namespace Interfaces {
         AppX: Boolean
     }
 
+
+
     export interface SettingUIMenu {
         Subject: string,
         Menus: Array<SettingUI>
@@ -151,52 +153,98 @@ namespace Interfaces {
         Subject: string,
         Sections: Array<{
             Subject: string,
-            Settings: Array<{
-                ID: string,
-                Name: string,
-                Description?: string
-                Type: SettingTypes,
-                Input?: {
-                    Placeholder: string,
-                    Rules: Array<{
-                        ErrorMessage: string,
-                        RegExp: RegExp
-                    }>
-                },
-                TextArea?: {
-                    Placeholder: string,
-                    Rules: Array<{
-                        ErrorMessage: string,
-                        RegExp: RegExp
-                    }>
-                },
-                Number?: {
-                    Placeholder: number,
-                    Rules: Array<{
-                        ErrorMessage: string,
-                        Minimum: number,
-                        Maximum: number
-                    }>
-                },
-                Select?: {
-                    Placeholder: number,
-                    Selections: Array<string>
-                }
-            }>
+            Settings: Array<SettingElement>
         }>
     }
 
     export type SettingTypes = 'Input' | 'TextArea' | 'Number' | 'Select' | 'Toggle';
 
+    export interface SettingElement {
+        ID: string,
+        Name: string,
+        Description?: string
+        Type: SettingTypes,
+        Definition: SettingDefinition
+    }
+
+    export interface SettingDefinition {
+        Input?: {
+            Rules: Array<{
+                ErrorMessage: string,
+                RegExp: RegExp
+            }>
+        },
+        TextArea?: {
+            Rules: Array<{
+                ErrorMessage: string,
+                RegExp: RegExp
+            }>
+        },
+        Number?: {
+            Rules: Array<{
+                ErrorMessage: string,
+                Minimum: number,
+                Maximum: number
+            }>
+        },
+        Select?: {
+            Selections: Array<string>
+        }
+    }
+
     export interface SettingValue {
         Input?: string,
         TextArea?: string,
         Number?: number,
-        Select?: {
-            Selection: number,
-            Selections: Array<string>
-        },
+        Select?: string,
         Toggle?: Boolean
+    }
+
+
+
+    export interface Components {
+        Default: Array<{
+            Component: Component,
+            Init?: Function,
+            Execute: Function,
+            Configuration: Interfaces.Configuration,
+            ConfigurationInit: Function
+        }>, 
+        Extension: Array<{
+            Component: Component,
+            Execute: Function,
+            Configuration: Interfaces.Configuration,
+            ConfigurationInit: Function
+        }>
+    }
+
+    export interface Component {
+        ID: string,
+        Name: string,
+        Description: string,
+        CallSign: string,
+        RegExp?: RegExp,
+        Version: {
+            Major: number,
+            Minor: number,
+            Build: number
+        },
+        Authors: Array<{
+            Name: string,
+            EMail: string,
+            URIs: Array<{
+                Name: string,
+                URI: string
+            }>
+        }>,
+        Setting: {
+            Default: Interfaces.Configuration,
+            UI: Array<SettingElement>
+        }
+    }
+
+    export interface ComponentLanguage {
+        [key: string]: Language
     }
 }
 

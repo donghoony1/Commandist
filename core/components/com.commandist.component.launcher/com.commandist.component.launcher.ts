@@ -2,14 +2,55 @@ import { Interfaces } from '../../control/interfaces';
 import * as path from 'path';
 import * as fs from 'fs';
 
-const ApplicationName: string = 'launcher';
-let ApplicationCompatible: Array<string> = [];
+const Language: Interfaces.ComponentLanguage = {
+    'ko-KR': {
+        'return.notsupported.subject': '이 플랫폼은 지원하지 않습니다.',
+        'return.notsupported.description': '지원하는 플랫폼: ${ApplicationCompatible}',
+        'return.description': '실행하려면 Return을 누르세요.'
+    }
+};
 
+const Component: Interfaces.Component = {
+    ID: 'com.commandist.component.launcher',
+    Name: 'Launcher',
+    Description: 'An internal component for Commandist.',
+    CallSign: 'launcher',
+    RegExp: undefined,
+    Version: {
+        Major: 0,
+        Minor: 0,
+        Build: 2
+    },
+    Authors: [
+        {
+            Name: 'DongHoon Yoo',
+            EMail: 'yoodonghoon01@gmail.com',
+            URIs: [
+                {
+                    Name: 'Blog',
+                    URI: 'https://blog.donghoonyoo.com'
+                },
+                {
+                    Name: 'GitHub',
+                    URI: 'https://github.com/donghoony1'
+                }
+            ]
+        }
+    ],
+    Setting: {
+        Default: {
+
+        },
+        UI: [
+            
+        ]
+    }
+};
+
+let ApplicationCompatible: Array<string> = [ 'win32' ];
 let Applications: Array<Interfaces.LauncherV1ApplicationsWin32> = [];
 
-const init = (MS: Interfaces.ModuleSuite, callback: Function): void => {
-    ApplicationCompatible = MS.Configuration['QuickCommand.v1.component.default.launcher.v1.feature.compatible'] as Array<string>;
-
+const Init = (callback: Function): void => {
     if(!ApplicationCompatible.includes(process.platform)) return;
 
     const IconCachePath: string = path.join(__dirname, '..', '..', '..', process.env.build === 'application' ? '..' : '', 'applicationData', 'Launcher.v1', 'Icons', process.platform);
@@ -17,7 +58,7 @@ const init = (MS: Interfaces.ModuleSuite, callback: Function): void => {
     const Load = (): void => {
         if(fs.existsSync(path.join(IconCachePath, `${ process.platform }.json`))) {
             Applications = JSON.parse(fs.readFileSync(path.join(IconCachePath, `${ process.platform }.json`), 'utf-8'));
-            if(MS.Configuration['QuickCommand.v1.window.appearance.state'] === true) callback(null, { SetIndexingState: false });
+            callback(null, { SetIndexingState: false });
         }
     }
 
@@ -25,26 +66,28 @@ const init = (MS: Interfaces.ModuleSuite, callback: Function): void => {
     setInterval(Load, 5000);
 }
 
-const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interfaces.ApplicationStandardReturn => {
-    const Keyword: string = (args[0] === ApplicationName ? args.slice(1, args.length) : args).join(' ');
+const Execute = (LanguagePreference: string, args: Array<string>): Interfaces.ApplicationStandardReturn => {
+    const L: Interfaces.Language = Language[LanguagePreference];
+
+    const Keyword: string = (args[0] === Component.CallSign ? args.slice(1, args.length) : args).join(' ');
     if(!ApplicationCompatible.includes(process.platform)) {
         return [
             {
-                Name: ApplicationName,
+                Name: Component.Name,
                 Icon: {
                     FontAwesome: {
                         Icon: 'exclamation-triangle',
                         Type: 'duotone'
                     },
                     DefaultIcon: {
-                        IconText: ApplicationName.toUpperCase(),
+                        IconText: Component.Name.toUpperCase(),
                         IconColor: 'red'
                     }
                 },
                 Output: {
                     Default: {
-                        Subject: MS.Language['Commandist.v1.control.QuickCommand.v1.component.launcher.return.notsupported.subject'],
-                        Description: MS.Language['Commandist.v1.control.QuickCommand.v1.component.launcher.return.notsupported.description'].replace(/\${ApplicationCompatible}/, ApplicationCompatible.join(', '))
+                        Subject: L['return.notsupported.subject'],
+                        Description: L['return.notsupported.description'].replace(/\${ApplicationCompatible}/, ApplicationCompatible.join(', '))
                     }
                 },
                 Event: {},
@@ -55,18 +98,18 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
     }
     return Applications.filter((Application): Boolean => Application.Name.toLowerCase().indexOf(Keyword.toLowerCase()) !== -1).map((Application): Interfaces.ApplicationStdReturnInstance => (
         {
-            Name: ApplicationName,
+            Name: Component.Name,
             Icon: {
                 ImageFilePath: `../../../../${ process.env.build === 'application' ? '../' : '' }applicationData/Launcher.v1/Icons/${ process.platform }/${ Application.IconPath }`,
                 DefaultIcon: {
-                    IconText: ApplicationName.toUpperCase(),
+                    IconText: Component.Name.toUpperCase(),
                     IconColor: 'brightPurple'
                 }
             },
             Output: {
                 Default: {
                     Subject: Application.Name,
-                    Description: MS.Language['Commandist.v1.control.QuickCommand.v1.component.launcher.return.description']
+                    Description: L['return.description']
                 }
             },
             Event: {
@@ -97,4 +140,6 @@ const application = (MS: Interfaces.ModuleSuite, args: Array<string>): Interface
     ));
 };
 
-export { init, application };
+let Configuration: Interfaces.Configuration = {};
+const ConfigurationInit = (GivenConfiguration: Interfaces.Configuration) => Configuration = GivenConfiguration;
+export { Component, Init, Execute, Configuration, ConfigurationInit };

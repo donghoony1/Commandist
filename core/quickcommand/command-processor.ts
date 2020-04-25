@@ -1,6 +1,7 @@
 import { BrowserWindow, clipboard, shell, dialog, Notification } from 'electron';
-import * as ChildProcess from 'child_process';
+import { Control_ComponentManager } from '../control/component-manager';
 import { Interfaces } from '../control/interfaces';
+import * as ChildProcess from 'child_process';
 import { Md5 } from 'ts-md5/dist/md5';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -8,21 +9,17 @@ import * as fs from 'fs';
 class CommandProcessor {
     private Configuration: Interfaces.Configuration;
     private Language: Interfaces.Language;
+
+    private Components: Control_ComponentManager;
     private QuickCommand: BrowserWindow;
-    
-    private shortcutReplacers: Interfaces.CPShortcutReplacers = {};
-    private Components: Interfaces.CPIntegrated = {};
-    private Overriders: Interfaces.CPOverriders = {};
 
     private Preferences: { [key: string]: number } = {};
 
-    constructor(Configuration: Interfaces.Configuration, Language: Interfaces.Language, QuickCommand: BrowserWindow) {
+    constructor(Configuration: Interfaces.Configuration, Language: Interfaces.Language, QuickCommand: BrowserWindow, ComponentManager: Control_ComponentManager) {
         this.Configuration = Configuration;
         this.Language = Language;
         this.QuickCommand = QuickCommand;
-        this.Components = {
-            ...this.DefaultCommandLoader()
-        }
+        this.Components = ComponentManager;
 
         const PreferenceDirectory: string = path.join(__dirname, '..', '..', process.env.build === 'application' ? '..' : '', 'applicationData', 'QuickCommand.v1', 'Command-Processor');
         if(!fs.existsSync(PreferenceDirectory)) fs.mkdirSync(PreferenceDirectory, { recursive: true });
@@ -38,7 +35,6 @@ class CommandProcessor {
 
     public command = (event: any, arg: string): Boolean => {
         if(arg === undefined) return false;
-
         if(arg === '') {
             this.QuickCommand.webContents.send('result', []);
             return true;
@@ -46,13 +42,13 @@ class CommandProcessor {
 
         let args = arg.split(' ');
 
-        args[0] = this.ShortcutReplacer(args[0].toLowerCase());
-
-        const primary: string = this.Overriders[Object.keys(this.Overriders).find((Overrider) => new RegExp(Overrider).test(arg)) || 'undefined'] || args[0];
         let Results: Interfaces.ApplicationStandardReturn = [];
-        if(this.Components[primary] !== undefined) Results = this.Components[primary].execute({ Configuration: this.Configuration, Language: this.Language }, args);
-        
-        if(Results.length === 0 && Object.keys(this.Components).includes('launcher')) Results = this.Components['launcher'].execute({ Configuration: this.Configuration, Language: this.Language }, args);
+
+        Results = [
+            ...this.Components.CommandHelper.RegExps.filter((RegExp) => RegExp.RegExp.test(arg)).reduce((Accumulator, RegExp) => Accumulator.concat(this.Components.Components[RegExp.IsDefaultComponent === true ? 'Default' : 'Extension'].find((Component) => Component.Component.ID === RegExp.ID)!.Execute(this.Configuration['Commandist.v1.Language'], args)), []),
+
+            ...this.Components.CommandHelper.Prefixes.filter((Prefix) => Prefix.Prefix === args[0]).reduce((Accumulator, Prefix) => Accumulator.concat(this.Components.Components[Prefix.IsDefaultComponent === true ? 'Default' : 'Extension'].find((Component) => Component.Component.ID === Prefix.ID)!.Execute(this.Configuration['Commandist.v1.Language'], args)), [])
+        ];
 
         const Preferences = this.Preferences;
         Object.keys(Preferences).forEach((Element) => {
@@ -67,20 +63,6 @@ class CommandProcessor {
         this.QuickCommand.webContents.send('result', Results);
 
         return true;
-    }
-
-    private ShortcutReplacer: Function = (primary: string): string => this.shortcutReplacers[primary] || primary;
-    
-    private DefaultCommandLoader: Function = (): Interfaces.CPIntegrated => {
-        let components: Interfaces.CPIntegrated = {};
-        const list: Array<string> = [ 'calculator', 'webview', 'launcher', 'quit', 'restart' ];
-        list.forEach((CommandName) => {
-            if(this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.enabled`] === false) return false;
-            components[CommandName] = { execute: require(`./components/${CommandName}`).application };
-            if(this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.command.shortcutReplacers`] !== undefined) (this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.command.shortcutReplacers`] as Array<string>).forEach((replacer) => this.shortcutReplacers[replacer] = CommandName);
-            if(this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.command.overrider`] !== undefined) this.Overriders[this.Configuration[`QuickCommand.v1.component.default.${CommandName}.v1.command.overrider`] as string] = CommandName;
-        });
-        return components;
     }
 
     public execute = (AppController: Interfaces.AppController, args: { Return: Interfaces.ApplicationStdReturnInstance, ShiftKey: Boolean, IsClick: Boolean }, callback: Function): void => {

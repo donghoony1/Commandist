@@ -7,24 +7,21 @@ const DefaultConfiguration: Interfaces.Configuration = {
     'Commandist.v1.notification.run.eanbled': true,
     
     'QuickCommand.v1.window.call.shortcutkey.enabled': true,
-    'QuickCommand.v1.window.call.shortcutkey.definition': 'CommandOrControl+Alt+Shift+S',
+    'QuickCommand.v1.window.call.shortcutkey.definition1': 'Shift',
+    'QuickCommand.v1.window.call.shortcutkey.definition2': 'Space',
 
     'QuickCommand.v1.window.appearance.logo': true,
     'QuickCommand.v1.window.appearance.state': true,
 
-    'QuickCommand.v1.component.default.calculator.v1.enabled': true,
-    'QuickCommand.v1.component.default.calculator.v1.command.shortcutReplacers': [ 'c' ],
-    'QuickCommand.v1.component.default.calculator.v1.command.overrider': '^(\\(?([\\s]+)?([\\d.]+|(\\+|-|\\*|\\/|\\*\\*|\\^|%))?\\)?)+$',
+    'QuickCommand.v1.component.default.com.commandist.component.calculator.v1.enabled': true,
 
-    'QuickCommand.v1.component.default.webview.v1.enabled': true,
-    'QuickCommand.v1.component.default.webview.v1.command.shortcutReplacers': [],
-    'QuickCommand.v1.component.default.webview.v1.command.overrider': '^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)$',
+    'QuickCommand.v1.component.default.com.commandist.component.webview.v1.enabled': true,
 
-    'QuickCommand.v1.component.default.launcher.v1.enabled': true,
-    'QuickCommand.v1.component.default.launcher.v1.feature.compatible': [ 'win32' ],
-    'QuickCommand.v1.component.default.launcher.v1.service.cache.updatinginterval': 60000,
-    'QuickCommand.v1.component.default.launcher.v1.service.win32.universal-windows-platform.blacklist': [ 'ms-resource' ],
-    'QuickCommand.v1.component.default.launcher.v1.service.win32.universal-windows-platform.dictionary': {
+    'QuickCommand.v1.component.default.com.commandist.component.launcher.v1.enabled': true,
+    'QuickCommand.v1.component.default.com.commandist.component.launcher.v1.feature.compatible': [ 'win32' ],
+    'QuickCommand.v1.component.default.com.commandist.component.launcher.v1.service.cache.updatinginterval': 60000,
+    'QuickCommand.v1.component.default.com.commandist.component.launcher.v1.service.win32.universal-windows-platform.blacklist': [ 'ms-resource' ],
+    'QuickCommand.v1.component.default.com.commandist.component.launcher.v1.service.win32.universal-windows-platform.dictionary': {
         'ms-resource:StickyNotesStoreAppName': 'Sticky Notes'
     },
 
@@ -53,6 +50,9 @@ const Modify = (Type: Interfaces.SettingTypes, ID: string, Value: Interfaces.Set
     let User: Interfaces.Configuration = OpenFile();
     
     switch(Type) {
+        case 'Select':
+            User[ID] = Value.Select!;
+            break;
         case 'Toggle':
             User[ID] = Value.Toggle === true
             break;

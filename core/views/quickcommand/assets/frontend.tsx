@@ -80,6 +80,7 @@ class Results extends React.Component {
             console.log(args);
             this.setState({
                 Results: args.map((arg: Interfaces.ApplicationStdReturnInstance) => {
+                    console.log(arg);
                     switch(Object.keys(arg.Output)[0]) {
                         case 'Default': 
                             return <DefaultResultElement key={ JSON.stringify(arg) } data={arg} />;

@@ -4,18 +4,21 @@ import { Interfaces } from '../control/interfaces';
 import { BrowserWindow, ipcMain, dialog } from 'electron';
 import { UI_Setting } from '../ui/setting';
 import * as path from 'path';
+import { Control_ComponentManager } from '../control/component-manager';
 
 class Window_Setting {
     private AppController: Interfaces.AppController;
     private Configuration: Interfaces.Configuration;
     private Language: Interfaces.Language;
 
+    private ComponentManager: Control_ComponentManager;
     public Window: BrowserWindow;
 
-    constructor(AppController: Interfaces.AppController, Configuration: Interfaces.Configuration, Language: Interfaces.Language) {
+    constructor(AppController: Interfaces.AppController, Configuration: Interfaces.Configuration, Language: Interfaces.Language, ComponentManager: Control_ComponentManager) {
         this.AppController = AppController;
         this.Configuration = Configuration;
         this.Language = Language;
+        this.ComponentManager = ComponentManager;
 
         const Screen: Electron.Screen = require('electron').screen;
         const FocusedDisplay: Electron.Display = Screen.getDisplayNearestPoint(Screen.getCursorScreenPoint());

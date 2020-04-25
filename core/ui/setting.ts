@@ -75,37 +75,78 @@ class UI_Setting {
                                         Type: 'Toggle'
                                     },
                                     {
-                                        ID: 'QuickCommand.v1.window.call.shortcutkey.definition',
+                                        ID: 'QuickCommand.v1.window.call.shortcutkey.definition1',
                                         Name: this.Language['Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey.definition1.subject'],
                                         Description: this.Language['Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey.definition1.description'],
                                         Type: 'Select',
-                                        Select: {
-                                            Placeholder: 2,
-                                            Selections: [
-                                                'CommandOrControl',
-                                                'CommandOrControl+Alt',
-                                                'CommandOrControl+Alt+Shift',
-                                                'CommandOrControl+Shift',
-                                                'Alt',
-                                                'Alt+Shift',
-                                                'Shift'
-                                            ]
+                                        Definition: {
+                                            Select: {
+                                                Selections: [
+                                                    'CommandOrControl',
+                                                    'CommandOrControl+Alt',
+                                                    'CommandOrControl+Alt+Shift',
+                                                    'CommandOrControl+Alt+Shift+Super',
+                                                    'CommandOrControl+Alt+Super',
+                                                    'CommandOrControl+Shift',
+                                                    'CommandOrControl+Shift+Super',
+                                                    'Alt',
+                                                    'Alt+Shift',
+                                                    'Alt+Shift+Super',
+                                                    'Alt+Super',
+                                                    'Shift',
+                                                    'Shift+Super',
+                                                    'Super'
+                                                ]
+                                            }
                                         }
                                     },
                                     {
-                                        ID: 'QuickCommand.v1.window.call.shortcutkey.definition',
+                                        ID: 'QuickCommand.v1.window.call.shortcutkey.definition2',
                                         Name: this.Language['Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey.definition2.subject'],
                                         Description: this.Language['Commandist.v1.Setting.v1.commandist.quickcommand.shortcutkey.definition2.description'],
                                         Type: 'Select',
-                                        Select: {
-                                            Placeholder: 2,
-                                            Selections: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+                                        Definition: {
+                                            Select: {
+                                                Selections: [
+                                                    ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+                                                    ...'0123456789'.split(''),
+                                                    '`',
+                                                    ' Space',
+                                                    'Plus',
+                                                    '-',
+                                                    'Up',
+                                                    'Down',
+                                                    'Left',
+                                                    'Right',
+                                                    'Home',
+                                                    'End',
+                                                    'PageUp',
+                                                    'PageDown',
+                                                    ...'0123456789'.split('').map((number) => `num${number}`),
+                                                    'numdec',
+                                                    'numadd',
+                                                    'numsub',
+                                                    'nummult',
+                                                    'numdiv',
+                                                    ...'1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24'.split(' ').map((number) => `F${number}`)
+                                                ]
+                                            }
                                         }
                                     }
                                 ]
                             }
                         ]
                     }
+                ]
+            },
+            {
+                Subject: this.Language['Commandist.v1.Setting.v1.component.default'],
+                Menus: [
+                ]
+            },
+            {
+                Subject: this.Language['Commandist.v1.Setting.v1.component.extension'],
+                Menus: [
                 ]
             }
         ];

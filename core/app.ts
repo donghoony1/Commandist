@@ -1,4 +1,5 @@
 import { Control_WorkerManager } from './control/worker-manager';
+import { Control_ComponentManager } from './control/component-manager';
 import { Window_QuickCommand } from './window/quickcommand';
 import * as LanguageLoader from './control/language-loader';
 import { app, globalShortcut, shell } from 'electron';
@@ -30,10 +31,12 @@ app.on('ready', (): void => {
     app.setAsDefaultProtocolClient('Commandist');
     app.setAppUserModelId(process.execPath);
 
-    const WorkerManager = new Control_WorkerManager();
+    const WorkerManager: Control_WorkerManager = new Control_WorkerManager();
+    const ComponentManager: Control_ComponentManager = new Control_ComponentManager(Configuration);
 
-    Windows.QuickCommand = new Window_QuickCommand(AppController, Configuration, Language);
-    Windows.Setting = new Window_Setting(AppController, Configuration, Language);
+    Windows.QuickCommand = new Window_QuickCommand(AppController, Configuration, Language, ComponentManager);
+
+    Windows.Setting = new Window_Setting(AppController, Configuration, Language, ComponentManager);
     Windows.Setting.Window.show();
 
     app.on('browser-window-blur', (event, window) => {

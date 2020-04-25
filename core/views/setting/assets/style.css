@@ -535,15 +535,17 @@ body, h1, h2, h3, h4, h5, h6, p, span, button, select, ul, ol, dl, li {
     width: 100%;
     min-width: 128px;
     max-width: 256px;
-    max-height: 24px;
     
     margin: 0.8em 0 0.8em 0;
 
     padding: 8px;
     
+    color: #FFFFFF;
     background-color: #333333;
 
     font-size: 0.8em;
+
+    border: 0;
 }
 .spes-setting-v1 .content .hero .input:empty:before {
     content: attr(placeholder);
@@ -551,6 +553,23 @@ body, h1, h2, h3, h4, h5, h6, p, span, button, select, ul, ol, dl, li {
     display: block;
 
     color: #999999;
+}
+
+.spes-setting-v1 .content .hero .select {
+    width: 100%;
+    min-width: 128px;
+    max-width: 256px;
+
+    margin: 0.8em 0 0.8em 0;
+
+    padding: 8px;
+
+    color: #FFFFFF;
+    background-color: #333333;
+
+    font-size: 0.8em;
+
+    border: 0;
 }
 
 .spes-setting-v1 .content .hero .errormessage {

@@ -24,11 +24,33 @@ class Setting extends React.Component {
         });
     }
 
+    componentDidUpdate() {
+        document.querySelectorAll('[data-element=setting]').forEach((Element: Element): void => {
+            const ID: string = Element.getAttribute('data-id') as string;
+            const Type: Interfaces.SettingTypes = Element.getAttribute('data-type') as Interfaces.SettingTypes;
+            
+            switch(Type) {
+                case 'Select': {
+                    (Element as HTMLSelectElement).value = this.Configuration[ID] as string;
+                    break;
+                }
+                case 'Toggle': {
+                    (Element as HTMLDivElement).setAttribute('data-state', (this.Configuration[ID] as Boolean) === true ? 'on' : 'off');
+                    break;
+                }
+            }
+        });
+    }
+
     ModifySetting(Type: Interfaces.SettingTypes, Event: React.ChangeEvent<HTMLSelectElement> | React.MouseEvent<HTMLDivElement, MouseEvent>, ID: string) {
-        const This: HTMLDivElement = Event.currentTarget as HTMLDivElement;
+        const This: Element = Event.currentTarget as Element;
+        console.log(This);
         let Value: any;
     
         switch(Type) {
+            case 'Select':
+                Value = { Select: (This as HTMLSelectElement).value };
+                break;
             case 'Toggle': 
                 This.setAttribute('data-state', This.getAttribute('data-state') === 'on' ? 'off' : 'on');
                 Value = { Toggle: This.getAttribute('data-state') === 'on' };
@@ -53,9 +75,9 @@ class Setting extends React.Component {
                         )) }
                     </ul>
                 </aside>
-                { this.UI.map((Divider) => (
-                    <main className="content" key={ JSON.stringify(Divider) }>
-                        { Divider.Menus.map((Menu) => (
+                <main className="content">
+                    { this.UI.map((Divider) => (
+                        Divider.Menus.map((Menu) => (
                             <article className="menu" key={ JSON.stringify(Menu) }>
                                 <header className="header">
                                     <h1 className="subject">{ Menu.Subject }</h1>
@@ -78,8 +100,8 @@ class Setting extends React.Component {
                                                         ) }
                                                         { Setting.Type === 'Select' && (
                                                             <Fragment>
-                                                                <select className="select" onChange={ (event) => this.ModifySetting(Setting.Type, event, Setting.ID) }>
-                                                                    { Setting.Select!.Selections!.map((Selection, Index) => (
+                                                                <select className="select" onChange={ (event) => this.ModifySetting(Setting.Type, event, Setting.ID) } data-element="setting" data-id={ Setting.ID } data-type={ Setting.Type } data-opts={ JSON.stringify(Setting.Definition!.Select!.Selections!) }>
+                                                                    { Setting.Definition!.Select!.Selections!.map((Selection, Index) => (
                                                                         <option key={ Index } data-id={ Index }>{ Selection }</option>
                                                                     )) }
                                                                 </select>
@@ -87,7 +109,7 @@ class Setting extends React.Component {
                                                         ) }
                                                         { Setting.Type === 'Toggle' && (
                                                             <Fragment>
-                                                                <div className="toggle" onClick={ (event) => this.ModifySetting(Setting.Type, event, Setting.ID) } data-state={ this.Configuration[Setting.ID] === true ? 'on' : 'off' }><div className="toggle-switcher"><div className="toggle-trigger"></div></div></div>
+                                                                <div className="toggle" onClick={ (event) => this.ModifySetting(Setting.Type, event, Setting.ID) } data-element="setting" data-id={ Setting.ID } data-type={ Setting.Type }><div className="toggle-switcher"><div className="toggle-trigger"></div></div></div>
                                                             </Fragment>
                                                         ) }
                                                     </div>
@@ -97,9 +119,9 @@ class Setting extends React.Component {
                                     </section>
                                 )) }
                             </article>
-                        )) }
-                    </main>
-                )) }
+                        ))
+                    )) }
+                </main>
             </Fragment>
         );
     }

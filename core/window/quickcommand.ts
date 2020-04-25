@@ -1,4 +1,5 @@
 import { BrowserWindow, ipcMain, Notification, globalShortcut, dialog, shell } from 'electron';
+import { Control_ComponentManager } from '../control/component-manager';
 import * as CP from '../quickcommand/command-processor';
 import { Interfaces } from '../control/interfaces';
 import * as path from 'path';
@@ -8,12 +9,14 @@ class Window_QuickCommand {
     private Configuration: Interfaces.Configuration;
     private Language: Interfaces.Language;
 
+    private ComponentManager: Control_ComponentManager;
     public Window: BrowserWindow;
 
-    constructor(AppController: Interfaces.AppController, Configuration: Interfaces.Configuration, Language: Interfaces.Language) {
+    constructor(AppController: Interfaces.AppController, Configuration: Interfaces.Configuration, Language: Interfaces.Language, ComponentManager: Control_ComponentManager) {
         this.AppController = AppController;
         this.Configuration = Configuration;
         this.Language = Language;
+        this.ComponentManager = ComponentManager;
 
         this.Window = new BrowserWindow({
             width: 688,
@@ -42,7 +45,7 @@ class Window_QuickCommand {
 
         this.RepositionQuickCommandWindow();
 
-        const CommandProcessor: CP.CommandProcessor = new CP.CommandProcessor(this.Configuration, Language, this.Window);
+        const CommandProcessor: CP.CommandProcessor = new CP.CommandProcessor(this.Configuration, Language, this.Window, this.ComponentManager);
 
         setInterval((): void => {
             if(this.Window.isVisible()) {
@@ -52,11 +55,11 @@ class Window_QuickCommand {
             }
         }, 500);
 
-        require(`../quickcommand/components/launcher`).init({ Configuration: this.Configuration, QuickCommand: this.Window }, (error: Error, data: { [type: string]: any }) => {
-            Object.keys(data).forEach((Key) => this.Window.webContents.send(Key, data[Key]));
-        });
+        // require(`../quickcommand/components/launcher`).init({ Configuration: this.Configuration, QuickCommand: this.Window }, (error: Error, data: { [type: string]: any }) => {
+        //     Object.keys(data).forEach((Key) => this.Window.webContents.send(Key, data[Key]));
+        // });
 
-        const RetKey: string = this.Configuration['QuickCommand.v1.window.call.shortcutkey.definition'] as string || 'CommandOrControl+Alt+Shift+S';
+        const RetKey: string = (this.Configuration['QuickCommand.v1.window.call.shortcutkey.definition1'] as string || 'Shift') + '+' + (this.Configuration['QuickCommand.v1.window.call.shortcutkey.definition2'] as string || 'Space');
 
         globalShortcut.register(RetKey, (): void => this.Restore());
 
