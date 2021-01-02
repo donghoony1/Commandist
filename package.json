@@ -1,0 +1,26 @@
+{
+  "name": "commandist",
+  "version": "1.0.0",
+  "description": "An accelerator of all work speeds.",
+  "main": "./dist/Bootstrapper.js",
+  "dependencies": {
+    "electron": "^11.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  },
+  "scripts": {
+    "start": "tsc; electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donghoony1/Commandist.git"
+  },
+  "author": "DongHoon, Yoo and Commandist authors",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/donghoony1/Commandist/issues"
+  },
+  "homepage": "https://github.com/donghoony1/Commandist#readme",
+  "private": true
+}
