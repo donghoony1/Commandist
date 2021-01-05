@@ -1,6 +1,7 @@
 import { Commandist } from "../Commandist";
 import { CommandistComponent } from "../model/CommandistComponent";
 import * as Electron from "electron";
+import * as path from "path";
 
 export class QuickCommand extends CommandistComponent {
     window: Electron.BrowserWindow
@@ -10,10 +11,10 @@ export class QuickCommand extends CommandistComponent {
 
         this.window = new commandist.modules.electron.BrowserWindow({
             width: 640,
-            height: 54,
+            height: 54 + 192,
             title: 'QuickCommandUI',
             frame: false,
-            // show: false,
+            show: false,
             trasnparent: true,
             titleBarStyle: 'customButtonsOnHover',
             vibrancy: 'popover',
@@ -36,6 +37,47 @@ export class QuickCommand extends CommandistComponent {
             }
         })
 
-        this.window.loadFile('./view/quickcommand/ui.html')
+        this.window.loadFile(path.join(__dirname, '..', 'view', 'quickcommand', 'ui.html'))
+
+        this.window.on('blur', () => {
+            // this.hide()
+        })
+
+        commandist.modules.electron.globalShortcut.register('Shift+Space', () => this.toggle())
+    }
+
+    toggle() {
+        if(this.window) {
+            if(this.window.isVisible()) {
+                this.hide()
+            } else {
+                this.show()
+            }
+        }
+    }
+
+    show() {
+        if(this.window) {
+            this.reposition()
+            this.window.show()
+        }
+    }
+
+    hide() {
+        if(this.window) {
+            this.window.hide()
+        }
+    }
+
+    reposition() {
+        if(this.window) {
+            const screen = this.commandist.modules.electron.screen;
+            const focusedDisplay = screen.getDisplayNearestPoint(screen.getCursorScreenPoint())
+            const { x, y } = focusedDisplay.bounds
+            this.window.setPosition(
+                x + Math.ceil((focusedDisplay.size.width / 2) - 640 / 2), 
+                y + Math.ceil(focusedDisplay.size.height / 10 * 2)
+            )
+        }
     }
 }
