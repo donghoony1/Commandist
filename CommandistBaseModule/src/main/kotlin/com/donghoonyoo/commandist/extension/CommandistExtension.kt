@@ -27,7 +27,7 @@ object CommandistExtension {
 
     @ExperimentalStdlibApi
     private val requiredParameters = listOf(
-        VirtualKParameter(0, "callback", typeOf<(CommandResult) -> Unit>()),
+        VirtualKParameter(0, "callback", typeOf<(List<CommandResult>) -> Unit>()),
         VirtualKParameter(1, "fullCommand", typeOf<String>()),
         VirtualKParameter(2, "afterParameter", typeOf<String>()),
         VirtualKParameter(3, "args", typeOf<List<String>>())
