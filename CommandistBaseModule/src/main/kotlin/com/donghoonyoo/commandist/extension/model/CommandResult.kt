@@ -17,7 +17,8 @@ data class CommandResult(val data: KClass<*>) {
         }
     }
 
-    fun print(fullCommand: String) {
-        // TODO: Print json
+    fun toJSON(): String {
+        // TODO: Export json
+        return ""
     }
 }
