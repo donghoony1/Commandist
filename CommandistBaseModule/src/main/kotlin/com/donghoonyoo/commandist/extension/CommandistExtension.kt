@@ -12,6 +12,7 @@ import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import java.lang.IllegalArgumentException
 import java.lang.instrument.IllegalClassFormatException
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
@@ -35,6 +36,7 @@ object CommandistExtension {
 
     @ExperimentalStdlibApi
     val commandSets = mutableMapOf<String, CommandSet>().apply {
+        val whitespace = Regex("\\s")
         getAllClassesAnnotatedWith<Command>(config.PackagePrefix).forEach { kclass ->
             val defaultExecutors = kclass.functions.filter { it.hasAnnotation<DefaultExecutor>() }
             if(1 < defaultExecutors.size) {
@@ -55,7 +57,11 @@ object CommandistExtension {
                                 }
                             }
                         }.forEach {
-                            put(it.findAnnotation<Parameter>()!!.parameter, it)
+                            put(it.findAnnotation<Parameter>()!!.parameter.also {
+                                if(it.contains(whitespace)) {
+                                    throw IllegalArgumentException("${it}@${kclass.jvmName} has whitespace.")
+                                }
+                            }, it)
                         }
                     }.toMap()
                 )
